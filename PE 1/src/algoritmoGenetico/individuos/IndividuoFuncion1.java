@@ -7,8 +7,8 @@ public class IndividuoFuncion1 extends Individuo{
 		this.min = new double[2];
 		this.max = new double[2];
 		this.min[0] = -3.0;
-		this.min[1] = 12.1;
-		this.max[0] = 4.1;
+		this.min[1] = 4.1;
+		this.max[0] = 12.1;
 		this.max[1] = 5.8;
 		this.tamGenes[0] = this.tamGen(this.valorError, min[0], max[0]); //Tamaño de x1
 		this.tamGenes[1] = this.tamGen(this.valorError, min[1], max[1]); //Tamaño de x2
@@ -16,7 +16,7 @@ public class IndividuoFuncion1 extends Individuo{
 		this.cromosoma = new Integer[tamTotal];
 		
 		for(int i = 0; i < tamTotal; i++)
-			this.cromosoma[i] = r.nextInt()%1; //Se puede mejorar //Ay que cambiar el metodo
+			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
 		
 		this.aptitud=getValor(); //Esto puede sobrar
 	}

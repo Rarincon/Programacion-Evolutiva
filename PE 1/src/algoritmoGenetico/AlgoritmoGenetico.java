@@ -40,12 +40,7 @@ public class AlgoritmoGenetico {
 		probMutacion=probMut;
 		tamTorneo=tamTor;
 		GenActual=0;
-		elMejor = new Individuo() {
-			@Override
-			public double getValor() {
-				return 0;
-			}
-		};
+		elMejor = new IndividuoFuncion1();
 	}
 	
 	private void iniciarPoblacion() {
@@ -132,6 +127,7 @@ public class AlgoritmoGenetico {
 			//Siguiente generacion
 			GenActual++;
 		}
+		System.out.print("EL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1) );
 	}
 	
 }

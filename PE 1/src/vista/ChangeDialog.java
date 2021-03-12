@@ -22,7 +22,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
-
+/*
 public abstract class ChangeDialog extends JDialog{
 
 	private static final long serialVersionUID = 1L;
