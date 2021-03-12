@@ -21,11 +21,11 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
 	
-	public double getFenotipo(int x) {
+	public double getFenotipo(int x) { //REVISAR LA FORMULA
 		if(x==0)
-			return bin2dec(0,tamGenes[0]-1);
+			return min[0]+ (bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(cromosoma.length, 2)-1)));
 		else
-			return bin2dec(tamGenes[0], cromosoma.length-1);
+			return min[1]+ (bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(cromosoma.length, 2)-1)));
 	}
 	
 	public double bin2dec(int ini, int fin) {
