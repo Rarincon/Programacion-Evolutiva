@@ -85,6 +85,10 @@ public abstract class Individuo implements Comparable<Individuo> {
 			this.cromosoma[i]=crom[i];
 		}
 	}
+	
+	public void setPosCromosoma(int pos, int valor) {
+		this.cromosoma[pos]=valor;
+	}
 	//REVISAR
 	
 	public int compareTo(Individuo arg0) {

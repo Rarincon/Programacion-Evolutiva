@@ -1,4 +1,4 @@
-package vista;
+/*package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -116,4 +116,4 @@ public abstract class ChangeDialog extends JDialog{
 	public T getCaja1() {  return  (T) caja1.getSelectedItem();}
 	//public P getCaja2(){ return (P) caja2.getSelectedItem();}
 	public int getTicks() { return (int) ticks.getValue();}
-}	
+}	*/
