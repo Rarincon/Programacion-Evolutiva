@@ -1,5 +1,6 @@
 package algoritmoGenetico.mutacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import algoritmoGenetico.individuos.Individuo;
@@ -12,9 +13,10 @@ public abstract class Mutacion {
 	protected double probMutacion;
 	
 	public Mutacion(List<Individuo> _poblacion, int _tamPoblacion, double _probMutacion) {
-		this.poblacion= new SortedArrayList<>();
-		for(int i=0;i<_tamPoblacion;i++)
-			poblacion.add(_poblacion.get(i)); //Revisar esta copia
+		this.poblacion= new ArrayList<Individuo>();
+		poblacion=_poblacion;
+		/*for(int i=0;i<_tamPoblacion;i++)
+			poblacion.add(_poblacion.get(i)); //Revisar esta copia*/
 		this.tamPoblacion=_tamPoblacion;
 		this.probMutacion=_probMutacion;
 	}

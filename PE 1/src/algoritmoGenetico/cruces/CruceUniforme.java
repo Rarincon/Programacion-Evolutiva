@@ -8,13 +8,13 @@ import algoritmoGenetico.individuos.Individuo;
 public class CruceUniforme extends Cruce {
 	
 	private List<Integer> sel_cruce;
-	public CruceUniforme(List<Individuo> _poblacion, int _tamPoblacion) {
-		super(_poblacion, _tamPoblacion);
+	public CruceUniforme(List<Individuo> _poblacion, int _tamPoblacion, double _probCruce) {
+		super(_poblacion, _tamPoblacion, _probCruce);
 		sel_cruce=new ArrayList<Integer>();
 	}
 
 	public List<Individuo> selecCruzados() {
-		int tam=this.pobSeleccionada.get(0).getTamCromosoma(); //Coges el tamaño del primero
+		int tam=this.pobSeleccionada.get(0).getTamCromosoma(); //Coges el tamaï¿½o del primero
 		int prob=(int) Math.random(); //Devuelve un numero entre 0 y 1
 		//this.probCruce=Math.random(); //Lo ponemos con el gui
 		this.puntoCruce=(int) (Math.random()*tam);

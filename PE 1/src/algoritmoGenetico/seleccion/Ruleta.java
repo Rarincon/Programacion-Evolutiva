@@ -23,18 +23,19 @@ public class Ruleta extends Seleccion {
 	public List<Individuo> selecciona() { //REVISAR YA QUE SOLO DEVUELVE EL MISMO
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
-		
 		for(int i=0; i<this.tamPoblacion; i++) {
 			prob=r.nextDouble()%1; //PROBABILIDAD COMPROBAR
 			pos_super=0;
-			while((this.prob > this.poblacion.get(pos_super).getPuntAcum()) && (pos_super < this.tamPoblacion)) {
+			while((this.prob >= this.poblacion.get(pos_super).getPuntAcum()) && (pos_super < this.tamPoblacion)) {
 				pos_super++;
 			}
-			sel_super[i]=pos_super; 
+			nuevaPob.add(this.poblacion.get(pos_super).copia());
+			
+			//sel_super[i]=pos_super; 
 		}
-		for(int i=0; i<this.tamPoblacion; i++) {
+		/*for(int i=0; i<this.tamPoblacion; i++) {
 			nuevaPob.add(this.poblacion.get(sel_super[i]).copia()); //Comprobar si rompe encapsulacion o si se hace correctamente
-		}
+		}*/
 		return nuevaPob;  //Comprobar si rompe encapsulacion
 		
 	}

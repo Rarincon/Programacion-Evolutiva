@@ -7,18 +7,41 @@ import algoritmoGenetico.individuos.Individuo;
 
 public class Basica extends Mutacion {
 	
-	private boolean mutado=false;
-	private double prob;
-	List<Individuo> nuevaPob;
+	//private boolean mutado;
+	//private double prob;
+	//List<Individuo> nuevaPob;
 
 	public Basica(List<Individuo> _poblacion, int _tamPoblacion, double _probMutacion) {
 		super(_poblacion, _tamPoblacion, _probMutacion);
+		
 	}
 
 	public List<Individuo> mutarInd() {
 		
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
+		boolean mutado;
+		double prob;
+		int tam=poblacion.get(0).getTamCromosoma();
+		Integer[] crom= new Integer[tam];
+		for(int i=0;i<tamPoblacion;i++) {
+			nuevaPob.add(poblacion.get(i).copia());
+			mutado=false;
+			crom=nuevaPob.get(i).getCromosoma();
+			for(int j=0;j<tam;j++) {
+				prob=Math.random();
+				if(prob < probMutacion) {
+					if(crom[j]==0)crom[j]=1;
+					else crom[j]=0;
+					mutado=true;
+				}
+			}
+			if(mutado) nuevaPob.get(i).setCromosoma(crom);
+		}
 		
+		return nuevaPob;
+	}
+		//List<Individuo> nuevaPob= new ArrayList<Individuo>();
+		/*
 		for(int i=0; i<this.tamPoblacion; i++) {
 			nuevaPob.add(this.poblacion.get(i));
 		}
@@ -44,6 +67,6 @@ public class Basica extends Mutacion {
 			}
 		}
 		return nuevaPob;
-	}
+	}*/
 
 }

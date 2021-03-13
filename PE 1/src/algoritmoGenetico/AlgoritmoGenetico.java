@@ -35,8 +35,8 @@ public class AlgoritmoGenetico {
 	
 	
 	public AlgoritmoGenetico(int tamPob, int maxGen, double probCruc, double probMut, int tamTor) {
-		tamPoblacion=10;//tamPob;
-		maxGeneraciones=10;//maxGen;
+		tamPoblacion=100;//tamPob;
+		maxGeneraciones=100;//maxGen;
 		probCruce=probCruc;
 		probMutacion=probMut;
 		tamTorneo=tamTor;
@@ -78,15 +78,15 @@ public class AlgoritmoGenetico {
 	
 	public List<Individuo> cruce(int tipo) {
 		if(tipo == 0){
-			return new CruceAritmetico(poblacion,tamPoblacion).selecCruzados();
+			return new CruceAritmetico(poblacion,tamPoblacion, probCruce).selecCruzados(); //La probabilidad de cruce varia con la gui
 		}else if(tipo == 1){
-			return new CruceBLX(poblacion,tamPoblacion).selecCruzados();
+			return new CruceBLX(poblacion,tamPoblacion, probCruce).selecCruzados();
 		}else if(tipo == 2){
-			return new CruceMonopunto(poblacion,tamPoblacion).selecCruzados(); 
+			return new CruceMonopunto(poblacion,tamPoblacion,probCruce).selecCruzados(); 
 		}else if(tipo == 3){
-			return new CruceSBX(poblacion,tamPoblacion).selecCruzados();
+			return new CruceSBX(poblacion,tamPoblacion, probCruce).selecCruzados();
 		}else
-			return new CruceUniforme(poblacion,tamPoblacion).selecCruzados();
+			return new CruceUniforme(poblacion,tamPoblacion, probCruce).selecCruzados();
 	}
 
 	
@@ -139,9 +139,9 @@ public class AlgoritmoGenetico {
 			//Seleccion
 			nuevaPob=seleccion(0); //pasar el tipo
 			//Cruce
-			nuevaPob = new CruceMonopunto(nuevaPob,tamPoblacion).selecCruzados();
+			nuevaPob = new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
 			//Mutacion
-			//nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
+			nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
 			poblacion= nuevaPob;
 			evaluar();//Por funciones GetFitness
 			//generaGrafica();

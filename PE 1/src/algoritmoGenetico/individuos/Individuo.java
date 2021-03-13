@@ -21,15 +21,21 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
 	
-	public double getFenotipo(int x) { //REVISAR LA FORMULA
-		if(x==0) 
-			return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,cromosoma.length)-1));
-		else
-			return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,cromosoma.length)-1));
+	public double getFenotipo(int x) {
+		//double bin1=bin2dec(0,tamGenes[0]-1);
+		//double bin2=bin2dec(tamGenes[0], cromosoma.length-1);
+		if(x==0) {
+			 return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,tamGenes[0])-1));
+			 
+		}
+		else {
+			 return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,tamGenes[1])-1));
+			
+		}
 	}
 	
-	public double bin2dec(int ini, int fin) {
-		double valor=0;
+	public long bin2dec(int ini, int fin) {
+		long valor=0;
 		int pos =0;
 		for(int i = fin; i >= ini; i--){
 			if(valido(cromosoma[i])){
@@ -45,9 +51,9 @@ public abstract class Individuo implements Comparable<Individuo> {
 		int tamTotal = tamGenes[0] + tamGenes[1];
 		for(int i = 0; i < tamTotal; i++) {
 			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
-			System.out.print(this.cromosoma[i]);
+			//System.out.print(this.cromosoma[i]);
 		}
-		System.out.print("\n");
+		//System.out.print("\n");
 	}
 	
 	public abstract double evaluar();

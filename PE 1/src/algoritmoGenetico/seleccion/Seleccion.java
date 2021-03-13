@@ -13,8 +13,9 @@ public abstract class Seleccion {
 	
 	public Seleccion(List<Individuo> _poblacion, int _tamPoblacion) {
 		this.poblacion= new SortedArrayList<>();
-		for(int i=0;i<_tamPoblacion;i++)
-			poblacion.add(_poblacion.get(i)); //Revisar esta copia
+		poblacion=_poblacion;
+		/*for(int i=0;i<_tamPoblacion;i++)
+			poblacion.add(_poblacion.get(i)); *///Cuidado con la funciona add ya que nos los mete ordenados direcatamente
 		this.tamPoblacion=_tamPoblacion;
 	}
 	
