@@ -14,7 +14,8 @@ public class CruceMonopunto extends Cruce {
 		sel_cruce=new ArrayList<Integer>();
 	}
 
-	public List<Individuo> selecCruzados() {
+	public List<Individuo> selecCruzados() { //REVISAR YA QUE NO SE CRUZA NINGUNo
+		
 		int tam=this.pobSeleccionada.get(0).getTamCromosoma(); //Coges el tama�o del primero
 		int prob=(int) Math.random(); //Devuelve un numero entre 0 y 1
 		//this.probCruce=Math.random(); //Lo ponemos con el gui

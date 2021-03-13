@@ -41,6 +41,15 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return valor;
 	}
 	
+	public void inicializa() {
+		int tamTotal = tamGenes[0] + tamGenes[1];
+		for(int i = 0; i < tamTotal; i++) {
+			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
+			System.out.print(this.cromosoma[i]);
+		}
+		System.out.print("\n");
+	}
+	
 	public abstract double evaluar();
 	
 	private Boolean valido(int t) {

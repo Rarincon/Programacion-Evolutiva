@@ -15,8 +15,8 @@ public class IndividuoFuncion3 extends Individuo {
 		int tamTotal = tamGenes[0] + tamGenes[1];
 		this.cromosoma = new Integer[tamTotal];
 		
-		for(int i = 0; i < tamTotal; i++)
-			this.cromosoma[i] = r.nextInt(1); //Se puede mejorar
+		/*for(int i = 0; i < tamTotal; i++)
+			this.cromosoma[i] = r.nextInt(1); //Se puede mejorar*/
 		
 		//this.aptitud=getValor();
 	}

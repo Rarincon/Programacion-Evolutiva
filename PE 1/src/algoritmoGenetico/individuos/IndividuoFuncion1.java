@@ -15,8 +15,6 @@ public class IndividuoFuncion1 extends Individuo{
 		int tamTotal = tamGenes[0] + tamGenes[1];
 		this.cromosoma = new Integer[tamTotal];
 		
-		for(int i = 0; i < tamTotal; i++)
-			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
 		
 		//this.aptitud=getValor(); //Esto puede sobrar
 	}
