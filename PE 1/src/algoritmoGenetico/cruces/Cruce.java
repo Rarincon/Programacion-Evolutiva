@@ -17,9 +17,9 @@ public abstract class Cruce {
 	public Cruce(List<Individuo> _poblacion, int _tamPoblacion) {
 		this.pobSeleccionada= new ArrayList<>();
 		this.tamPoblacion=_tamPoblacion;
-		
-		for(int i=0;i<_tamPoblacion;i++)
-			pobSeleccionada.add(_poblacion.get(i)); //Revisar esta copia
+		pobSeleccionada=_poblacion;
+		/*for(int i=0;i<_tamPoblacion;i++)
+			pobSeleccionada.add(_poblacion.get(i)); //Revisar esta copia*/
 	}
 	
 	public abstract List<Individuo> selecCruzados();

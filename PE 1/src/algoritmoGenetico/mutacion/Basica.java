@@ -39,7 +39,7 @@ public class Basica extends Mutacion {
 				}
 				
 				if(mutado) {
-					this.nuevaPob.get(i).setFitness(this.nuevaPob.get(i).getValor());
+					this.nuevaPob.get(i).setFitness(this.nuevaPob.get(i).evaluar());
 				}
 			}
 		}

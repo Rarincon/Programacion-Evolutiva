@@ -44,7 +44,7 @@ public class Estocastico extends Seleccion {
 		}
 		
 		for(int i=0; i<this.tamPoblacion; i++) {
-			nuevaPob.add(poblacion.get(sel_super[i])); //Mirar lo de las copias
+			nuevaPob.add(poblacion.get(sel_super[i]).copia()); //Mirar lo de las copias
 		}
 		return nuevaPob;  //Comprobar si rompe encapsulacion
 		

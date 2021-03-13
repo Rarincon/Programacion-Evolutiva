@@ -6,7 +6,7 @@ import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class Restos extends Seleccion { 
+public class Restos extends Seleccion { //REVISAR PARA LAS COPIAS DE LOS NUEVOS INDIVIDUOS
 	private List<Individuo> sel_super;
 	private double TFitness;
 	private int pos_super;

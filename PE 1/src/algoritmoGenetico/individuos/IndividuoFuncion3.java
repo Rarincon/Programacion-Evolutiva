@@ -18,14 +18,20 @@ public class IndividuoFuncion3 extends Individuo {
 		for(int i = 0; i < tamTotal; i++)
 			this.cromosoma[i] = r.nextInt(1); //Se puede mejorar
 		
-		this.aptitud=getValor();
+		//this.aptitud=getValor();
 	}
 	
 	@Override
-	public double getValor() {
+	public double evaluar() {
 		double x=getFenotipo(0),y=getFenotipo(1);
 		double valor= -1.0 * Math.abs(Math.sin(x) * Math.cos(y) * Math.exp(Math.abs(1.0 - (Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)) / Math.PI))));
 		return valor;
+	}
+	
+	public Individuo copia() {
+		Individuo nuevo = new IndividuoFuncion3();
+		nuevo.setCromosoma(getCromosoma());
+		return nuevo;
 	}
 
 }

@@ -29,7 +29,7 @@ public class Truncamiento extends Seleccion {
 		
 		for (int i =0; i < Nselccionados; i++){
 			for (int j=0; j<p;j++){
-				nuevaPob.add(poblacion.get(i));
+				nuevaPob.add(poblacion.get(i).copia());
 			}
 		}
 		return nuevaPob;

@@ -18,10 +18,10 @@ public class IndividuoFuncion2 extends Individuo{
 		for(int i = 0; i < tamTotal; i++)
 			this.cromosoma[i] = r.nextInt(1); //Se puede mejorar
 		
-		this.aptitud=getValor();
+		//this.aptitud=getValor();
 	}
 	
-	public double getValor() {
+	public double evaluar() {
 		double sum1=0,sum2=0;
 		double x1 = this.getFenotipo(0);
 		double x2 = this.getFenotipo(1);
@@ -30,5 +30,11 @@ public class IndividuoFuncion2 extends Individuo{
 			sum2+=(i*Math.cos((i+1)*x2+i));
 		}
 		return sum1*sum2;
+	}
+	
+	public Individuo copia() {
+		Individuo nuevo = new IndividuoFuncion2();
+		nuevo.setCromosoma(getCromosoma());
+		return nuevo;
 	}
 }

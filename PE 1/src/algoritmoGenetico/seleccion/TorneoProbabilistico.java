@@ -29,7 +29,7 @@ public class TorneoProbabilistico extends Seleccion{
 			
 			List<Individuo> rivales = new SortedArrayList<Individuo>();
 			for (int j = 0; j < tamTorneo; j++)
-				rivales.add(poblacion.get((int) (Math.random()*poblacion.size()))); //Mirar si se cogen todos o falta el ultimo
+				rivales.add(poblacion.get((int) (Math.random()*poblacion.size())).copia()); //Mirar si se cogen todos o falta el ultimo
 			
 			Collections.sort(rivales);
 			

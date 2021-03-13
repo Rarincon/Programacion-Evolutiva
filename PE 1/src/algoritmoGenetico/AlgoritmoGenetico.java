@@ -10,6 +10,7 @@ import algoritmoGenetico.cruces.CruceSBX;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFuncion1;
+import algoritmoGenetico.mutacion.Basica;
 import algoritmoGenetico.seleccion.Estocastico;
 import algoritmoGenetico.seleccion.Restos;
 import algoritmoGenetico.seleccion.Ruleta;
@@ -57,42 +58,55 @@ public class AlgoritmoGenetico {
 		
 	}
 	
-	public void seleccion(int tipo) {
+	public List<Individuo> seleccion(int tipo) {
 		if(tipo == 0){
-			poblacion = new Ruleta(poblacion,tamPoblacion).selecciona();
+			return new Ruleta(poblacion,tamPoblacion).selecciona();
 		}else if(tipo == 1){
-			poblacion = new Estocastico(poblacion,tamPoblacion).selecciona();
+			return new Estocastico(poblacion,tamPoblacion).selecciona();
 		}else if(tipo == 2){
-			poblacion = new TorneoProbabilistico(poblacion,tamPoblacion,3).selecciona(); //Seleccionar el tamaño
+			return new TorneoProbabilistico(poblacion,tamPoblacion,3).selecciona(); //Seleccionar el tamaño
 		}else if(tipo == 3){
-			poblacion = new TorneoDeterministico(poblacion,tamPoblacion,3).selecciona(); //Seleccionar el tamaño
+			return new TorneoDeterministico(poblacion,tamPoblacion,3).selecciona(); //Seleccionar el tamaño
 		}else if(tipo == 4){
-			poblacion = new Truncamiento(poblacion,tamPoblacion).selecciona();	
+			return new Truncamiento(poblacion,tamPoblacion).selecciona();	
 		}else{
-			poblacion = new Restos(poblacion,tamPoblacion).selecciona();
+			return new Restos(poblacion,tamPoblacion).selecciona();
 		}
 	}
 	
-	public void cruce(int tipo) {
+	public List<Individuo> cruce(int tipo) {
 		if(tipo == 0){
-			poblacion = new CruceAritmetico(poblacion,tamPoblacion).selecCruzados();
+			return new CruceAritmetico(poblacion,tamPoblacion).selecCruzados();
 		}else if(tipo == 1){
-			poblacion = new CruceBLX(poblacion,tamPoblacion).selecCruzados();
+			return new CruceBLX(poblacion,tamPoblacion).selecCruzados();
 		}else if(tipo == 2){
-			poblacion = new CruceMonopunto(poblacion,tamPoblacion).selecCruzados(); 
+			return new CruceMonopunto(poblacion,tamPoblacion).selecCruzados(); 
 		}else if(tipo == 3){
-			poblacion = new CruceSBX(poblacion,tamPoblacion).selecCruzados();
+			return new CruceSBX(poblacion,tamPoblacion).selecCruzados();
 		}else
-			poblacion = new CruceUniforme(poblacion,tamPoblacion).selecCruzados();
+			return new CruceUniforme(poblacion,tamPoblacion).selecCruzados();
 	}
+
 	
-	/*public void setMejor(int pos) {
-		pos_mejor=pos;
-	}*/
+	//VOLVER A HACER ENTERA
 	
 	public void evaluar() {  //REVISAR TODAS las funciones, ya que lo mismo hay que separar los For en 2 funciones distintas
-		double punt_acu=0,aptitud_mejor=0,sumaptitud=0;
+		double punt_acu=0,MejorFitness=0,TotalFitness=0;
 		//aptitud_mejor=poblacion[0].getFitness();
+		double sumaptitud=0;
+		int a=0;
+		for(Individuo c: poblacion) {
+			c.setFitness(c.evaluar());
+			TotalFitness+=c.getFitness();
+			if(c.getFitness()>MejorFitness) {
+				pos_mejor=a;
+				MejorFitness=c.getFitness();
+			}
+			a++;
+		}
+		
+		double FitnessPromedio=TotalFitness/tamPoblacion;
+		TotalFitness=0;
 		
 		for(int i=0;i<tamPoblacion;i++) {
 			sumaptitud+=poblacion.get(i).getFitness();
@@ -116,12 +130,16 @@ public class AlgoritmoGenetico {
 	public void run() {
 		iniciarPoblacion(); //Done
 		evaluar();
+		List<Individuo> nuevaPob;
+		//nuevaPob= new ArrayList<Individuo>();
 		while(this.GenActual < this.maxGeneraciones) {
 			//Seleccion
-			seleccion(0); //pasar el tipo
+			nuevaPob=seleccion(0); //pasar el tipo
 			//Cruce
-			poblacion = new CruceMonopunto(poblacion,tamPoblacion).selecCruzados();
+			nuevaPob = new CruceMonopunto(nuevaPob,tamPoblacion).selecCruzados();
 			//Mutacion
+			//nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
+			poblacion= nuevaPob;
 			evaluar();//Por funciones GetFitness
 			//generaGrafica();
 			//Siguiente generacion

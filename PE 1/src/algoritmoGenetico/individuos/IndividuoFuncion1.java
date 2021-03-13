@@ -18,12 +18,18 @@ public class IndividuoFuncion1 extends Individuo{
 		for(int i = 0; i < tamTotal; i++)
 			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
 		
-		this.aptitud=getValor(); //Esto puede sobrar
+		//this.aptitud=getValor(); //Esto puede sobrar
 	}
 	
-	public double getValor() {
+	public double evaluar() {
 		double x1 = this.getFenotipo(0), x2 = this.getFenotipo(1);
-		return (21.5 + x1 * Math.sin(4 * Math.PI * x1) + x2 * Math.sin(20 * Math.PI * x2));
+		return 21.5 + x1 * Math.sin(4 * Math.PI * x1) + x2 * Math.sin(20 * Math.PI * x2);
+	}
+
+	public Individuo copia() {
+		Individuo nuevo = new IndividuoFuncion1();
+		nuevo.setCromosoma(getCromosoma());
+		return nuevo;
 	}
 
 	/*

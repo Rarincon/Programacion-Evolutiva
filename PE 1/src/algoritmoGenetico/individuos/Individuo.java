@@ -22,10 +22,10 @@ public abstract class Individuo implements Comparable<Individuo> {
 	}
 	
 	public double getFenotipo(int x) { //REVISAR LA FORMULA
-		if(x==0)
-			return min[0]+ (bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(cromosoma.length, 2)-1)));
+		if(x==0) 
+			return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,cromosoma.length)-1));
 		else
-			return min[1]+ (bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(cromosoma.length, 2)-1)));
+			return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,cromosoma.length)-1));
 	}
 	
 	public double bin2dec(int ini, int fin) {
@@ -41,7 +41,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return valor;
 	}
 	
-	public abstract double getValor();
+	public abstract double evaluar();
 	
 	private Boolean valido(int t) {
 		if(t==1)return true;
@@ -89,6 +89,8 @@ public abstract class Individuo implements Comparable<Individuo> {
 	public void setPosCromosoma(int pos, int valor) {
 		this.cromosoma[pos]=valor;
 	}
+	
+	public abstract Individuo copia();
 	//REVISAR
 	
 	public int compareTo(Individuo arg0) {

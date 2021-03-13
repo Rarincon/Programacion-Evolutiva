@@ -19,16 +19,22 @@ public class IndividuoFuncion4 extends Individuo {
 		for(int i = 0; i < tamTotal; i++)
 			this.cromosoma[i] = r.nextInt(1); //Se puede mejorar
 		
-		this.aptitud=getValor();
+		//this.aptitud=getValor();
 	}
 	
 	@Override
-	public double getValor() {
+	public double evaluar() {
 		double valor=0;
 		double xi= this.getFenotipo(0); //REVISAR, ya que no se si todos tienen el mismo, Esta mal el fenotipo
 		for(int i=1;i<=N;i++) 
 			valor+=Math.sin(xi) * Math.pow(Math.sin(((i+1) * (xi * xi)) / Math.PI), 20.0);
 		return valor * -1.0;
+	}
+	
+	public Individuo copia() {
+		Individuo nuevo = new IndividuoFuncion3();
+		nuevo.setCromosoma(getCromosoma());
+		return nuevo;
 	}
 
 }

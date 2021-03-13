@@ -33,7 +33,7 @@ public class Ruleta extends Seleccion {
 			sel_super[i]=pos_super; 
 		}
 		for(int i=0; i<this.tamPoblacion; i++) {
-			nuevaPob.add(this.poblacion.get(sel_super[i])); //Comprobar si rompe encapsulacion o si se hace correctamente
+			nuevaPob.add(this.poblacion.get(sel_super[i]).copia()); //Comprobar si rompe encapsulacion o si se hace correctamente
 		}
 		return nuevaPob;  //Comprobar si rompe encapsulacion
 		

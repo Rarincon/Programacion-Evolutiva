@@ -15,7 +15,7 @@ public class CruceMonopunto extends Cruce {
 	}
 
 	public List<Individuo> selecCruzados() {
-		int tam=this.pobSeleccionada.get(0).getTamCromosoma(); //Coges el tamaño del primero
+		int tam=this.pobSeleccionada.get(0).getTamCromosoma(); //Coges el tamaï¿½o del primero
 		int prob=(int) Math.random(); //Devuelve un numero entre 0 y 1
 		//this.probCruce=Math.random(); //Lo ponemos con el gui
 		this.puntoCruce=(int) (Math.random()*tam);
@@ -37,7 +37,7 @@ public class CruceMonopunto extends Cruce {
 		int aux;
 		
 		for(int i=0; i<this.tamPoblacion; i++) {
-			nuevaPob.add(this.pobSeleccionada.get(i));
+			nuevaPob.add(this.pobSeleccionada.get(i).copia());
 		}
 		for(int i=0; i<sel_cruce.size(); i+=2) {
 			crom1=new Integer[nuevaPob.get(sel_cruce.get(i)).getTamCromosoma()];
