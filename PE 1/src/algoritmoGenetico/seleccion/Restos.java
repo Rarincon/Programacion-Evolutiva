@@ -21,7 +21,7 @@ public class Restos extends Seleccion { //REVISAR PARA LAS COPIAS DE LOS NUEVOS 
 		}
 	}
 
-	public List<Individuo> selecciona() {
+	public List<Individuo> selecciona() { //REVISAR YA QUE NO PASA EL CORTE NIGUNO Y ES UN NULL POINTER EL SIZE
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		for(Individuo v: poblacion){
 			if((v.getFitness()/TFitness)>1) //ESE VALOR PUEDE VARIAR, PUEDE SER 1 o 1'5
