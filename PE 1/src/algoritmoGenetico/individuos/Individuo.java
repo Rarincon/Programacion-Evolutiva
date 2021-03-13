@@ -48,7 +48,10 @@ public abstract class Individuo implements Comparable<Individuo> {
 	}
 	
 	public void inicializa() {
-		int tamTotal = tamGenes[0] + tamGenes[1];
+		int tamTotal=0;
+		for(Integer e: tamGenes)
+			tamTotal+=e;
+		//int tamTotal = tamGenes[0] + tamGenes[1];
 		for(int i = 0; i < tamTotal; i++) {
 			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
 			//System.out.print(this.cromosoma[i]);

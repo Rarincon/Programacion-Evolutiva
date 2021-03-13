@@ -10,6 +10,9 @@ import algoritmoGenetico.cruces.CruceSBX;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFuncion1;
+import algoritmoGenetico.individuos.IndividuoFuncion2;
+import algoritmoGenetico.individuos.IndividuoFuncion3;
+import algoritmoGenetico.individuos.IndividuoFuncion4;
 import algoritmoGenetico.mutacion.Basica;
 import algoritmoGenetico.seleccion.Estocastico;
 import algoritmoGenetico.seleccion.Restos;
@@ -28,8 +31,8 @@ public class AlgoritmoGenetico {
 	private double probCruce;
 	private double probMutacion;
 	private int tamTorneo;
-	private Individuo elMejor;
-	private int pos_mejor;
+	private Individuo elMejor,elPeor;
+	private int pos_mejor,pos_peor;
 	//private double aptitudMejor;
 	
 	
@@ -54,8 +57,9 @@ public class AlgoritmoGenetico {
 			//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
 		}
 		
-		pos_mejor=0;
+		pos_mejor=pos_peor=0;
 		elMejor= poblacion.get(0);
+		elPeor=poblacion.get(0);
 		//aptitudMejor=poblacion[0].getFitness();
 		
 	}
@@ -93,7 +97,7 @@ public class AlgoritmoGenetico {
 	//VOLVER A HACER ENTERA
 	
 	public void evaluar() {  //REVISAR TODAS las funciones, ya que lo mismo hay que separar los For en 2 funciones distintas
-		double punt_acu=0,MejorFitness=0,TotalFitness=0;
+		double punt_acu=0,MejorFitness=0,PeorFitness=0,TotalFitness=0;
 		//aptitud_mejor=poblacion[0].getFitness();
 		//double sumaptitud=0;
 		int a=0;
@@ -104,6 +108,10 @@ public class AlgoritmoGenetico {
 				pos_mejor=a;
 				MejorFitness=c.getFitness();
 				//System.out.print("EL mejor es: "+poblacion.get(pos_mejor).getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+			}
+			if(c.getFitness()<PeorFitness) {
+				pos_peor=a;
+				PeorFitness=c.getFitness();
 			}
 			a++;
 		}
@@ -126,7 +134,10 @@ public class AlgoritmoGenetico {
 		}
 		
 		if(MejorFitness > elMejor.getFitness()) {
-			elMejor=poblacion.get(pos_mejor); //Esto puede romper encapsulacion
+			elMejor=poblacion.get(pos_mejor); 
+		}
+		if(PeorFitness < elPeor.getFitness()) {
+			elPeor=poblacion.get(pos_peor);
 		}
 	}
 	
@@ -148,6 +159,7 @@ public class AlgoritmoGenetico {
 			//Siguiente generacion
 			
 			System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+			System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
 			GenActual++;
 		}
 		//System.out.print("EL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1) );
