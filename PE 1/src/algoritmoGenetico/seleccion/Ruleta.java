@@ -20,7 +20,7 @@ public class Ruleta extends Seleccion {
 		
 	}
 	
-	public List<Individuo> selecciona() {
+	public List<Individuo> selecciona() { //REVISAR YA QUE SOLO DEVUELVE EL MISMO
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
 		
