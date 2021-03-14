@@ -1,11 +1,7 @@
 package controller;
 
-import java.util.List;
 
 import algoritmoGenetico.AlgoritmoGenetico;
-import algoritmoGenetico.cruces.CruceMonopunto;
-import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.mutacion.Basica;
 
 public class Controller {
 
@@ -21,8 +17,6 @@ public class Controller {
 	private int indi;
 	
 	
-	
-	
 	public Controller(AlgoritmoGenetico Algon) {
 		AlGen=Algon;
 		indi=0;
@@ -32,7 +26,7 @@ public class Controller {
 
 	public void run() {
 		//Algen.reset();
-		AlGen.iniciarPoblacion(indi); //Done
+		AlGen.iniciarPoblacion(indi, tamPoblacion); //Done
 		AlGen.evaluar();
 		while(this.GenActual < this.maxGeneraciones) {
 			

@@ -1,7 +1,6 @@
 package algoritmoGenetico;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,8 +41,8 @@ public class AlgoritmoGenetico {
 	
 	
 	public AlgoritmoGenetico() {
-		tamPoblacion=100;//tamPob;
-		maxGeneraciones=100;//maxGen;
+		//tamPoblacion=100;//tamPob;
+		//maxGeneraciones=100;//maxGen;
 		probCruce=0.6;
 		probMutacion=0.05;
 		tamTorneo=5;
@@ -51,7 +50,8 @@ public class AlgoritmoGenetico {
 		//elMejor = new IndividuoFuncion1();
 	}
 	
-	public void iniciarPoblacion(int indi) { //ESTO SERA PRIVADO
+	public void iniciarPoblacion(int indi, int tam) { //ESTO SERA PRIVADO
+		tamPoblacion=tam;
 		poblacion= new ArrayList<Individuo>(); //Camnio a list, no determino el tamaño
 		fitness= new double[tamPoblacion];
 		
