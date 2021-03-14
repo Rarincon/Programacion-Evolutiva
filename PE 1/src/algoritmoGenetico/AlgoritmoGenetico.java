@@ -1,6 +1,8 @@
 package algoritmoGenetico;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import algoritmoGenetico.cruces.CruceAritmetico;
@@ -20,9 +22,11 @@ import algoritmoGenetico.seleccion.Ruleta;
 import algoritmoGenetico.seleccion.TorneoDeterministico;
 import algoritmoGenetico.seleccion.TorneoProbabilistico;
 import algoritmoGenetico.seleccion.Truncamiento;
+import utils.SortedArrayList;
 
 public class AlgoritmoGenetico {
 	
+	private static final double _eliteRate = 0.001; //CAMBIA CON la GUI
 	private int tamPoblacion;
 	private List<Individuo> poblacion;
 	private double[] fitness;
@@ -103,17 +107,17 @@ public class AlgoritmoGenetico {
 		}
 	}
 	
-	public List<Individuo> cruce(int tipo) {
+	public List<Individuo> cruce(List<Individuo> nuevaPob, int tipo) {
 		if(tipo == 0){
-			return new CruceMonopunto(poblacion,tamPoblacion,probCruce).selecCruzados();			
+			return new CruceMonopunto(nuevaPob,tamPoblacion,probCruce).selecCruzados();			
 		}else if(tipo == 1){
-			return new CruceBLX(poblacion,tamPoblacion, probCruce).selecCruzados();
+			return new CruceBLX(nuevaPob,tamPoblacion, probCruce).selecCruzados();
 		}else if(tipo == 2){
-			return new CruceAritmetico(poblacion,tamPoblacion, probCruce).selecCruzados(); //La probabilidad de cruce varia con la gui
+			return new CruceAritmetico(nuevaPob,tamPoblacion, probCruce).selecCruzados(); //La probabilidad de cruce varia con la gui
 		}else if(tipo == 3){
-			return new CruceSBX(poblacion,tamPoblacion, probCruce).selecCruzados();
+			return new CruceSBX(nuevaPob,tamPoblacion, probCruce).selecCruzados();
 		}else
-			return new CruceUniforme(poblacion,tamPoblacion, probCruce).selecCruzados();
+			return new CruceUniforme(nuevaPob,tamPoblacion, probCruce).selecCruzados();
 	}
 
 	
@@ -193,7 +197,7 @@ public class AlgoritmoGenetico {
 		//Seleccion
 		nuevaPob=seleccion(S); //pasar el tipo
 		//Cruce
-		nuevaPob = cruce(C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
+		nuevaPob = cruce(nuevaPob,C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
 		//Mutacion
 		nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
 		poblacion= nuevaPob;
@@ -203,6 +207,23 @@ public class AlgoritmoGenetico {
 		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
 		System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
 		
+	}
+	
+	private List<Individuo> escogerElite(List<Individuo> pob) {
+		List<Individuo> elite = new ArrayList<Individuo>();
+		for (int i = 0; i < (int) Math.ceil(poblacion.size() * _eliteRate); ++i) elite.add(pob.get(i).copia());
+		return elite;
+	}
+	
+	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
+		List<Individuo> nuevaPob = new SortedArrayList<Individuo>();
+		nuevaPob=pob;
+		Collections.sort(nuevaPob);
+		for (int i = 0; i < elite.size(); ++i) {
+			nuevaPob.remove(nuevaPob.size() - 1 - i);
+			nuevaPob.add(elite.get(i).copia());
+		}
+		return nuevaPob;
 	}
 	
 }

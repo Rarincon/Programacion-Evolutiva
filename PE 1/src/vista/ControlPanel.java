@@ -53,7 +53,7 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 	private JButton run;
 	private JComboBox<String> Seleccion, Cruce,Individuo;
 	private JCheckBox Elitismo;
-	private JSpinner poblacion, maxGeneracion, mutacion;
+	private JSpinner poblacion, maxGeneracion, mutacion,elitismo;
 	
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos"};
 	private String[] cruce= {"Monopunto","Aritmetico","Uniforme" ,"BLX", "SBX"};
@@ -78,7 +78,8 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 		Seleccion = SComboBox();
 		Cruce= CComboBox();
 		Individuo= IComboBox();
-		
+		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));//REVISAR
+		elitismo.setPreferredSize(new Dimension(65,25));
 		run.addActionListener(this);
 		run.setPreferredSize(new Dimension(100,30));
 		
