@@ -37,24 +37,47 @@ public class AlgoritmoGenetico {
 	
 	
 	
-	public AlgoritmoGenetico(int tamPob, int maxGen, double probCruc, double probMut, int tamTor) {
+	public AlgoritmoGenetico() {
 		tamPoblacion=100;//tamPob;
 		maxGeneraciones=100;//maxGen;
-		probCruce=probCruc;
-		probMutacion=probMut;
-		tamTorneo=tamTor;
-		GenActual=0;
+		probCruce=0.6;
+		probMutacion=0.05;
+		tamTorneo=5;
+		//GenActual=0;
 		//elMejor = new IndividuoFuncion1();
 	}
 	
-	private void iniciarPoblacion() {
+	public void iniciarPoblacion(int indi) { //ESTO SERA PRIVADO
 		poblacion= new ArrayList<Individuo>(); //Camnio a list, no determino el tamaño
 		fitness= new double[tamPoblacion];
 		
-		for(int i=0;i<tamPoblacion;i++) {
-			poblacion.add(new IndividuoFuncion1()); //Habra que seleccionar que funcione quiere
-			poblacion.get(i).inicializa();
-			//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
+		if(indi==0){
+			for(int i=0;i<tamPoblacion;i++) {
+				poblacion.add(new IndividuoFuncion1()); //Habra que seleccionar que funcione quiere
+				poblacion.get(i).inicializa();
+				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
+			}
+		}
+		else if(indi==1) {
+			for(int i=0;i<tamPoblacion;i++) {
+				poblacion.add(new IndividuoFuncion2()); //Habra que seleccionar que funcione quiere
+				poblacion.get(i).inicializa();
+				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
+			}
+		}
+		else if(indi==2) {
+			for(int i=0;i<tamPoblacion;i++) {
+				poblacion.add(new IndividuoFuncion3()); //Habra que seleccionar que funcione quiere
+				poblacion.get(i).inicializa();
+				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
+			}
+		}
+		else {
+			for(int i=0;i<tamPoblacion;i++) {
+				poblacion.add(new IndividuoFuncion4(3)); //Habra que seleccionar que funcione quiere
+				poblacion.get(i).inicializa();
+				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
+			}
 		}
 		
 		pos_mejor=pos_peor=0;
@@ -82,11 +105,11 @@ public class AlgoritmoGenetico {
 	
 	public List<Individuo> cruce(int tipo) {
 		if(tipo == 0){
-			return new CruceAritmetico(poblacion,tamPoblacion, probCruce).selecCruzados(); //La probabilidad de cruce varia con la gui
+			return new CruceMonopunto(poblacion,tamPoblacion,probCruce).selecCruzados();			
 		}else if(tipo == 1){
 			return new CruceBLX(poblacion,tamPoblacion, probCruce).selecCruzados();
 		}else if(tipo == 2){
-			return new CruceMonopunto(poblacion,tamPoblacion,probCruce).selecCruzados(); 
+			return new CruceAritmetico(poblacion,tamPoblacion, probCruce).selecCruzados(); //La probabilidad de cruce varia con la gui
 		}else if(tipo == 3){
 			return new CruceSBX(poblacion,tamPoblacion, probCruce).selecCruzados();
 		}else
@@ -97,7 +120,7 @@ public class AlgoritmoGenetico {
 	//VOLVER A HACER ENTERA
 	
 	public void evaluar() {  //REVISAR TODAS las funciones, ya que lo mismo hay que separar los For en 2 funciones distintas
-		double punt_acu=0,MejorFitness=0,PeorFitness=0,TotalFitness=0;
+		double punt_acu=0,MejorFitness=0,PeorFitness=100,TotalFitness=0;
 		//aptitud_mejor=poblacion[0].getFitness();
 		//double sumaptitud=0;
 		int a=0;
@@ -142,7 +165,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	public void run() {
-		iniciarPoblacion(); //Done
+		//iniciarPoblacion(); //Done
 		evaluar();
 		List<Individuo> nuevaPob;
 		//nuevaPob= new ArrayList<Individuo>();
@@ -163,6 +186,23 @@ public class AlgoritmoGenetico {
 			GenActual++;
 		}
 		//System.out.print("EL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1) );
+	}
+	
+	public void avanza(int S, int C) {
+		List<Individuo> nuevaPob;
+		//Seleccion
+		nuevaPob=seleccion(S); //pasar el tipo
+		//Cruce
+		nuevaPob = cruce(C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
+		//Mutacion
+		nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
+		poblacion= nuevaPob;
+		evaluar();//Por funciones GetFitness
+		//generaGrafica();
+		
+		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+		System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
+		
 	}
 	
 }
