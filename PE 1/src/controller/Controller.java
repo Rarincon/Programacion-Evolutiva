@@ -30,6 +30,7 @@ public class Controller {
 		this.tamPoblacion=100;
 		this.GenActual=0;
 		this.maxGeneraciones=100;
+		this.elitismo=false;
 		observers = new ArrayList<AlgoritmoGenObserver>();
 	}
 
@@ -38,17 +39,17 @@ public class Controller {
 		AlGen.iniciarPoblacion(indi, tamPoblacion); //Done
 		AlGen.evaluar();
 		while(this.GenActual < this.maxGeneraciones) {
-			ciclo();
+			update();
 		}
 	}
 	
-	public void ciclo() {
+	public void update() {
 		if(elitismo)AlGen.nextElisGen(Seleccion,cruce);
 		else AlGen.nextGen(Seleccion,cruce);
 		//System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
 		//System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
 		GenActual++;
-		for (AlgoritmoGenObserver o : observers) o.ciclo(GenActual, AlGen.getResults());
+		for (AlgoritmoGenObserver o : observers) o.update(GenActual, AlGen.getResults());
 	}
 	
 	public void addObserver(AlgoritmoGenObserver o) {
@@ -57,8 +58,12 @@ public class Controller {
 	
 	public void reset(){
 		GenActual = 0;
-		//initPopulation();
-		//for (GeneticAlgorithmObserver o : _observers) o.onReset();
+		initPopulation();
+		for (AlgoritmoGenObserver o : observers) o.reset();
+	}
+	
+	public void initPopulation() {
+		this.AlGen.limpiarPoblacion();
 	}
 	
 	public void setPob(int i) {

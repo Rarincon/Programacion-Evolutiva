@@ -259,4 +259,8 @@ public class AlgoritmoGenetico {
 		return stats;
 	}
 	
+	public void limpiarPoblacion() {
+		this.poblacion.clear();
+	}
+	
 }

@@ -25,12 +25,14 @@ public class MainWindow extends JFrame{
 	private void initGUI() {
 		JPanel mainPanel = new JPanel(); //Panel General
 		this.setContentPane(mainPanel);
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		mainPanel.setLayout(new BorderLayout());
 		
 		ControlPanel control= new ControlPanel(_ctrl);
+		DataPanel data= new DataPanel(_ctrl);
 		GraphicsPanel graphics = new GraphicsPanel(_ctrl);
 		mainPanel.add(control, BorderLayout.WEST);  //Panel de Botones/menu
 		mainPanel.add(graphics, BorderLayout.EAST);
+		mainPanel.add(data, BorderLayout.SOUTH);
 		
 	//this.setPreferredSize(new Dimension(500, 500));
 		this.setResizable(false);

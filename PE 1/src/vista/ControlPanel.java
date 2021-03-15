@@ -80,7 +80,15 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 		Individuo= IComboBox();
 		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));//REVISAR
 		elitismo.setPreferredSize(new Dimension(65,25));
-		run.addActionListener(this);
+		run.addActionListener(new ActionListener() {
+
+		    public void actionPerformed(ActionEvent e)
+		    {
+		    	carga();
+				_ctrl.reset();
+				_ctrl.run();
+		    }
+			}); 
 		run.setPreferredSize(new Dimension(100,30));
 		
 		//this.setPreferredSize(new Dimension(50,50)); //REVISAR
@@ -139,8 +147,8 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 		left.add(new JLabel(a + ":"));
 		JPanel right = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		right.add(c);
-		left.setPreferredSize(new Dimension(100,30));
-		right.setPreferredSize(new Dimension(250,30));
+		left.setPreferredSize(new Dimension(90,30));
+		right.setPreferredSize(new Dimension(210,30));
 		p.add(left);
 		p.add(right);
 		return p;
@@ -165,12 +173,11 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 		
 	}
 
+
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == run) {
-			carga();
-			_ctrl.reset();
-			_ctrl.run();
-		}
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

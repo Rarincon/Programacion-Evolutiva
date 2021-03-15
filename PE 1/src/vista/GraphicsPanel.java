@@ -41,7 +41,7 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 	}
 	
 	@Override
-	public void ciclo(int generation, Map<String, Object> stats) {
+	public void update(int generation, Map<String, Object> stats) {
 		// TODO Auto-generated method stub
 		
 	}
