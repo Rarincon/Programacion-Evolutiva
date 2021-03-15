@@ -2,7 +2,9 @@ package algoritmoGenetico;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import algoritmoGenetico.cruces.CruceAritmetico;
 import algoritmoGenetico.cruces.CruceBLX;
@@ -29,12 +31,12 @@ public class AlgoritmoGenetico {
 	private int tamPoblacion;
 	private List<Individuo> poblacion;
 	private double[] fitness;
-	private int maxGeneraciones;
-	private int GenActual;
+	//private int maxGeneraciones;
+	//private int GenActual;
 	private double probCruce;
 	private double probMutacion;
 	private int tamTorneo;
-	private Individuo elMejor,elPeor;
+	private Individuo elMejor,elPeor,mejorAc, peorAct;
 	private int pos_mejor,pos_peor;
 	//private double aptitudMejor;
 	
@@ -87,7 +89,7 @@ public class AlgoritmoGenetico {
 		pos_mejor=pos_peor=0;
 		elMejor= poblacion.get(0);
 		elPeor=poblacion.get(0);
-		GenActual=0;
+		//GenActual=0;
 		//aptitudMejor=poblacion[0].getFitness();
 		
 	}
@@ -169,7 +171,7 @@ public class AlgoritmoGenetico {
 		}
 	}
 	
-	public void run() {
+	/*public void run() {
 		//iniciarPoblacion(); //Done
 		evaluar();
 		List<Individuo> nuevaPob;
@@ -191,12 +193,12 @@ public class AlgoritmoGenetico {
 			GenActual++;
 		}
 		//System.out.print("EL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1) );
-	}
+	}*/
 	
-	public void avanza(int S, int C) {
+	public void nextGen(int S, int C) {
 		List<Individuo> nuevaPob;
 		//Seleccion
-		nuevaPob=seleccion(S); //pasar el tipo
+		nuevaPob=seleccion(S);
 		//Cruce
 		nuevaPob = cruce(nuevaPob,C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
 		//Mutacion
@@ -205,9 +207,24 @@ public class AlgoritmoGenetico {
 		evaluar();//Por funciones GetFitness
 		//generaGrafica();
 		
-		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+"\n");//+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
-		System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+"\n");//+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
-		GenActual++;
+		//System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+"\n");//+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+		//System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+"\n");//+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
+		//GenActual++;
+	}
+	
+	public void nextElisGen(int S, int C) {
+		List<Individuo> nuevaPob;
+		List<Individuo> fijos;
+		fijos=escogerElite(poblacion);
+		//Seleccion
+		nuevaPob=seleccion(S);
+		//Cruce
+		nuevaPob = cruce(nuevaPob,C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
+		//Mutacion
+		nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
+		nuevaPob=insertartElite(nuevaPob, fijos);
+		poblacion= nuevaPob;
+		evaluar();
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {
@@ -225,6 +242,21 @@ public class AlgoritmoGenetico {
 			nuevaPob.add(elite.get(i).copia());
 		}
 		return nuevaPob;
+	}
+
+	public Map<String, Object> getResults() {
+		Map<String, Object> stats = new HashMap<String, Object>();
+		//stats.put("Current Best Value", _currentBestValue);
+		//stats.put("Current Best Fitness", _currentBestFitness);
+		//stats.put("Current Worst Value", _currentWorstValue);
+		//stats.put("Current Worst Fitness", _currentWorstFitness);
+		//stats.put("Absolute Best Value", _absoluteBestValue);
+		stats.put("Absolute Best Fitness", elMejor.getFitness());
+		//stats.put("Absolute Worst Value", _absoluteWorstValue);
+		stats.put("Absolute Worst Fitness", elPeor.getFitness());
+		//stats.put("Average Fitness", _averageFitness);
+		//stats.put("Selective Pressure", _selectivePressure);
+		return stats;
 	}
 	
 }
