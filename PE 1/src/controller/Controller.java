@@ -29,7 +29,7 @@ public class Controller {
 
 	public void run() {
 		//Algen.reset();
-		AlGen.iniciarPoblacion(3, tamPoblacion); //Done
+		AlGen.iniciarPoblacion(indi, tamPoblacion); //Done
 		AlGen.evaluar();
 		while(this.GenActual < this.maxGeneraciones) {
 			
