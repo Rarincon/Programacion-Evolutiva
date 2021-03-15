@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -31,6 +32,7 @@ public class MainWindow extends JFrame{
 		mainPanel.add(control, BorderLayout.WEST);  //Panel de Botones/menu
 		mainPanel.add(graphics, BorderLayout.EAST);
 		
+	//this.setPreferredSize(new Dimension(500, 500));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);

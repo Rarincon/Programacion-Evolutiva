@@ -76,7 +76,7 @@ public class AlgoritmoGenetico {
 				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
 			}
 		}
-		else {
+		else if(indi==3) {
 			for(int i=0;i<tamPoblacion;i++) {
 				poblacion.add(new IndividuoFuncion4(2)); //Habra que seleccionar que funcione quiere
 				poblacion.get(i).inicializa();

@@ -18,13 +18,13 @@ public class Controller {
 	
 	
 	public Controller(AlgoritmoGenetico Algon) {
-		AlGen=Algon;
-		indi=0;
-		cruce=0;
-		Seleccion=0;
-		tamPoblacion=100;
-		GenActual=0;
-		maxGeneraciones=100;
+		this.AlGen=Algon;
+		this.indi=0;
+		this.cruce=0;
+		this.Seleccion=0;
+		this.tamPoblacion=100;
+		this.GenActual=0;
+		this.maxGeneraciones=100;
 	}
 
 	public void run() {

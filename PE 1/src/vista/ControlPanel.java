@@ -83,7 +83,8 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 		run.addActionListener(this);
 		run.setPreferredSize(new Dimension(100,30));
 		
-		this.setPreferredSize(new Dimension(200,75)); //REVISAR
+		//this.setPreferredSize(new Dimension(50,50)); //REVISAR
+		
 	}
 	
 	private void createControl() {
@@ -104,6 +105,7 @@ public class ControlPanel extends JPanel implements ActionListener, ItemListener
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));			
 		buttons.add(run);
 		add(buttons);
+		this.setPreferredSize(new Dimension(450, 450));
 		setVisible(true);
 	}
 	
