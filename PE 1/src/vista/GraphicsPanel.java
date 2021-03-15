@@ -73,9 +73,12 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		// TODO Auto-generated method stub
 		
 =======
+=======
+>>>>>>> Stashed changes
 		plot.setAxisLabel(1, " Generacion: " + Integer.toString(generation));
 		Generaciones.add((double) generation);
 		Media.add((Double) stats.get("Media"));
@@ -83,6 +86,9 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		MejorActual.add((Double) stats.get("Mejor Actual"));
 		//_currentWorstValues.add((Double) stats.get("Current Worst Fitness"));
 		paint();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 	}
 
