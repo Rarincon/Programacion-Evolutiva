@@ -16,11 +16,11 @@ public class Main {
 		AlgoritmoGenetico algon= new AlgoritmoGenetico();	
 		Controller _ctrl= new Controller(algon);
 		_ctrl.run();
-		/*SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new MainWindow(_ctrl);
 			}
-		});*/
+		});
 		
 		//System.out.print("HOLA que tal");
 		//algon.run();

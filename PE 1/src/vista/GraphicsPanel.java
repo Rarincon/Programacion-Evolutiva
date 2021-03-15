@@ -46,6 +46,9 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		plot.addLegend("SOUTH");
 		
 		Generaciones= new ArrayList<Double>();
+		MejorActual= new ArrayList<Double>();
+		Media= new ArrayList<Double>();
+		Objetivo= new ArrayList<Double>();
 		
 		add(plot);
 		
@@ -57,9 +60,9 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		  
 		if (!Generaciones.isEmpty()) {
 		  // add a line plot to the PlotPanel
-			plot.addLinePlot("Absolute Best", Color.BLUE, Array(Generaciones), Array(Objetivo));
-			plot.addLinePlot("Average Fitness", Color.GREEN, Array(Generaciones), Array(Media));
-			plot.addLinePlot("Best Fitness", Color.RED, Array(Generaciones), Array(MejorActual));
+			plot.addLinePlot("Mejor", Color.BLUE, Array(Generaciones), Array(Objetivo));
+			plot.addLinePlot("Media", Color.GREEN, Array(Generaciones), Array(Media));
+			plot.addLinePlot("Mejor Actual", Color.RED, Array(Generaciones), Array(MejorActual));
 			//plot.addLinePlot("Worst Fitness", Color.ORANGE, Array(Generaciones), Array(_currentWorstValues));
 		}
 	}
@@ -83,8 +86,13 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		Generaciones = new ArrayList<Double>();
+		Media = new ArrayList<Double>();
+		Objetivo = new ArrayList<Double>();
+		MejorActual = new ArrayList<Double>();
+
+		//plot.setAxisLabel(1, " Value");
+		paint();
 	}
 
 }

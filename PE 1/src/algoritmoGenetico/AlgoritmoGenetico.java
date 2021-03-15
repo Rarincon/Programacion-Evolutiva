@@ -39,6 +39,7 @@ public class AlgoritmoGenetico {
 	private Individuo elMejor,elPeor,mejorAct, peorAct;
 	private int pos_mejor,pos_peor;
 	private boolean maximizar;
+	private double media;
 	//private double aptitudMejor;
 	
 	
@@ -155,7 +156,7 @@ public class AlgoritmoGenetico {
 			a++;
 		}
 		
-		//double FitnessPromedio=TotalFitness/tamPoblacion;
+		media=TotalFitness/tamPoblacion;
 		//TotalFitness=0;
 		
 		/*for(int i=0;i<tamPoblacion;i++) {
@@ -255,18 +256,26 @@ public class AlgoritmoGenetico {
 	}
 
 	public Map<String, Object> getResults() {
-		Map<String, Object> stats = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		//stats.put("Current Best Value", _currentBestValue);
 		//stats.put("Current Best Fitness", _currentBestFitness);
 		//stats.put("Current Worst Value", _currentWorstValue);
 		//stats.put("Current Worst Fitness", _currentWorstFitness);
+		
 		//stats.put("Absolute Best Value", _absoluteBestValue);
-		stats.put("Absolute Best Fitness", elMejor.getFitness());
+		map.put("Media", media);
+		if(maximizar) {
+			map.put("Objetivo", elMejor.getFitness());
+			map.put("Mejor Actual", mejorAct.getFitness());
+		}
+		else {
+			map.put("Objetivo", elPeor.getFitness());
+			map.put("Mejor Actual", peorAct.getFitness());	
+		}
 		//stats.put("Absolute Worst Value", _absoluteWorstValue);
-		stats.put("Absolute Worst Fitness", elPeor.getFitness());
 		//stats.put("Average Fitness", _averageFitness);
 		//stats.put("Selective Pressure", _selectivePressure);
-		return stats;
+		return map;
 	}
 	
 	public void limpiarPoblacion() {
