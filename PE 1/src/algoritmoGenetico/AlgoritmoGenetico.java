@@ -78,7 +78,7 @@ public class AlgoritmoGenetico {
 		}
 		else {
 			for(int i=0;i<tamPoblacion;i++) {
-				poblacion.add(new IndividuoFuncion4(3)); //Habra que seleccionar que funcione quiere
+				poblacion.add(new IndividuoFuncion4(2)); //Habra que seleccionar que funcione quiere
 				poblacion.get(i).inicializa();
 				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
 			}
@@ -87,6 +87,7 @@ public class AlgoritmoGenetico {
 		pos_mejor=pos_peor=0;
 		elMejor= poblacion.get(0);
 		elPeor=poblacion.get(0);
+		GenActual=0;
 		//aptitudMejor=poblacion[0].getFitness();
 		
 	}
@@ -204,9 +205,9 @@ public class AlgoritmoGenetico {
 		evaluar();//Por funciones GetFitness
 		//generaGrafica();
 		
-		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
-		System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
-		
+		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+"\n");//+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+		System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+"\n");//+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
+		GenActual++;
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {

@@ -22,11 +22,14 @@ public class Controller {
 		indi=0;
 		cruce=0;
 		Seleccion=0;
+		tamPoblacion=100;
+		GenActual=0;
+		maxGeneraciones=100;
 	}
 
 	public void run() {
 		//Algen.reset();
-		AlGen.iniciarPoblacion(indi, tamPoblacion); //Done
+		AlGen.iniciarPoblacion(3, tamPoblacion); //Done
 		AlGen.evaluar();
 		while(this.GenActual < this.maxGeneraciones) {
 			
