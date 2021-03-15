@@ -21,6 +21,9 @@ public class Main {
 				new MainWindow(_ctrl);
 			}
 		});
+		
+		//System.out.print("HOLA que tal");
+		//algon.run();
 	}
 
 }
