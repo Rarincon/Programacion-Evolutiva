@@ -72,7 +72,7 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 	
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		plot.setAxisLabel(1, " Generacion: " + Integer.toString(generation));
+		plot.setAxisLabel(0, " Generacion: " + Integer.toString(generation));
 		Generaciones.add((double) generation);
 		Media.add((Double) stats.get("Media"));
 		Objetivo.add((Double) stats.get("Objetivo"));
