@@ -56,18 +56,16 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 	}
 	
 	public void paint() {
-		 plot.removeAllPlots();
+		plot.removeAllPlots();
 		  
 		if (!Generaciones.isEmpty()) {
-		  // add a line plot to the PlotPanel
-			plot.addLinePlot("Mejor", Color.BLUE, Array(Generaciones), Array(Objetivo));
-			plot.addLinePlot("Media", Color.GREEN, Array(Generaciones), Array(Media));
-			plot.addLinePlot("Mejor Actual", Color.RED, Array(Generaciones), Array(MejorActual));
-			//plot.addLinePlot("Worst Fitness", Color.ORANGE, Array(Generaciones), Array(_currentWorstValues));
+			plot.addLinePlot("Mejor", Color.BLUE, convert(Generaciones), convert(Objetivo));
+			plot.addLinePlot("Media", Color.GREEN, convert(Generaciones), convert(Media));
+			plot.addLinePlot("Mejor Actual", Color.RED, convert(Generaciones), convert(MejorActual));
 		}
 	}
 	
-	private double[] Array(List<Double> l) {
+	private double[] convert(List<Double> l) {
 		double[] array = new double[l.size()];	int i = 0;
 		for (Double d : l) {	array[i] = d.doubleValue();	++i;	}
 		return array;

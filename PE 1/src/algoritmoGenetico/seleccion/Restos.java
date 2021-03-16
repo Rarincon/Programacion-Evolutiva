@@ -7,10 +7,10 @@ import java.util.Random;
 import algoritmoGenetico.individuos.Individuo;
 
 public class Restos extends Seleccion { //REVISAR PARA LAS COPIAS DE LOS NUEVOS INDIVIDUOS
-	private List<Individuo> sel_super;
+	private List<Individuo>sel_super;
 	private double TFitness;
-	private int pos_super;
-	private Random r = new Random();
+	//private int pos_super;
+	//private Random r = new Random();
 	//private List<Individuo<?>> nuevaPob;
 		
 	public Restos(List<Individuo> _poblacion, int _tamPoblacion) { 
@@ -23,17 +23,20 @@ public class Restos extends Seleccion { //REVISAR PARA LAS COPIAS DE LOS NUEVOS 
 
 	public List<Individuo> selecciona() { //REVISAR YA QUE NO PASA EL CORTE NIGUNO Y ES UN NULL POINTER EL SIZE
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
+		sel_super=new ArrayList<Individuo>();
+		//int i=0;
 		for(Individuo v: poblacion){
-			if((v.getFitness()/TFitness)>1) //ESE VALOR PUEDE VARIAR, PUEDE SER 1 o 1'5
+			if(((v.getFitness()/TFitness)*tamPoblacion)>1) //ESE VALOR PUEDE VARIAR, PUEDE SER 1 o 1'5
 				sel_super.add(v);
+			//i++;
 		}
 		List<Individuo> rule= new ArrayList<Individuo>();
 		rule= new Ruleta(poblacion, poblacion.size()-sel_super.size()).selecciona();
 		
 		for(Individuo v: sel_super)
-			nuevaPob.add(v);
+			nuevaPob.add(v.copia());
 		for(Individuo v: rule)
-			nuevaPob.add(v);
+			nuevaPob.add(v.copia());
 		return nuevaPob;
 	}
 }

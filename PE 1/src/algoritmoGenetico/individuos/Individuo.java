@@ -15,7 +15,11 @@ public abstract class Individuo implements Comparable<Individuo> {
 	protected double puntuacion;
 	protected double punt_acum;
 	
-	public static final double precision=0.001; //CAMBIAR A LA GUI
+	protected double precision; //CAMBIAR A LA GUI
+	
+	public Individuo(double p) {
+		precision=p;
+	}
 	
 	public int tamGen(double valorError, double min, double max) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));

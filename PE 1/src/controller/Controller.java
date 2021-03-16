@@ -18,8 +18,10 @@ public class Controller {
 	private int tamTorneo;
 	private int Seleccion;
 	private int cruce;
-	private int indi;
-	private Boolean elitismo;
+	private int indi,NGen;
+	private Boolean Elitismo;
+	private double elitismoRango;
+	private double precision;
 	private List<AlgoritmoGenObserver> observers;
 	
 	public Controller(AlgoritmoGenetico Algon) {
@@ -30,7 +32,12 @@ public class Controller {
 		this.tamPoblacion=100;
 		this.GenActual=0;
 		this.maxGeneraciones=100;
-		this.elitismo=false;
+		this.Elitismo=false;
+		this.elitismoRango=0.03;
+		this.probCruce=0.6;
+		this.probMutacion=0.05;
+		this.precision=0.001;
+		NGen=2;
 		observers = new ArrayList<AlgoritmoGenObserver>();
 	}
 
@@ -44,10 +51,10 @@ public class Controller {
 	}
 	
 	public void update() {
-		if(elitismo)AlGen.nextElisGen(Seleccion,cruce);
+		if(Elitismo)AlGen.nextElisGen(Seleccion,cruce);
 		else AlGen.nextGen(Seleccion,cruce);
-		if(AlGen.getMaximizar())AlGen.Mejor();
-		else AlGen.Peor();
+		//if(AlGen.getMaximizar())AlGen.Mejor();
+		//else AlGen.Peor();
 		//System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
 		//System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
 		GenActual++;
@@ -60,12 +67,22 @@ public class Controller {
 	
 	public void reset(){
 		GenActual = 0;
-		initPopulation();
+		this.AlGen.limpiarPoblacion();
+		load();
 		for (AlgoritmoGenObserver o : observers) o.reset();
+	}	
+	
+	public void load() {
+		AlGen.setNGen(NGen);
+		AlGen.setProbMut(probMutacion);
+		AlGen.setProbCruc(probCruce);
+		AlGen.setTamTor(tamTorneo);
+		AlGen.setPrec(precision);
+		AlGen.setEliteR(elitismoRango);
 	}
 	
-	public void initPopulation() {
-		this.AlGen.limpiarPoblacion();
+	public boolean getElitism() {
+		return Elitismo;
 	}
 	
 	public void setPob(int i) {
@@ -92,7 +109,17 @@ public class Controller {
 	public void setIndi(int selectedIndex) {
 		indi= selectedIndex;	
 	}
-	public void setElitism(boolean b) {//REPASAR GUI
-		elitismo=b;
+	public void setElitism(boolean b) {
+		Elitismo=b;
+	}
+	public void setElitismRango(double value) {
+		elitismoRango=value;
+	}
+	public void setPrecision(double value) {
+		precision=value;
+	}
+	
+	public void setNGenos(int value) {
+		NGen=value;
 	}
 }

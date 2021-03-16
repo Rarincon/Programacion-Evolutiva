@@ -4,7 +4,8 @@ public class IndividuoFuncion4 extends Individuo {
 
 	private int N;
 	
-	public IndividuoFuncion4(int n) {
+	public IndividuoFuncion4(int n, double p) {
+		super(p);
 		N=n;
 		this.tamGenes = new int[n];
 		this.min = new double[1];
@@ -41,7 +42,7 @@ public class IndividuoFuncion4 extends Individuo {
 	}
 	
 	public Individuo copia() {
-		Individuo nuevo = new IndividuoFuncion4(N);
+		Individuo nuevo = new IndividuoFuncion4(N, precision);
 		nuevo.setCromosoma(getCromosoma());
 		return nuevo;
 	}

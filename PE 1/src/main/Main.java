@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {	
 		AlgoritmoGenetico algon= new AlgoritmoGenetico();	
 		Controller _ctrl= new Controller(algon);
-		_ctrl.run();
+		//_ctrl.run();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new MainWindow(_ctrl);

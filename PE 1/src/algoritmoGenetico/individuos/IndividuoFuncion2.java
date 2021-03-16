@@ -2,7 +2,8 @@ package algoritmoGenetico.individuos;
 
 public class IndividuoFuncion2 extends Individuo{
 	
-	public IndividuoFuncion2() {
+	public IndividuoFuncion2(double p) {
+		super(p);
 		this.tamGenes = new int[2];
 		this.min = new double[2];
 		this.max = new double[2];
@@ -33,7 +34,7 @@ public class IndividuoFuncion2 extends Individuo{
 	}
 	
 	public Individuo copia() {
-		Individuo nuevo = new IndividuoFuncion2();
+		Individuo nuevo = new IndividuoFuncion2(precision);
 		nuevo.setCromosoma(getCromosoma());
 		return nuevo;
 	}
