@@ -277,13 +277,22 @@ public class AlgoritmoGenetico {
 		
 		//stats.put("Absolute Best Value", _absoluteBestValue);
 		map.put("Media", media);
+		Object OV,AV;
 		if(maximizar) {
 			map.put("Objetivo", elMejor.getFitness());
+			OV=elMejor.getFenotipos();
+			map.put("Objetivo Valores",OV );
 			map.put("Mejor Actual", mejorAct.getFitness());
+			AV=  mejorAct.getFenotipos();
+			map.put("Mejor Actual Valores", AV);
 		}
 		else {
 			map.put("Objetivo", elPeor.getFitness());
-			map.put("Mejor Actual", peorAct.getFitness());	
+			OV=elPeor.getFenotipos();
+			map.put("Objetivo Valores", OV );
+			map.put("Mejor Actual", peorAct.getFitness());
+			AV=peorAct.getFenotipos();
+			map.put("Mejor Actual Valores",AV);
 		}
 		//stats.put("Absolute Worst Value", _absoluteWorstValue);
 		//stats.put("Average Fitness", _averageFitness);

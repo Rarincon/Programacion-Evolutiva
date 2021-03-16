@@ -1,5 +1,8 @@
 package algoritmoGenetico.individuos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IndividuoFuncion3 extends Individuo {
 
 	public IndividuoFuncion3(double p) {
@@ -33,6 +36,13 @@ public class IndividuoFuncion3 extends Individuo {
 		Individuo nuevo = new IndividuoFuncion3(precision);
 		nuevo.setCromosoma(getCromosoma());
 		return nuevo;
+	}
+	
+	public List<Double> getFenotipos() {
+		List<Double> results= new ArrayList<Double>();
+		results.add(getFenotipo(0));
+		results.add(getFenotipo(1));
+		return results;
 	}
 
 }

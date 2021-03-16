@@ -1,5 +1,8 @@
 package algoritmoGenetico.individuos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IndividuoFuncion1 extends Individuo{
 
 	public IndividuoFuncion1(double p) {
@@ -31,6 +34,16 @@ public class IndividuoFuncion1 extends Individuo{
 		return nuevo;
 	}
 
+	@Override
+	public List<Double> getFenotipos() {
+		List<Double> results= new ArrayList<Double>();
+		results.add(getFenotipo(0));
+		results.add(getFenotipo(1));
+		return results;
+	}
+
+	
+	
 	/*
 	public double evaluar() {
 		int x1 = getFenotipo(0); 

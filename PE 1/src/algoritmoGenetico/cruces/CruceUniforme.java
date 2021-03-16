@@ -15,10 +15,11 @@ public class CruceUniforme extends Cruce {
 
 	public List<Individuo> selecCruzados() {
 		int tam=this.pobSeleccionada.get(0).getTamCromosoma(); //Coges el tama�o del primero
-		int prob=(int) Math.random(); //Devuelve un numero entre 0 y 1
+		double prob; //Devuelve un numero entre 0 y 1
 		//this.probCruce=Math.random(); //Lo ponemos con el gui
 		this.puntoCruce=(int) (Math.random()*tam);
 		for(int i=0; i<this.tamPoblacion; i++) {
+			prob= Math.random();
 			if(prob < this.probCruce) {
 				sel_cruce.add(i);
 			}
@@ -33,8 +34,8 @@ public class CruceUniforme extends Cruce {
 	public List<Individuo> cruce() {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		Integer[] crom1, crom2;
-		int aux;
-		
+		int aux,tam=pobSeleccionada.get(0).getTamCromosoma();
+		double p;
 		for(int i=0; i<this.tamPoblacion; i++) {
 			nuevaPob.add(this.pobSeleccionada.get(i));
 		}
@@ -44,10 +45,13 @@ public class CruceUniforme extends Cruce {
 			crom1=nuevaPob.get(sel_cruce.get(i)).getCromosoma();
 			crom2=nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
 			
-			for(int j=0; j<this.puntoCruce; j++) {
-				aux=crom1[j];
-				crom1[j]=crom2[j];
-				crom2[j]=aux;
+			for(int j=0; j<tam; j++) {
+				p=Math.random();
+				if(p<probCruce) {
+					aux=crom1[j];
+					crom1[j]=crom2[j];
+					crom2[j]=aux;
+				}
 			}
 			
 			nuevaPob.get(sel_cruce.get(i)).setCromosoma(crom1);

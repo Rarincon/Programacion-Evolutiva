@@ -50,13 +50,17 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
-	private JLabel msg,time;
+	private JLabel media, ValoresA,ValoresM,FitnessM,FitnessA;
+	
+	private double FitnessMejor,Media,FitnessActul;
+	private List<Double> FitnessMejorV,FitnessActualV;
 
 	private Controller _ctrl;
 	
 	public DataPanel(Controller c) {
 		_ctrl=c;
-		
+		FitnessMejorV= new ArrayList<Double>();
+		FitnessActualV=new ArrayList<Double>();
 		createData();
 		_ctrl.addObserver(this);
 	}
@@ -66,11 +70,18 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Soluciones", TitledBorder.LEFT, TitledBorder.TOP));
 	
-		msg= new JLabel("Eventos");
+		/*labels = new ArrayList<JLabel>();
+		for (int i = 0; i < _stats.length;++i) {
+			JLabel l = new JLabel(_stats[i] + ":  ---");
+			l.setPreferredSize(new Dimension(400, 15));
+			_labels.add(l);
+			p.add(l);
+		}*/
+		/*msg= new JLabel("Eventos");
 		time= new JLabel("0");
 		this.add(new JLabel("Time: "));
         this.add(time);
-        this.add(msg);
+        this.add(msg);*/
 		
 		this.setPreferredSize(new Dimension(80, 80));
 		setVisible(true);
@@ -79,15 +90,17 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		// TODO Auto-generated method stub
-		
+		/*FitnessMejorV.add((double)stats.get("Mejor Objetivo Valores"));
+		Media=(double) stats.get("Media");
+		FitnessMejor=  (double) stats.get("Objetivo");
+		FitnessActul =   (double) stats.get("Mejor Actual");*/
+		//for (int i = 0; i < stats.length;++i) 	_labels.get(i).setText(_stats[i] + ":   " + stats.get(_stats[i]).toString());
 	}
 
 
 	@Override
 	public void reset() {
-		 this.time.setText("0");
-		
+		 
 	}
 	
 }

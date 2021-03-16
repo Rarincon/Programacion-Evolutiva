@@ -1,5 +1,6 @@
 package algoritmoGenetico.individuos;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -29,8 +30,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 		//double bin1=bin2dec(0,tamGenes[0]-1);
 		//double bin2=bin2dec(tamGenes[0], cromosoma.length-1);
 		if(x==0) {
-			 return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,tamGenes[0])-1));
-			 
+			 return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,tamGenes[0])-1));		 
 		}
 		else {
 			 return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,tamGenes[1])-1));
@@ -113,6 +113,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 	}
 	
 	public abstract Individuo copia();
+	public abstract List<Double> getFenotipos();
 	//REVISAR
 	
 	public int compareTo(Individuo arg0) {
