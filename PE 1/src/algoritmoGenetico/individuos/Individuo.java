@@ -5,18 +5,18 @@ import java.util.Random;
 
 
 public abstract class Individuo implements Comparable<Individuo> {
-	protected Integer[] cromosoma;
+	protected Object[] cromosoma;
 	protected int[] tamGenes;
 	protected double[] min;
 	protected double[] max;
-	protected int valorError;
+	//protected int valorError;
 	protected Random r = new Random();
 	
-	protected double aptitud;//Se puede quitar a lo mejor es el fitness
+	protected double aptitud;
 	protected double puntuacion;
 	protected double punt_acum;
 	
-	protected double precision; //CAMBIAR A LA GUI
+	protected double precision;
 	
 	public Individuo(double p) {
 		precision=p;
@@ -27,14 +27,11 @@ public abstract class Individuo implements Comparable<Individuo> {
 	}
 	
 	public double getFenotipo(int x) {
-		//double bin1=bin2dec(0,tamGenes[0]-1);
-		//double bin2=bin2dec(tamGenes[0], cromosoma.length-1);
 		if(x==0) {
 			 return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,tamGenes[0])-1));		 
 		}
 		else {
-			 return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,tamGenes[1])-1));
-			
+			 return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,tamGenes[1])-1));		
 		}
 	}
 	
@@ -42,7 +39,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 		long valor=0;
 		int pos =0;
 		for(int i = fin; i >= ini; i--){
-			if(valido(cromosoma[i])){
+			if(valido((int) cromosoma[i])){
 				double num = (float)Math.pow(2, pos);
 				valor += num;
 			}
@@ -55,15 +52,10 @@ public abstract class Individuo implements Comparable<Individuo> {
 		int tamTotal=0;
 		for(Integer e: tamGenes)
 			tamTotal+=e;
-		//int tamTotal = tamGenes[0] + tamGenes[1];
 		for(int i = 0; i < tamTotal; i++) {
-			this.cromosoma[i] = (int) (Math.random()*2); //Se puede mejorar //Ay que cambiar el metodo
-			//System.out.print(this.cromosoma[i]);
+			this.cromosoma[i] = (int) (Math.random()*2);
 		}
-		//System.out.print("\n");
 	}
-	
-	public abstract double evaluar();
 	
 	private Boolean valido(int t) {
 		if(t==1)return true;
@@ -98,13 +90,13 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return cromosoma.length;
 	}
 
-	public Integer[] getCromosoma() {
+	public Object[] getCromosoma() {
 		return cromosoma;
 	}
-	
-	public void setCromosoma(Integer[] crom) {
+		
+	public void setCromosoma(Object[] crom) {
 		for(int i=0; i<cromosoma.length;i++) {
-			this.cromosoma[i]=crom[i];
+			this.cromosoma[i]=(Integer) crom[i];
 		}
 	}
 	
@@ -112,9 +104,9 @@ public abstract class Individuo implements Comparable<Individuo> {
 		this.cromosoma[pos]=valor;
 	}
 	
+	public abstract double evaluar();
 	public abstract Individuo copia();
 	public abstract List<Double> getFenotipos();
-	//REVISAR
 	
 	public int compareTo(Individuo arg0) {
 		if(this.getFitness() < arg0.getFitness()) return 1;

@@ -8,19 +8,12 @@ import utils.SortedArrayList;
 
 public abstract class Mutacion {
 	
-	protected List<Individuo> poblacion;
-	protected int tamPoblacion;
 	protected double probMutacion;
 	
-	public Mutacion(List<Individuo> _poblacion, int _tamPoblacion, double _probMutacion) {
-		this.poblacion= new ArrayList<Individuo>();
-		poblacion=_poblacion;
-		/*for(int i=0;i<_tamPoblacion;i++)
-			poblacion.add(_poblacion.get(i)); //Revisar esta copia*/
-		this.tamPoblacion=_tamPoblacion;
+	public Mutacion(double _probMutacion) {
 		this.probMutacion=_probMutacion;
 	}
 	
-	public abstract List<Individuo> mutarInd();
+	public abstract List<Individuo> mutarInd(List<Individuo> p);
 }
 

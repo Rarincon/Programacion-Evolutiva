@@ -50,8 +50,8 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
-	private JLabel media, ValoresA,ValoresM,FitnessM,FitnessA;
-	
+	private static final String[] paneles = {"Media", "Objetivo", "Objetivo Genotipos", "Mejor Actual", "Mejor Actual Genotipos"};
+	private List<JLabel> labels;
 	private double FitnessMejor,Media,FitnessActul;
 	private List<Double> FitnessMejorV,FitnessActualV;
 
@@ -69,38 +69,43 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	private void createData() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Soluciones", TitledBorder.LEFT, TitledBorder.TOP));
-	
-		/*labels = new ArrayList<JLabel>();
-		for (int i = 0; i < _stats.length;++i) {
-			JLabel l = new JLabel(_stats[i] + ":  ---");
-			l.setPreferredSize(new Dimension(400, 15));
-			_labels.add(l);
-			p.add(l);
-		}*/
-		/*msg= new JLabel("Eventos");
-		time= new JLabel("0");
-		this.add(new JLabel("Time: "));
-        this.add(time);
-        this.add(msg);*/
+		JPanel p = new JPanel();
+		labels = new ArrayList<JLabel>();
+		for (int i = 0; i < paneles.length;i++) {
+			JLabel a = new JLabel(paneles[i]);
+			a.setPreferredSize(new Dimension(1000, 15));
+			labels.add(a);
+			p.add(a);
+		}
 		
-		this.setPreferredSize(new Dimension(80, 80));
+		p.setVisible(true);
+		p.setPreferredSize(new Dimension(500, 200));
+		this.add(p);
+		this.setPreferredSize(new Dimension(200, 130));
 		setVisible(true);
 	}
 
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		/*FitnessMejorV.add((double)stats.get("Mejor Objetivo Valores"));
+		/*FitnessActualV.clear();
+		FitnessMejorV.clear();
 		Media=(double) stats.get("Media");
 		FitnessMejor=  (double) stats.get("Objetivo");
-		FitnessActul =   (double) stats.get("Mejor Actual");*/
-		//for (int i = 0; i < stats.length;++i) 	_labels.get(i).setText(_stats[i] + ":   " + stats.get(_stats[i]).toString());
+		FitnessMejorV.add((double)stats.get("Objetivo Genotipos"));
+		FitnessActul =   (double) stats.get("Mejor Actual");
+		FitnessActualV.add((double)stats.get("Mejor Actual Genotipos"));*/
+		
+		for (int i = 0; i < paneles.length;i++)
+			labels.get(i).setText(paneles[i] + ":   " + stats.get(paneles[i]).toString());
 	}
 
 
 	@Override
 	public void reset() {
-		 
+		for (int i = 0; i < paneles.length;i++)
+			labels.get(i).setText(paneles[i]);
 	}
 	
 }
+

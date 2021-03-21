@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +17,15 @@ public class Controller {
 	private int tamTorneo;
 	private int Seleccion;
 	private int cruce;
-	private int indi,NGen;
+	private int funcion;//,NGen;
 	private Boolean Elitismo;
 	private double elitismoRango;
 	private double precision;
 	private List<AlgoritmoGenObserver> observers;
 	
-	public Controller(AlgoritmoGenetico Algon) {
-		this.AlGen=Algon;
-		this.indi=0;
+	public Controller() {
+		this.AlGen=new AlgoritmoGenetico();
+		this.funcion=0;
 		this.cruce=0;
 		this.Seleccion=0;
 		this.tamPoblacion=100;
@@ -37,13 +36,13 @@ public class Controller {
 		this.probCruce=0.6;
 		this.probMutacion=0.05;
 		this.precision=0.001;
-		NGen=2;
+		//NGen=2;
 		observers = new ArrayList<AlgoritmoGenObserver>();
 	}
 
 	public void run() {
 		reset();
-		AlGen.iniciarPoblacion(indi, tamPoblacion); //Done
+		AlGen.init(funcion,Seleccion, cruce,0); //el 0 es la opcion de mutacion
 		AlGen.evaluar();
 		while(this.GenActual < this.maxGeneraciones) {
 			update();
@@ -67,18 +66,19 @@ public class Controller {
 	
 	public void reset(){
 		GenActual = 0;
-		this.AlGen.limpiarPoblacion();
+		AlGen.reset();
 		load();
 		for (AlgoritmoGenObserver o : observers) o.reset();
 	}	
 	
 	public void load() {
-		AlGen.setNGen(NGen);
+		//AlGen.setNGen(NGen);
 		AlGen.setProbMut(probMutacion);
 		AlGen.setProbCruc(probCruce);
 		AlGen.setTamTor(tamTorneo);
 		AlGen.setPrec(precision);
 		AlGen.setEliteR(elitismoRango);
+		AlGen.setTamPob(tamPoblacion);
 	}
 	
 	public boolean getElitism() {
@@ -107,7 +107,7 @@ public class Controller {
 		cruce= selectedIndex;	
 	}	
 	public void setIndi(int selectedIndex) {
-		indi= selectedIndex;	
+		funcion= selectedIndex;	
 	}
 	public void setElitism(boolean b) {
 		Elitismo=b;
@@ -119,7 +119,7 @@ public class Controller {
 		precision=value;
 	}
 	
-	public void setNGenos(int value) {
+	/*public void setNGenos(int value) {
 		NGen=value;
-	}
+	}*/
 }

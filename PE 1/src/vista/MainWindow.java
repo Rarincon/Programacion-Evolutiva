@@ -41,3 +41,4 @@ public class MainWindow extends JFrame{
 		this.pack();
 	}
 }
+

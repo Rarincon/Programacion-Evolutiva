@@ -7,22 +7,29 @@ import algoritmoGenetico.individuos.Individuo;
 import utils.SortedArrayList;
 
 public abstract class Cruce {
-	protected int tipoSeleccion;
-	protected int contSelecionados;
-	protected int puntoCruce;
 	protected double probCruce;
-	protected List<Individuo> pobSeleccionada;
-	protected int tamPoblacion;
+	protected List<Integer> sel_cruce;
+	protected int TamC;
 	
-	public Cruce(List<Individuo> _poblacion, int _tamPoblacion, double _probCruc) {
-		this.pobSeleccionada= new ArrayList<>();
-		this.tamPoblacion=_tamPoblacion;
-		pobSeleccionada=_poblacion;
-		probCruce=_probCruc;
-		/*for(int i=0;i<_tamPoblacion;i++)
-			pobSeleccionada.add(_poblacion.get(i)); //Revisar esta copia*/
+	public Cruce(double p) {
+		probCruce=p;
 	}
 	
-	public abstract List<Individuo> selecCruzados();
-	public abstract List<Individuo> cruce();
+	public List<Individuo> selecCruzados(List<Individuo> pob){
+		sel_cruce= new ArrayList<Integer>();
+		TamC=pob.get(0).getTamCromosoma();		
+		double p;		
+		for(int i=0; i<pob.size(); i++) {
+			p=Math.random();
+			if(p < this.probCruce) {
+				sel_cruce.add(i);
+			}
+		}
+		if((sel_cruce.size()%2)==1) {
+			sel_cruce.remove(sel_cruce.size()-1); 
+		}		
+		return cruce(pob);
+	}
+	public abstract List<Individuo> cruce(List<Individuo> l);
 }
+

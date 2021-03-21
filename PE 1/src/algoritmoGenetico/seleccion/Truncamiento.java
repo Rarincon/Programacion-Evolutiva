@@ -2,34 +2,28 @@ package algoritmoGenetico.seleccion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Collections;
 
 import algoritmoGenetico.individuos.Individuo;
+import utils.Sorted;
 import utils.SortedArrayList;;
 
-public class Truncamiento extends Seleccion {
+public class Truncamiento implements Seleccion {
 	
-	private double trunc;
-
-
-	public Truncamiento(List<Individuo> _poblacion, int _tamPoblacion) { //DEL 50% el de 10% no lo hacemos aun
-		super(_poblacion, _tamPoblacion);
-		trunc=0.5; //Este valor puede cambiar con la GUI, habra opciones;
-	}
-
+	private static final double trunc=0.5;
 	
-	public List<Individuo> selecciona() { //Quizas haya que ordenar la poblacion por fitness
+	public List<Individuo> selecciona(List<Individuo> pob, int tam) { 
+
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
-		Collections.sort(poblacion); //REVISAR PARA LA ordenacion
+		pob.sort(new Sorted(true));
 		
 		int p = (int) (1/trunc);
-		int Nselccionados = poblacion.size()/p;
+		int Nselccionados = pob.size()/p;
 		
 		for (int i =0; i < Nselccionados; i++){
 			for (int j=0; j<p;j++){
-				nuevaPob.add(poblacion.get(i).copia());
+				nuevaPob.add(pob.get(i).copia());
 			}
 		}
 		return nuevaPob;

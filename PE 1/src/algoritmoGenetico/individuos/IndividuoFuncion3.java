@@ -14,15 +14,13 @@ public class IndividuoFuncion3 extends Individuo {
 		this.min[1] = -10;
 		this.max[0] = 10;
 		this.max[1] = 10;
-		this.tamGenes[0] = this.tamGen(this.valorError, min[0], max[0]); //Tamaño de x
-		this.tamGenes[1] = this.tamGen(this.valorError, min[1], max[1]); //Tamaño de y
+		this.tamGenes[0] = this.tamGen(this.precision, min[0], max[0]); 
+		this.tamGenes[1] = this.tamGen(this.precision, min[1], max[1]);
 		int tamTotal = tamGenes[0] + tamGenes[1];
 		this.cromosoma = new Integer[tamTotal];
 		
-		/*for(int i = 0; i < tamTotal; i++)
-			this.cromosoma[i] = r.nextInt(1); //Se puede mejorar*/
-		
-		//this.aptitud=getValor();
+		//inicializa();
+		//this.aptitud=evaluar();
 	}
 	
 	@Override
@@ -35,6 +33,9 @@ public class IndividuoFuncion3 extends Individuo {
 	public Individuo copia() {
 		Individuo nuevo = new IndividuoFuncion3(precision);
 		nuevo.setCromosoma(getCromosoma());
+		nuevo.setFitness(this.getFitness());
+		nuevo.setPunt(getPunt());
+		nuevo.setPuntAcum(getPuntAcum());
 		return nuevo;
 	}
 	

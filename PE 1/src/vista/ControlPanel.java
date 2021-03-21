@@ -55,11 +55,11 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 	private JButton run;
 	private JComboBox<String> Seleccion, Cruce,Individuo;
 	private JCheckBox Elitismo;
-	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,precision,torneo,probCruce,NGenotipos;
+	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,precision,torneo,probCruce;//NGenotipos;
 	
-	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001 };
+	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos"};
-	private String[] cruce= {"Monopunto","Uniforme","Aritmetico" ,"BLX"};
+	private String[] cruce= {"Monopunto","Uniforme","Aritmetico"};
 	private String[] indis= {"Funcion1","Funcion2","Funcion3" ,"Funcion4", "Funcion5"};
 	
 	
@@ -76,8 +76,8 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		poblacion.setPreferredSize(new Dimension(65,25));
 		maxGeneracion = new JSpinner(new SpinnerNumberModel(100,10,500,10));
 		maxGeneracion.setPreferredSize(new Dimension(65,25));
-		NGenotipos = new JSpinner(new SpinnerNumberModel(2,1,7,1));
-		NGenotipos.setPreferredSize(new Dimension(65,25));
+		//NGenotipos = new JSpinner(new SpinnerNumberModel(2,1,7,1));
+		//NGenotipos.setPreferredSize(new Dimension(65,25));
 		mutacion = new JSpinner(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.01));
 		mutacion.setPreferredSize(new Dimension(65,25));
 		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));
@@ -87,6 +87,7 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		probCruce= new JSpinner(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
 		probCruce.setPreferredSize(new Dimension(65,25));
 		precision = new JSpinner(new SpinnerListModel(Precision));
+		precision.setValue(0.001);
 		precision.setPreferredSize(new Dimension(65,25));
 		Seleccion = SComboBox();
 		Cruce= CComboBox();
@@ -108,7 +109,7 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 	private void createControl() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Controles", TitledBorder.LEFT, TitledBorder.TOP));
-		add(estructura2(estructura1("Individuo", Individuo), estructura1("N de funion 4 y 5", NGenotipos)));
+		add(estructura("Individuo", Individuo));
 		add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
 		add(estructura2(estructura1("Selection", Seleccion), estructura1("Tamaño Torneo", torneo)));
@@ -145,7 +146,7 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		return c;
 	}
 	
-	/*private JPanel estructura(String a, JComponent c) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
+	private JPanel estructura(String a, JComponent c) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
 		JPanel p = new JPanel(new GridLayout(1,2));
 		JPanel up = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		up.add(new JLabel(a));
@@ -156,7 +157,7 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		p.add(up);
 		p.add(down);
 		return p;
-	}*/
+	}
 	
 	private JPanel estructura1(String a, JComponent c) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
 		JPanel p = new JPanel(new GridLayout(2,1));
@@ -181,7 +182,7 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 	private void carga() {
 		_ctrl.setIndi(Individuo.getSelectedIndex());
 		_ctrl.setPob((int) poblacion.getValue());
-		_ctrl.setNGenos((int)NGenotipos.getValue());
+		//_ctrl.setNGenos((int)NGenotipos.getValue());
 		_ctrl.setMaxGen((int) maxGeneracion.getValue());		
 		_ctrl.setElitism(Elitismo.isSelected());
 		_ctrl.setElitismRango((double) elitismo.getValue());
@@ -192,11 +193,4 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		_ctrl.setProbMut((double) mutacion.getValue());
 		_ctrl.setPrecision((double) precision.getValue());
 	}
-
-	/*
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		
-	}*/
 }

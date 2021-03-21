@@ -6,32 +6,25 @@ import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class Restos extends Seleccion { //REVISAR PARA LAS COPIAS DE LOS NUEVOS INDIVIDUOS
-	private List<Individuo>sel_super;
-	private double TFitness;
-	//private int pos_super;
-	//private Random r = new Random();
-	//private List<Individuo<?>> nuevaPob;
+public class Restos implements Seleccion { 
+
+	public List<Individuo> selecciona(List<Individuo> p, int tam) {
+		List<Individuo> nuevaPob= new ArrayList<Individuo>();
+		List<Individuo>sel_super;
+		sel_super=new ArrayList<Individuo>();
 		
-	public Restos(List<Individuo> _poblacion, int _tamPoblacion) { 
-		super(_poblacion, _tamPoblacion);
-		TFitness=0;
-		for(Individuo v: _poblacion){
+		double TFitness=0;
+		for(Individuo v: p){
 			TFitness+=v.getFitness();
 		}
-	}
-
-	public List<Individuo> selecciona() { //REVISAR YA QUE NO PASA EL CORTE NIGUNO Y ES UN NULL POINTER EL SIZE
-		List<Individuo> nuevaPob= new ArrayList<Individuo>();
-		sel_super=new ArrayList<Individuo>();
-		//int i=0;
-		for(Individuo v: poblacion){
-			if(((v.getFitness()/TFitness)*tamPoblacion)>1) //ESE VALOR PUEDE VARIAR, PUEDE SER 1 o 1'5
+		
+		for(Individuo v: p){
+			if(((v.getFitness()/TFitness)*p.size())>1) //ESE VALOR PUEDE VARIAR, PUEDE SER 1 o 1'5
 				sel_super.add(v);
-			//i++;
 		}
 		List<Individuo> rule= new ArrayList<Individuo>();
-		rule= new Ruleta(poblacion, poblacion.size()-sel_super.size()).selecciona();
+				
+		rule= new Ruleta().selecciona(p, p.size()-sel_super.size());
 		
 		for(Individuo v: sel_super)
 			nuevaPob.add(v.copia());

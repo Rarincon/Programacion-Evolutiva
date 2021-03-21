@@ -6,8 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerNumberModel;
+
+import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceAritmetico;
-import algoritmoGenetico.cruces.CruceBLX;
 import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
@@ -15,217 +20,207 @@ import algoritmoGenetico.individuos.IndividuoFuncion1;
 import algoritmoGenetico.individuos.IndividuoFuncion2;
 import algoritmoGenetico.individuos.IndividuoFuncion3;
 import algoritmoGenetico.individuos.IndividuoFuncion4;
+import algoritmoGenetico.individuos.IndividuoFuncion5;
 import algoritmoGenetico.mutacion.Basica;
+import algoritmoGenetico.mutacion.Mutacion;
+import algoritmoGenetico.mutacion.Uniforme;
 import algoritmoGenetico.seleccion.Estocastico;
 import algoritmoGenetico.seleccion.Restos;
 import algoritmoGenetico.seleccion.Ruleta;
+import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.TorneoDeterministico;
 import algoritmoGenetico.seleccion.TorneoProbabilistico;
 import algoritmoGenetico.seleccion.Truncamiento;
+import utils.Sorted;
 import utils.SortedArrayList;
 
 public class AlgoritmoGenetico {
 	
-	//private static final double _eliteRate = 0.001; //CAMBIA CON la GUI
-	private int tamPoblacion;
+	static private final int defaultPop = 100;
+	static private final double defaultProbCruce = 0.6;
+	static private final double defaultProbMut = 0.05;
+	//static private final int defaultCrossoverMode = 1;
+	static private final double defaultEliteRate = 0.03;
+	static private final double defaultPrec = 0.001;
+	static private final int defaultTamTorn = 5;
+	static private final int defaultNGen = 5;
+	
 	private List<Individuo> poblacion;
-	private double[] fitness;
-	//private int maxGeneraciones;
-	private int GenActual;
+	private int TamPob;
+	private Seleccion selMod;
+	private Cruce crucMod;
+	private Mutacion mutMod;
 	private double probCruce;
-	private double probMutacion;
+	private double probMut;
 	private int tamTorneo;
-	private double precision, eliteRango;
-	private Individuo elMejor,elPeor,mejorAct, peorAct;
-	private int pos_mejor,pos_peor;
+	private double precision;
+	private double eliteRango;
 	private boolean maximizar;
-	private double media;
 	private int NGen;
+	
+	private double MejorF;
+	private double PeorF;
+	private double MejorAF;
+	private double PeorAF;
+	private double Media;
+	private Object MejorVF;
+	private Object PeorVF;
+	private Object MejorVAF;
+	private Object PeorVAF;
+	
+	private int GenActual;
+	//private Individuo elMejor,elPeor,mejorAct, peorAct;
+	//private int pos_mejor,pos_peor;
+
+	//private double media;
+	
 	//private double aptitudMejor;
 	
 	
 	
 	public AlgoritmoGenetico() {
-		//tamPoblacion=100;//tamPob;
-		//maxGeneraciones=100;//maxGen;
-		probCruce=0.6;
-		probMutacion=0.05;
-		precision=0.001;
-		eliteRango=0.03;
-		tamTorneo=5;
-		NGen=2;
+		
+		poblacion= new ArrayList<Individuo>();
+		
+		TamPob=defaultPop;
+		probCruce=defaultProbCruce;
+		probMut=defaultProbMut;
+		precision=defaultPrec;
+		eliteRango=defaultEliteRate;
+		tamTorneo=defaultTamTorn;
+		NGen=defaultNGen;
 		maximizar=true;
-		poblacion= new ArrayList<Individuo>();
 		
-		//Borrar
+		reset();
+	}
+	
+	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
+		if(opcionI==0)maximizar=true;
+		else maximizar=false;
+		
+		if(opcionI==0){
+			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion1(precision)); }
+		else if(opcionI==1) {
+			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion2(precision)); }
+		else if(opcionI==2) {
+			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion3(precision)); }
+		else {
+			JSpinner s = new JSpinner(new SpinnerNumberModel(2, 1, 7, 1));
+			int n = JOptionPane.showConfirmDialog(null, s, "Numero de Genomas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			NGen =  (n == JOptionPane.OK_OPTION) ? (int) s.getValue() : 2;
+			if(opcionI==3)
+				for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion4(NGen,precision));
+			else
+				for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion5(NGen,precision));
+		}
+		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		
+		if(opcionS==0) selMod= (Seleccion) new Ruleta();
+		else if(opcionS==1) selMod= (Seleccion) new Estocastico();
+		else if(opcionS==2) selMod= (Seleccion) new TorneoProbabilistico(tamTorneo);
+		else if(opcionS==3) selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
+		else if(opcionS==4) selMod= (Seleccion) new Truncamiento();
+		else selMod= (Seleccion) new Restos();
+		
+		if(opcionC==0) crucMod= new CruceMonopunto(probCruce);
+		else if(opcionC==1) crucMod= new CruceUniforme(probCruce);
+		//else crucMod= (Cruce) new CruceAritmetico(probCruce);
+		
+		if(opcionI==4)mutMod= new Uniforme(probMut);
+		else mutMod= new Basica(probMut);
+		
+		MejorF= Double.NEGATIVE_INFINITY;
+		PeorF = Double.POSITIVE_INFINITY;
+		MejorVF=PeorVF=null;
+	}
+	
+	public List<Individuo> seleccion() {
+		 return selMod.selecciona(poblacion,poblacion.size());
+	}
+	
+	public List<Individuo> cruce(List<Individuo> pob) {
+		return crucMod.selecCruzados(pob);
+	}
+	
+	public List<Individuo> mutacion(List<Individuo> pob){
+		return mutMod.mutarInd(pob);
+	}
+	
+	public void reset() {
+		poblacion.clear();
+		Media=0;
+		resetAct();
 		GenActual=0;
-		
-		//elMejor = new IndividuoFuncion1();
 	}
 	
-	public void iniciarPoblacion(int indi, int tam) { //ESTO SERA PRIVADO
-		tamPoblacion=tam;
-		poblacion= new ArrayList<Individuo>();
-		fitness= new double[tamPoblacion];
-		
-		if(indi==0){
-			for(int i=0;i<tamPoblacion;i++) {
-				poblacion.add(new IndividuoFuncion1(precision)); //Habra que seleccionar que funcione quiere
-				poblacion.get(i).inicializa();
-				maximizar=true;
-				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
-			}
-		}
-		else if(indi==1) {
-			for(int i=0;i<tamPoblacion;i++) {
-				poblacion.add(new IndividuoFuncion2(precision)); //Habra que seleccionar que funcione quiere
-				poblacion.get(i).inicializa();
-				maximizar=false;
-				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
-			}
-		}
-		else if(indi==2) {
-			for(int i=0;i<tamPoblacion;i++) {
-				poblacion.add(new IndividuoFuncion3(precision)); //Habra que seleccionar que funcione quiere
-				poblacion.get(i).inicializa();
-				maximizar=false;
-				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
-			}
-		}
-		else if(indi==3) {
-			for(int i=0;i<tamPoblacion;i++) {
-				poblacion.add(new IndividuoFuncion4(NGen,precision)); //Habra que seleccionar que funcione quiere
-				poblacion.get(i).inicializa();
-				maximizar=false;
-				//fitness[i]=poblacion.get(i).getFitness(); //Se podra quitar
-			}
-		}
-		
-		pos_mejor=pos_peor=0;
-		elMejor= elPeor=mejorAct=peorAct=poblacion.get(0);
-		
-		//GenActual=0;
-		//aptitudMejor=poblacion[0].getFitness();
-		
+	public void resetAct() {
+		MejorAF= Double.NEGATIVE_INFINITY;
+		PeorAF = Double.POSITIVE_INFINITY;
+		PeorVAF=MejorVAF=null;
 	}
 	
-	public List<Individuo> seleccion(int tipo) {
-		if(tipo == 0){
-			return new Ruleta(poblacion,tamPoblacion).selecciona();
-		}else if(tipo == 1){
-			return new Estocastico(poblacion,tamPoblacion).selecciona();
-		}else if(tipo == 2){
-			return new TorneoProbabilistico(poblacion,tamPoblacion,tamTorneo).selecciona(); //Seleccionar el tamaño
-		}else if(tipo == 3){
-			return new TorneoDeterministico(poblacion,tamPoblacion,tamTorneo).selecciona(); //Seleccionar el tamaño
-		}else if(tipo == 4){
-			return new Truncamiento(poblacion,tamPoblacion).selecciona();	
-		}else{
-			return new Restos(poblacion,tamPoblacion).selecciona();
-		}
-	}
-	
-	public List<Individuo> cruce(List<Individuo> nuevaPob, int tipo) {
-		if(tipo == 0){
-			return new CruceMonopunto(nuevaPob,tamPoblacion,probCruce).selecCruzados();			
-		}else if(tipo == 1){
-			return new CruceUniforme(nuevaPob,tamPoblacion, probCruce).selecCruzados();
-		}else if(tipo == 2){
-			return new CruceAritmetico(nuevaPob,tamPoblacion, probCruce).selecCruzados(); //La probabilidad de cruce varia con la gui
-		}else 
-			return new CruceBLX(nuevaPob,tamPoblacion, probCruce).selecCruzados();
-	}
+	public void evaluar() {
+		resetAct();
+		double punt_acu=0,TotalFitness=0;		
+		
+		int pos_mejor=0,pos_peor=0;
 
-	
-	//VOLVER A HACER ENTERA
-	
-	public void evaluar() {  //REVISAR TODAS las funciones, ya que lo mismo hay que separar los For en 2 funciones distintas
-		double punt_acu=0,TotalFitness=0;
-		double MejorFitness=poblacion.get(0).getFitness();
-		double PeorFitness=poblacion.get(0).getFitness();
-		//aptitud_mejor=poblacion[0].getFitness();
-		//double sumaptitud=0;
-		int a=0;
-		for(Individuo c: poblacion) {
-			c.setFitness(c.evaluar());
-			TotalFitness+=c.getFitness();
-			if(c.getFitness()>MejorFitness) {
-				pos_mejor=a;
-				mejorAct=c;
-				MejorFitness=c.getFitness();
-				//System.out.print("EL mejor es: "+poblacion.get(pos_mejor).getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+		for(int i=0;i<poblacion.size();i++) {
+			poblacion.get(i).setFitness(poblacion.get(i).evaluar());
+			
+			TotalFitness+=poblacion.get(i).getFitness();
+			
+			if(poblacion.get(i).getFitness()>MejorAF) {
+				pos_mejor=i;
+				MejorAF=poblacion.get(i).getFitness();
+				MejorVAF=poblacion.get(i).getFenotipos();
 			}
-			if(c.getFitness()<PeorFitness) {
-				pos_peor=a;
-				peorAct=c;
-				PeorFitness=c.getFitness();
+			if(poblacion.get(i).getFitness()<PeorAF) {
+				pos_peor=i;
+				PeorAF=poblacion.get(i).getFitness();
+				PeorVAF=poblacion.get(i).getFenotipos();
 			}
-			a++;
 		}
 		
-		media=TotalFitness/tamPoblacion;
-		//TotalFitness=0;
+		Media=TotalFitness/poblacion.size();
 		
-		/*for(int i=0;i<tamPoblacion;i++) {
-			sumaptitud+=poblacion.get(i).getFitness();
-			if(poblacion.get(i).getFitness()>aptitud_mejor) {
-				//setMejor(i);
-				pos_mejor=i;
-				aptitud_mejor=poblacion.get(i).getFitness();
-			}
-		}*/
-		for(int i=0;i<tamPoblacion;i++) {
+		/*TotalFitness=0;
+		poblacion.sort(new Sorted(maximizar));
+		
+		for (Individuo p : poblacion) {
+			double f = ((maximizar) ? p.getFitness() + Math.abs(PeorAF) : PeorAF - p.getFitness());
+			p.setFitness(f);
+			TotalFitness += f;
+		} */
+		
+		for(int i=0;i<poblacion.size();i++) {
 			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
 			poblacion.get(i).setPuntAcum(poblacion.get(i).getPunt()+ punt_acu);
 			punt_acu+=poblacion.get(i).getPunt();
 		}
 		
-		if(MejorFitness > elMejor.getFitness()) {
-			elMejor=poblacion.get(pos_mejor); 
+		if(MejorAF > MejorF) {//Faltan los valores del rango
+			MejorF=MejorAF;
+			MejorVF=poblacion.get(pos_mejor).getFenotipos();
 		}
-		if(PeorFitness < elPeor.getFitness()) {
-			elPeor=poblacion.get(pos_peor);
+		if(PeorAF < PeorF) {
+			PeorF=PeorAF;
+			PeorVF=poblacion.get(pos_peor).getFenotipos();
 		}
 	}
-	
-	/*public void run() {
-		//iniciarPoblacion(); //Done
-		evaluar();
-		List<Individuo> nuevaPob;
-		//nuevaPob= new ArrayList<Individuo>();
-		while(this.GenActual < this.maxGeneraciones) {
-			//Seleccion
-			nuevaPob=seleccion(0); //pasar el tipo
-			//Cruce
-			nuevaPob = new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
-			//Mutacion
-			nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
-			poblacion= nuevaPob;
-			evaluar();//Por funciones GetFitness
-			//generaGrafica();
-			//Siguiente generacion
-			
-			System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
-			System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
-			GenActual++;
-		}
-		//System.out.print("EL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1) );
-	}*/
 	
 	public void nextGen(int S, int C) {
 		List<Individuo> nuevaPob;
 		//Seleccion
-		nuevaPob=seleccion(S);
+		nuevaPob=seleccion();
 		//Cruce
-		nuevaPob = cruce(nuevaPob,C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
+		nuevaPob = cruce(nuevaPob);
 		//Mutacion
-		nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
+		nuevaPob= mutacion(nuevaPob);
+		poblacion.clear();
 		poblacion= nuevaPob;
-		evaluar();//Por funciones GetFitness
-		//generaGrafica();
+		evaluar();
 		
-		//System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+"\n");//+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
-		//System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+"\n");//+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
 		GenActual++;
 	}
 	
@@ -234,90 +229,71 @@ public class AlgoritmoGenetico {
 		List<Individuo> fijos;
 		fijos=escogerElite(poblacion);
 		//Seleccion
-		nuevaPob=seleccion(S);
+		nuevaPob=seleccion();
 		//Cruce
-		nuevaPob = cruce(nuevaPob,C);//new CruceMonopunto(nuevaPob,tamPoblacion, probCruce).selecCruzados();
+		nuevaPob = cruce(nuevaPob);
 		//Mutacion
-		nuevaPob= new Basica(nuevaPob, tamPoblacion, probMutacion).mutarInd();
+		nuevaPob= mutacion(nuevaPob);
+		
 		nuevaPob=insertartElite(nuevaPob, fijos);
+		poblacion.clear();
 		poblacion= nuevaPob;
 		evaluar();
 		GenActual++;
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {
-		List<Individuo> nuevaPob = new SortedArrayList<Individuo>();
-		nuevaPob=pob;
-		Collections.sort(nuevaPob);
+		pob.sort(new Sorted(maximizar));
 		List<Individuo> elite = new ArrayList<Individuo>();
-		for (int i = 0; i < (int) Math.ceil(nuevaPob.size() * eliteRango); i++) {
-			if(maximizar)  elite.add(nuevaPob.get(i).copia());
-			else  elite.add(nuevaPob.get(nuevaPob.size()-i-1).copia());
+		for (int i = 0; i < (int) Math.ceil(pob.size() * eliteRango); i++) {
+			elite.add(pob.get(i).copia());
 		}
 		return elite;
 	}
 	
 	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
-		List<Individuo> nuevaPob = new SortedArrayList<Individuo>();
-		nuevaPob=pob;
-		Collections.sort(nuevaPob);
+		pob.sort(new Sorted(maximizar));
 		for (int i = 0; i < elite.size(); ++i) {
-			nuevaPob.remove(nuevaPob.size() - 1 - i);
-			nuevaPob.add(elite.get(i).copia());
+			pob.remove(pob.size() - 1 - i);
+			pob.add(elite.get(i).copia());
 		}
-		return nuevaPob;
+		return pob;
 	}
 
 	public Map<String, Object> getResults() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//stats.put("Current Best Value", _currentBestValue);
-		//stats.put("Current Best Fitness", _currentBestFitness);
-		//stats.put("Current Worst Value", _currentWorstValue);
-		//stats.put("Current Worst Fitness", _currentWorstFitness);
-		
-		//stats.put("Absolute Best Value", _absoluteBestValue);
-		map.put("Media", media);
-		Object OV,AV;
+		map.put("Media", Media);
 		if(maximizar) {
-			map.put("Objetivo", elMejor.getFitness());
-			OV=elMejor.getFenotipos();
-			map.put("Objetivo Valores",OV );
-			map.put("Mejor Actual", mejorAct.getFitness());
-			AV=  mejorAct.getFenotipos();
-			map.put("Mejor Actual Valores", AV);
+			map.put("Objetivo", MejorF);
+			map.put("Objetivo Genotipos",MejorVF);
+			map.put("Mejor Actual", MejorAF);
+			map.put("Mejor Actual Genotipos",MejorVAF);
 		}
 		else {
-			map.put("Objetivo", elPeor.getFitness());
-			OV=elPeor.getFenotipos();
-			map.put("Objetivo Valores", OV );
-			map.put("Mejor Actual", peorAct.getFitness());
-			AV=peorAct.getFenotipos();
-			map.put("Mejor Actual Valores",AV);
+			map.put("Objetivo", PeorF);
+			map.put("Objetivo Genotipos",PeorVF);
+			map.put("Mejor Actual", PeorAF);
+			map.put("Mejor Actual Genotipos",PeorVAF);
 		}
-		//stats.put("Absolute Worst Value", _absoluteWorstValue);
-		//stats.put("Average Fitness", _averageFitness);
-		//stats.put("Selective Pressure", _selectivePressure);
 		return map;
 	}
 	
-	public void limpiarPoblacion() {
-		this.poblacion.clear();
-	}
-	
-	//public boolean getMaximizar() {return maximizar;}
+	public boolean getMaximizar() {return maximizar;}
 	
 	public void Mejor() {
-		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+"\n");//+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
+		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+MejorF+" con Genotipos "+ MejorVF.toString()+"\n");
 	}
 	
-	public void Peor() { System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+"\n");//+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
+	public void Peor() {
+		System.out.print("Generacion: " + GenActual+ " eL peor es: "+PeorF+" con Genotipos "+ PeorVF.toString()+"\n");
 	}
 
-	public void setNGen(int value) {		NGen=value;		}
-	public void setProbMut(double p) {		probMutacion=p;	}
+	//public void setNGen(int value) {		NGen=value;		}
+	public void setProbMut(double p) {		probMut=p;	}
 	public void setProbCruc(double p) {		probCruce=p;	}
 	public void setTamTor(int t) {		tamTorneo=t;			}
 	public void setPrec(double p) {		precision=p;		}
 	public void setEliteR(double e) {		eliteRango=e;			}
+	public void setTamPob(int value) { TamPob=value; }
 	
 }

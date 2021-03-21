@@ -6,37 +6,23 @@ import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class Ruleta extends Seleccion {
-	private Integer[] sel_super;
-	private double prob;
-	private int pos_super;
-	private Random r = new Random();
-	//private List<Individuo<?>> nuevaPob;
-	 
-	public Ruleta(List<Individuo> _poblacion, int _tamPoblacion) {   //REPASAR, eliminar los valores negativos
-		super(_poblacion, _tamPoblacion);
-		
-		sel_super = new Integer[this.tamPoblacion];
-		
-	}
-	
-	public List<Individuo> selecciona() { //REVISAR YA QUE SOLO DEVUELVE EL MISMO
+public class Ruleta implements Seleccion {
+
+	public List<Individuo> selecciona(List<Individuo> p, int tam) { //REVISAR YA QUE SOLO DEVUELVE EL MISMO
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
-		for(int i=0; i<this.tamPoblacion; i++) {
-			prob=r.nextDouble()%1; //PROBABILIDAD COMPROBAR
+		double prob;
+		int pos_super;
+		Random r = new Random();
+		for(int i=0; i<tam; i++) {
+			prob=r.nextDouble()%1; 
 			pos_super=0;
-			while((this.prob >= this.poblacion.get(pos_super).getPuntAcum()) && (pos_super < this.tamPoblacion)) {
+			while((prob >= p.get(pos_super).getPuntAcum()) && (pos_super < tam)) {
 				pos_super++;
 			}
-			nuevaPob.add(this.poblacion.get(pos_super).copia());
-			
-			//sel_super[i]=pos_super; 
+			nuevaPob.add(p.get(pos_super).copia());
 		}
-		/*for(int i=0; i<this.tamPoblacion; i++) {
-			nuevaPob.add(this.poblacion.get(sel_super[i]).copia()); //Comprobar si rompe encapsulacion o si se hace correctamente
-		}*/
-		return nuevaPob;  //Comprobar si rompe encapsulacion
-		
+
+		return nuevaPob; 		
 	}
 }

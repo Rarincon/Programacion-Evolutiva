@@ -3,21 +3,19 @@ package algoritmoGenetico.seleccion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class TorneoDeterministico extends Seleccion{
+public class TorneoDeterministico implements Seleccion{
 
 	private int tamTorneo;
 
-	public TorneoDeterministico(List<Individuo> _poblacion, int _tamPoblacion, int tam) {
-		super(_poblacion, _tamPoblacion);
+	public TorneoDeterministico(int tam) {
 		tamTorneo=tam;
 	}
 
-	@Override
-	public List<Individuo> selecciona() {
+
+	public List<Individuo> selecciona(List<Individuo> poblacion, int tam) {
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
 		
@@ -35,3 +33,4 @@ public class TorneoDeterministico extends Seleccion{
 		return nuevaPob;
 	}
 }
+
