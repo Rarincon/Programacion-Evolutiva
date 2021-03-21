@@ -27,7 +27,8 @@ public class CruceAritmetico extends Cruce {
 			crom1=nuevaPob.get(sel_cruce.get(i)).getCromosoma();
 			crom2=nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
 			
-			for(int j=0; j<this.puntoCruce; j++) {
+			for(int j=0; j<this.TamC; j++) {
+				
 				aux=crom1[j];
 				crom1[j]=crom2[j];
 				crom2[j]=aux;

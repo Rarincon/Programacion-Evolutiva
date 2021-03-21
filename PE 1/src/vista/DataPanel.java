@@ -52,15 +52,11 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
 	private static final String[] paneles = {"Media", "Objetivo", "Objetivo Genotipos", "Mejor Actual", "Mejor Actual Genotipos"};
 	private List<JLabel> labels;
-	private double FitnessMejor,Media,FitnessActul;
-	private List<Double> FitnessMejorV,FitnessActualV;
 
 	private Controller _ctrl;
 	
 	public DataPanel(Controller c) {
 		_ctrl=c;
-		FitnessMejorV= new ArrayList<Double>();
-		FitnessActualV=new ArrayList<Double>();
 		createData();
 		_ctrl.addObserver(this);
 	}
@@ -88,13 +84,6 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		/*FitnessActualV.clear();
-		FitnessMejorV.clear();
-		Media=(double) stats.get("Media");
-		FitnessMejor=  (double) stats.get("Objetivo");
-		FitnessMejorV.add((double)stats.get("Objetivo Genotipos"));
-		FitnessActul =   (double) stats.get("Mejor Actual");
-		FitnessActualV.add((double)stats.get("Mejor Actual Genotipos"));*/
 		
 		for (int i = 0; i < paneles.length;i++)
 			labels.get(i).setText(paneles[i] + ":   " + stats.get(paneles[i]).toString());
