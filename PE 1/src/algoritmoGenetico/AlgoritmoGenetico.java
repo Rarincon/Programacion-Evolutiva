@@ -122,9 +122,9 @@ public class AlgoritmoGenetico {
 		else if(opcionS==4) selMod= (Seleccion) new Truncamiento();
 		else selMod= (Seleccion) new Restos();
 		
-		if(opcionC==0) crucMod= new CruceMonopunto(probCruce);
-		else if(opcionC==1) crucMod= new CruceUniforme(probCruce);
-		//else crucMod= (Cruce) new CruceAritmetico(probCruce);
+		if(opcionC==2 && opcionI == 4) crucMod= new CruceAritmetico(probCruce);
+		else if(opcionC==0) crucMod= new CruceMonopunto(probCruce);
+		else crucMod= new CruceUniforme(probCruce);
 		
 		if(opcionI==4)mutMod= new Uniforme(probMut);
 		else mutMod= new Basica(probMut);
