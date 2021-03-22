@@ -15,6 +15,8 @@ import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceAritmetico;
 import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceUniforme;
+import algoritmoGenetico.individuos.Eggholder;
+import algoritmoGenetico.individuos.GramacyLee;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoFuncion1;
 import algoritmoGenetico.individuos.IndividuoFuncion2;
@@ -69,14 +71,7 @@ public class AlgoritmoGenetico {
 	private Object PeorVAF;
 	
 	private int GenActual;
-	//private Individuo elMejor,elPeor,mejorAct, peorAct;
-	//private int pos_mejor,pos_peor;
 
-	//private double media;
-	
-	//private double aptitudMejor;
-	
-	
 	
 	public AlgoritmoGenetico() {
 		
@@ -104,15 +99,21 @@ public class AlgoritmoGenetico {
 			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion2(precision)); }
 		else if(opcionI==2) {
 			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion3(precision)); }
-		else {
-			JSpinner s = new JSpinner(new SpinnerNumberModel(2, 1, 7, 1));
-			int n = JOptionPane.showConfirmDialog(null, s, "Numero de Genomas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			NGen =  (n == JOptionPane.OK_OPTION) ? (int) s.getValue() : 2;
+		else if(opcionI==3 || opcionI==4){
+			JSpinner N = new JSpinner(new SpinnerNumberModel(2, 1, 7, 1));
+			int n = JOptionPane.showConfirmDialog(null, N, "Numero de Genomas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			NGen =  (n == JOptionPane.OK_OPTION) ? (int) N.getValue() : 2;
 			if(opcionI==3)
 				for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion4(NGen,precision));
 			else
 				for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion5(NGen,precision));
 		}
+		else if(opcionI==5){
+			maximizar=true;
+			for(int i=0;i<TamPob;i++) poblacion.add(new GramacyLee(precision)); }
+		else {
+			for(int i=0;i<TamPob;i++) poblacion.add(new Eggholder(precision)); }
+		
 		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		
 		if(opcionS==0) selMod= (Seleccion) new Ruleta();
