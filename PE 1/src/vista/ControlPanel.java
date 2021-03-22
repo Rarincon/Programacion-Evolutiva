@@ -76,8 +76,6 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		poblacion.setPreferredSize(new Dimension(65,25));
 		maxGeneracion = new JSpinner(new SpinnerNumberModel(100,10,500,10));
 		maxGeneracion.setPreferredSize(new Dimension(65,25));
-		//NGenotipos = new JSpinner(new SpinnerNumberModel(2,1,7,1));
-		//NGenotipos.setPreferredSize(new Dimension(65,25));
 		mutacion = new JSpinner(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.01));
 		mutacion.setPreferredSize(new Dimension(65,25));
 		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));
@@ -126,7 +124,6 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		JComboBox<String> s = new JComboBox<String>();
 		for (int i = 0; i < seleccion.length;i++) s.addItem(seleccion[i].toString());
 		s.setPreferredSize(new Dimension(130,25));
-		//s.addItemListener(this);
 		return s;
 	}
 	
@@ -134,7 +131,6 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		JComboBox<String> c = new JComboBox<String>();
 		for (int i = 0; i < cruce.length;i++) c.addItem(cruce[i].toString());
 		c.setPreferredSize(new Dimension(100,25));
-		//c.addItemListener(this);
 		return c;
 	}
 	
@@ -142,18 +138,15 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		JComboBox<String> c = new JComboBox<String>();
 		for (int i = 0; i < indis.length;i++) c.addItem(indis[i].toString());
 		c.setPreferredSize(new Dimension(100,25));
-		//c.addItemListener(this);
 		return c;
 	}
 	
-	private JPanel estructura(String a, JComponent c) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
+	private JPanel estructura(String a, JComponent c) { 
 		JPanel p = new JPanel(new GridLayout(1,2));
 		JPanel up = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		up.add(new JLabel(a));
 		JPanel down = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		down.add(c);
-		//up.setPreferredSize(new Dimension(90,30));
-		//down.setPreferredSize(new Dimension(210,30));
 		p.add(up);
 		p.add(down);
 		return p;
@@ -165,8 +158,6 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		up.add(new JLabel(a));
 		JPanel down = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		down.add(c);
-		//up.setPreferredSize(new Dimension(90,30));
-		//down.setPreferredSize(new Dimension(210,30));
 		p.add(up);
 		p.add(down);
 		return p;
@@ -182,7 +173,6 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 	private void carga() {
 		_ctrl.setIndi(Individuo.getSelectedIndex());
 		_ctrl.setPob((int) poblacion.getValue());
-		//_ctrl.setNGenos((int)NGenotipos.getValue());
 		_ctrl.setMaxGen((int) maxGeneracion.getValue());		
 		_ctrl.setElitism(Elitismo.isSelected());
 		_ctrl.setElitismRango((double) elitismo.getValue());
