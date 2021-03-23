@@ -4,19 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
+import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.individuos.Individuo;
+import controller.Controller;
 import utils.Sorted;
 import utils.SortedArrayList;;
 
 public class Truncamiento implements Seleccion {
 	
+	boolean maximizar;
 	private static final double trunc=0.5;
+	public Truncamiento(boolean b) {
+		maximizar=b;
+	}
 	
 	public List<Individuo> selecciona(List<Individuo> pob, int tam) { 
 
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
-		pob.sort(new Sorted(true));
+		if(maximizar)
+			pob.sort(new Sorted(true));
+		else pob.sort(new Sorted(false));
 		
 		int p = (int) (1/trunc);
 		int Nselccionados = pob.size()/p;

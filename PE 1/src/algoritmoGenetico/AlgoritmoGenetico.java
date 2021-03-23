@@ -120,7 +120,7 @@ public class AlgoritmoGenetico {
 		else if(opcionS==1) selMod= (Seleccion) new Estocastico();
 		else if(opcionS==2) selMod= (Seleccion) new TorneoProbabilistico(tamTorneo);
 		else if(opcionS==3) selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
-		else if(opcionS==4) selMod= (Seleccion) new Truncamiento();
+		else if(opcionS==4) selMod= (Seleccion) new Truncamiento(maximizar);
 		else selMod= (Seleccion) new Restos();
 		
 		if(opcionC==2 && opcionI == 4) crucMod= new CruceAritmetico(probCruce);
