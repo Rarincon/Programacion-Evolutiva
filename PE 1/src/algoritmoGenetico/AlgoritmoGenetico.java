@@ -185,7 +185,7 @@ public class AlgoritmoGenetico {
 		
 		Media=TotalFitness/poblacion.size();
 		
-		//Minimizacion/Maximizacion (No funciona muy bn creo)
+		//Desplazamiento para la Ruleta (No funciona muy bn creo)
 		/*TotalFitness=0; 
 		poblacion.sort(new Sorted(maximizar));
 		
