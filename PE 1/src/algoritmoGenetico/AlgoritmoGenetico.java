@@ -185,11 +185,12 @@ public class AlgoritmoGenetico {
 		
 		Media=TotalFitness/poblacion.size();
 		
-		/*TotalFitness=0;
+		//Minimizacion/Maximizacion (No funciona muy bn creo)
+		/*TotalFitness=0; 
 		poblacion.sort(new Sorted(maximizar));
 		
 		for (Individuo p : poblacion) {
-			double f = ((maximizar) ? p.getFitness() + Math.abs(PeorAF) : PeorAF - p.getFitness());
+			double f = ((maximizar) ? p.getFitness() + Math.abs(poblacion.get(0).getFitness()) : poblacion.get(0).getFitness() - p.getFitness());
 			p.setFitness(f);
 			TotalFitness += f;
 		} */
