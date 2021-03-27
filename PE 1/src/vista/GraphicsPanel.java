@@ -26,8 +26,7 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 	
 	private List<Double>Generaciones;
 	private List<Double>MejorActual;
-	//private List<Double>PeorActual;
-	private List<Double>Media; //Verde
+	private List<Double>Media;
 	private List<Double>Objetivo;
 	
 	public GraphicsPanel(Controller _ctrl) {
@@ -78,7 +77,7 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		Media.add((Double) stats.get("Media"));
 		Objetivo.add((Double) stats.get("Objetivo"));
 		MejorActual.add((Double) stats.get("Mejor Actual"));
-		//_currentWorstValues.add((Double) stats.get("Current Worst Fitness"));
+
 		paint();
 	}
 
@@ -89,7 +88,6 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		Objetivo = new ArrayList<Double>();
 		MejorActual = new ArrayList<Double>();
 
-		//plot.setAxisLabel(1, " Value");
 		paint();
 	}
 

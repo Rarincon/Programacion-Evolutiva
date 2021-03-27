@@ -8,7 +8,7 @@ import algoritmoGenetico.individuos.Individuo;
 
 public class Ruleta implements Seleccion {
 
-	public List<Individuo> selecciona(List<Individuo> p, int tam) { //REVISAR YA QUE SOLO DEVUELVE EL MISMO
+	public List<Individuo> selecciona(List<Individuo> p, int tam) { 
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
 		double prob;

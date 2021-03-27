@@ -22,7 +22,7 @@ public class Basica extends Mutacion {
 		for(int i=0;i<pob.size();i++) {
 			nuevaPob.add(pob.get(i).copia());
 			mutado=false;
-			crom=(Integer[]) nuevaPob.get(i).getCromosoma(); //REVISAR ESTE CAST
+			crom=(Integer[]) nuevaPob.get(i).getCromosoma(); 
 			for(int j=0;j<tam;j++) {
 				prob=Math.random();
 				if(prob < probMutacion) {

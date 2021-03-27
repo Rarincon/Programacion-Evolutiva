@@ -18,23 +18,21 @@ public class MainWindow extends JFrame{
 	public MainWindow(Controller con) {
 		super("Algoritmos Geneticos");
 		_ctrl= con;
-		//this.setPreferredSize(new Dimension(1000,1000));
 		initGUI();
 	}
 	
 	private void initGUI() {
-		JPanel mainPanel = new JPanel(); //Panel General
+		JPanel mainPanel = new JPanel(); 
 		this.setContentPane(mainPanel);
 		mainPanel.setLayout(new BorderLayout());
 		
 		ControlPanel control= new ControlPanel(_ctrl);
 		DataPanel data= new DataPanel(_ctrl);
 		GraphicsPanel graphics = new GraphicsPanel(_ctrl);
-		mainPanel.add(control, BorderLayout.WEST);  //Panel de Botones/menu
+		mainPanel.add(control, BorderLayout.WEST);  
 		mainPanel.add(graphics, BorderLayout.EAST);
 		mainPanel.add(data, BorderLayout.SOUTH);
 		
-	//this.setPreferredSize(new Dimension(500, 500));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);

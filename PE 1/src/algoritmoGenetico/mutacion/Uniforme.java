@@ -28,7 +28,7 @@ public class Uniforme extends Mutacion {
 				prob=Math.random();
 				if(prob < probMutacion) {
 					crom[j]=Math.random()*Math.PI;
-					//(Math.abs(r.nextInt() % (1/0.001)) / (1/0.001))*Math.PI;
+					
 					mutado=true;
 				}
 			}

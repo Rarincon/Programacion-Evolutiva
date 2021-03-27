@@ -15,10 +15,10 @@ public class Sorted implements Comparator<Individuo>{
 
 	@Override
 	public int compare(Individuo arg0, Individuo arg1) {
-		double value0 = arg0.getFitness();
-		double value1 = arg1.getFitness();
-		if (value0 > value1) return (decreciente) ? -1 : 1;
-		else if (value0 < value1) return (decreciente) ? 1 : -1;
+		double v1 = arg0.getFitness();
+		double v2 = arg1.getFitness();
+		if (v1> v2) return (decreciente) ? -1 : 1;
+		else if (v1 < v2) return (decreciente) ? 1 : -1;
 		else return 0;
 	}
 	

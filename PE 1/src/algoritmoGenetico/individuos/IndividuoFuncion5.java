@@ -7,7 +7,6 @@ import java.util.Random;
 public class IndividuoFuncion5  extends Individuo{
 
 	private int N;
-	//private Double[] cromosoma5;
 	
 	public IndividuoFuncion5(int n, double p) {
 		super(p);
@@ -17,12 +16,7 @@ public class IndividuoFuncion5  extends Individuo{
 		this.max = new double[1];
 		this.min[0] = 0;
 		this.max[0] = Math.PI;
-		/*this.tamGenes[0] = this.tamGen(this.precision, min[0], max[0]);
-		int tamTotal=0;
-		for(int i = 0; i < n; i++) {
-			tamGenes[i]=tamGenes[0];
-			tamTotal+=tamGenes[i];
-		}*/
+		
 		this.cromosoma = new Double[N];	
 	}
 
@@ -55,10 +49,10 @@ public class IndividuoFuncion5  extends Individuo{
 	}
 
 	@Override
-	public void inicializa() { //REVISAR LA CREACION ESTA DE NUMEROS ALEATORIOS
+	public void inicializa() { 
 		//Random r= new Random();
 		for(int i = 0; i < N; i++) {
-			this.cromosoma[i] = Math.random()*max[0]; //(Math.abs(r.nextInt() % (1/precision)) / (1/precision))*max[0];//
+			this.cromosoma[i] = Math.random()*max[0]; 
 		}
 	}
 	

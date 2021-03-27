@@ -41,7 +41,6 @@ public class AlgoritmoGenetico {
 	static private final int defaultPop = 100;
 	static private final double defaultProbCruce = 0.6;
 	static private final double defaultProbMut = 0.05;
-	//static private final int defaultCrossoverMode = 1;
 	static private final double defaultEliteRate = 0.03;
 	static private final double defaultPrec = 0.001;
 	static private final int defaultTamTorn = 5;
@@ -247,7 +246,8 @@ public class AlgoritmoGenetico {
 	private List<Individuo> escogerElite(List<Individuo> pob) {
 		pob.sort(new Sorted(maximizar));
 		List<Individuo> elite = new ArrayList<Individuo>();
-		for (int i = 0; i < (int) Math.ceil(pob.size() * eliteRango); i++) {
+		int tam= (int) Math.ceil(pob.size() * eliteRango);
+		for (int i = 0; i < tam; i++) {
 			elite.add(pob.get(i).copia());
 		}
 		return elite;

@@ -54,8 +54,6 @@ public class Controller {
 		else AlGen.nextGen(Seleccion,cruce);
 		//if(AlGen.getMaximizar())AlGen.Mejor();
 		//else AlGen.Peor();
-		//System.out.print("Generacion: " + GenActual+ " eL mejor es: "+elMejor.getFitness()+" con x1: "+elMejor.getFenotipo(0)+ " y x2: "+ elMejor.getFenotipo(1)+"\n" );
-		//System.out.print("Generacion: " + GenActual+ " eL peor es: "+elPeor.getFitness()+" con x1: "+elPeor.getFenotipo(0)+ " y x2: "+ elPeor.getFenotipo(1)+"\n" );
 		GenActual++;
 		for (AlgoritmoGenObserver o : observers) o.update(GenActual, AlGen.getResults());
 	}

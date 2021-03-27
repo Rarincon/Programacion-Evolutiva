@@ -46,7 +46,7 @@ import javax.swing.border.TitledBorder;
 
 import controller.Controller;
 
-public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar las implementaciones
+public class ControlPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
@@ -163,7 +163,7 @@ public class ControlPanel extends JPanel{// implements ItemListener{ //Revisar l
 		return p;
 	}
 	
-	private JPanel estructura2(JPanel a, JPanel b) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
+	private JPanel estructura2(JPanel a, JPanel b) { 
 		JPanel r = new JPanel(new GridLayout(1,2));
 		r.add(a);
 		r.add(b);

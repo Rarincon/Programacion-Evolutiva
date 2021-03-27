@@ -30,7 +30,6 @@ public class TorneoProbabilistico implements Seleccion{
 			
 			Collections.sort(rivales);
 			
-			//nuevaPob.add(rivales.get((Math.random() > 0.5) ? 0 : tamTorneo - 1)); LO MISMO
 			if(Math.random() > 0.5)
 				nuevaPob.add(rivales.get(0));
 			else
