@@ -15,14 +15,8 @@ import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceAritmetico;
 import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceUniforme;
-import algoritmoGenetico.individuos.Eggholder;
-import algoritmoGenetico.individuos.GramacyLee;
 import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.individuos.IndividuoFuncion1;
-import algoritmoGenetico.individuos.IndividuoFuncion2;
-import algoritmoGenetico.individuos.IndividuoFuncion3;
-import algoritmoGenetico.individuos.IndividuoFuncion4;
-import algoritmoGenetico.individuos.IndividuoFuncion5;
+import algoritmoGenetico.individuos.IndividuoCifrado;
 import algoritmoGenetico.mutacion.Basica;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.Uniforme;
@@ -92,26 +86,7 @@ public class AlgoritmoGenetico {
 		if(opcionI==0)maximizar=true;
 		else maximizar=false;
 		
-		if(opcionI==0){
-			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion1(precision)); }
-		else if(opcionI==1) {
-			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion2(precision)); }
-		else if(opcionI==2) {
-			for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion3(precision)); }
-		else if(opcionI==3 || opcionI==4){
-			JSpinner N = new JSpinner(new SpinnerNumberModel(2, 1, 7, 1));
-			int n = JOptionPane.showConfirmDialog(null, N, "Numero de Genomas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			NGen =  (n == JOptionPane.OK_OPTION) ? (int) N.getValue() : 2;
-			if(opcionI==3)
-				for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion4(NGen,precision));
-			else
-				for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoFuncion5(NGen,precision));
-		}
-		else if(opcionI==5){
-			maximizar=true;
-			for(int i=0;i<TamPob;i++) poblacion.add(new GramacyLee(precision)); }
-		else {
-			for(int i=0;i<TamPob;i++) poblacion.add(new Eggholder(precision)); }
+		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(precision)); 
 		
 		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		
@@ -173,12 +148,12 @@ public class AlgoritmoGenetico {
 			if(poblacion.get(i).getFitness()>MejorAF) {
 				pos_mejor=i;
 				MejorAF=poblacion.get(i).getFitness();
-				MejorVAF=poblacion.get(i).getFenotipos();
+				//MejorVAF=poblacion.get(i).getFenotipos();
 			}
 			if(poblacion.get(i).getFitness()<PeorAF) {
 				pos_peor=i;
 				PeorAF=poblacion.get(i).getFitness();
-				PeorVAF=poblacion.get(i).getFenotipos();
+				//PeorVAF=poblacion.get(i).getFenotipos();
 			}
 		}
 		
@@ -202,11 +177,11 @@ public class AlgoritmoGenetico {
 		
 		if(MejorAF > MejorF) {//Faltan los valores del rango
 			MejorF=MejorAF;
-			MejorVF=poblacion.get(pos_mejor).getFenotipos();
+			//MejorVF=poblacion.get(pos_mejor).getFenotipos();
 		}
 		if(PeorAF < PeorF) {
 			PeorF=PeorAF;
-			PeorVF=poblacion.get(pos_peor).getFenotipos();
+			//PeorVF=poblacion.get(pos_peor).getFenotipos();
 		}
 	}
 	

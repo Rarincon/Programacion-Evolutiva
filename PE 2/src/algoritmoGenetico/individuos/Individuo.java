@@ -1,14 +1,17 @@
 package algoritmoGenetico.individuos;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 
 public abstract class Individuo implements Comparable<Individuo> {
+	
+	static private final int TAM=26;
+	static private final String[] abecedario={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+	
 	protected Object[] cromosoma;
-	protected int[] tamGenes;
-	protected double[] min;
-	protected double[] max;
 	//protected int valorError;
 	protected Random r = new Random();
 	
@@ -20,46 +23,20 @@ public abstract class Individuo implements Comparable<Individuo> {
 	
 	public Individuo(double p) {
 		precision=p;
-	}
-	
-	public int tamGen(double valorError, double min, double max) {
-		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
-	}
-	
-	public double getFenotipo(int x) {
-		if(x==0) {
-			 return min[0]+ bin2dec(0,tamGenes[0]-1) *((max[0]-min[0])/(Math.pow(2,tamGenes[0])-1));		 
-		}
-		else {
-			 return min[1]+ bin2dec(tamGenes[0], cromosoma.length-1)*((max[1]-min[1])/(Math.pow(2,tamGenes[1])-1));		
-		}
-	}
-	
-	public long bin2dec(int ini, int fin) {
-		long valor=0;
-		int pos =0;
-		for(int i = fin; i >= ini; i--){
-			if(valido((int) cromosoma[i])){
-				double num = (float)Math.pow(2, pos);
-				valor += num;
-			}
-			pos++;
-		}
-		return valor;
+		cromosoma=  new Integer[TAM];
 	}
 	
 	public void inicializa() {
-		int tamTotal=0;
-		for(Integer e: tamGenes)
-			tamTotal+=e;
-		for(int i = 0; i < tamTotal; i++) {
-			this.cromosoma[i] = (int) (Math.random()*2);
-		}
-	}
-	
-	private Boolean valido(int t) {
-		if(t==1)return true;
-		else return false;
+		List<Integer> shuffle= new ArrayList<Integer>();
+		for(int i=0;i<TAM;i++)shuffle.add(i);
+		Collections.shuffle(shuffle);
+		for(int i=0;i<TAM;i++)cromosoma[i]=shuffle.get(i);
+		
+		/*int caracteres = (int)(Math.random()*20)+2; 
+		for (int i=0; i<caracteres; i++){ 
+			int codigoAscii = (int)Math.floor(Math.random()*(122 -97)+97);
+			cromosoma[i]=codigoAscii;
+	   }*/
 	}
 	
 	public void setFitness(double f) {
@@ -106,7 +83,6 @@ public abstract class Individuo implements Comparable<Individuo> {
 	
 	public abstract double evaluar();
 	public abstract Individuo copia();
-	public abstract List<Double> getFenotipos();
 	
 	public int compareTo(Individuo arg0) {
 		if(this.getFitness() < arg0.getFitness()) return 1;
