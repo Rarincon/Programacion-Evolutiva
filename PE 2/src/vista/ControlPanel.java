@@ -16,8 +16,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -60,8 +63,9 @@ public class ControlPanel extends JPanel{
 	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos"};
 	private String[] cruce= {"Monopunto","Uniforme","Aritmetico"};
-	private String[] indis= {"Funcion1","Funcion2","Funcion3" ,"Funcion4", "Funcion5", "Gramacy & Lee", "Eggholder"};
+	//private String[] indis= {"Funcion1","Funcion2","Funcion3" ,"Funcion4", "Funcion5", "Gramacy & Lee", "Eggholder"};
 	
+	private Map<String, String> datos;
 	
 	public ControlPanel(Controller c) {
 		_ctrl=c;
@@ -89,7 +93,7 @@ public class ControlPanel extends JPanel{
 		precision.setPreferredSize(new Dimension(65,25));
 		Seleccion = SComboBox();
 		Cruce= CComboBox();
-		Individuo= IComboBox();
+		Individuo= DComboBox(loadData()); //CAMBIADO
 		Elitismo = new JCheckBox();
 		Elitismo.setSelected(_ctrl.getElitism());
 		run= new JButton("Run");
@@ -134,9 +138,16 @@ public class ControlPanel extends JPanel{
 		return c;
 	}
 	
-	private JComboBox<String> IComboBox() {
+	/*private JComboBox<String> IComboBox() {
 		JComboBox<String> c = new JComboBox<String>();
 		for (int i = 0; i < indis.length;i++) c.addItem(indis[i].toString());
+		c.setPreferredSize(new Dimension(100,25));
+		return c;
+	}*/
+	
+	private JComboBox<String> DComboBox(Object[] options) {
+		JComboBox<String> c = new JComboBox<String>();
+		for (int i = 0; i < options.length;i++) c.addItem(options[i].toString());
 		c.setPreferredSize(new Dimension(100,25));
 		return c;
 	}
@@ -182,5 +193,18 @@ public class ControlPanel extends JPanel{
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
 		_ctrl.setPrecision((double) precision.getValue());
+	}
+	
+	private Object[] loadData() {
+		File f = new File("resources/pruebas/");
+		datos = new HashMap<String, String>();
+		for (File fil : f.listFiles()) {
+			if (fil.getName().substring(fil.getName().lastIndexOf('.'), fil.getName().length()).equalsIgnoreCase(".txt")) {
+				datos.put(fil.getName(), fil.getAbsolutePath());
+			}
+		}
+		Object[] list = datos.keySet().toArray();
+		//Arrays.sort(list);
+		return list;
 	}
 }
