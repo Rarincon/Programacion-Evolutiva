@@ -47,9 +47,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import algoritmoGenetico.AlgoritmoGenetico;
 import controller.Controller;
 
-public class ControlPanel extends JPanel{
+public class ControlPanel extends JPanel implements ItemListener{
 	
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
@@ -93,7 +94,10 @@ public class ControlPanel extends JPanel{
 		precision.setPreferredSize(new Dimension(65,25));
 		Seleccion = SComboBox();
 		Cruce= CComboBox();
+		
 		Individuo= DComboBox(loadData()); //CAMBIADO
+		AlgoritmoGenetico.loadDataFile(datos.get(Individuo.getSelectedItem().toString()));
+		
 		Elitismo = new JCheckBox();
 		Elitismo.setSelected(_ctrl.getElitism());
 		run= new JButton("Run");
@@ -206,5 +210,11 @@ public class ControlPanel extends JPanel{
 		Object[] list = datos.keySet().toArray();
 		//Arrays.sort(list);
 		return list;
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == Individuo) 
+			AlgoritmoGenetico.loadDataFile(datos.get(Individuo.getSelectedItem().toString()));
 	}
 }

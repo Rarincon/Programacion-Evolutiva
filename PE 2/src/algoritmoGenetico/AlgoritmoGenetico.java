@@ -1,10 +1,13 @@
 package algoritmoGenetico;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
@@ -64,6 +67,9 @@ public class AlgoritmoGenetico {
 	private Object PeorVAF;
 	
 	private int GenActual;
+	
+	private static String cifrado="";
+	private static Map<Object,Integer>conteo;
 
 	
 	public AlgoritmoGenetico() {
@@ -79,6 +85,7 @@ public class AlgoritmoGenetico {
 		NGen=defaultNGen;
 		maximizar=true;
 		
+		conteo= new HashMap<Object, Integer>();
 		reset();
 	}
 	
@@ -272,5 +279,25 @@ public class AlgoritmoGenetico {
 	public void setPrec(double p) {		precision=p;		}
 	public void setEliteR(double e) {		eliteRango=e;			}
 	public void setTamPob(int value) { TamPob=value; }
+	
+	public static void loadDataFile(String Path) {
+		try {
+			Scanner s = new Scanner(new File(Path));
+			while(s.hasNext()) {
+				cifrado+=s.next().toLowerCase()+" ";
+			}
+			conteo.clear();
+			for(int i=0;i<cifrado.length();i++) {				
+				if(Character.isLetter(cifrado.charAt(i))) {
+					if(!conteo.containsKey(cifrado.charAt(i)))
+						conteo.put(cifrado.charAt(i),1);
+					else
+						conteo.put(cifrado.charAt(i), conteo.get(cifrado.charAt(i))+1);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
