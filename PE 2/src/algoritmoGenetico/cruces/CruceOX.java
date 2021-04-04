@@ -7,10 +7,10 @@ import java.util.Map;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class CrucePMX extends Cruce{ //REPASAR POR SI HAY ALGUN ERROR
+public class CruceOX extends Cruce{
 
-	public CrucePMX(double probCruce) {
-		super(probCruce);
+	public CruceOX(double p) {
+		super(p);
 	}
 
 	@Override
@@ -41,9 +41,6 @@ public class CrucePMX extends Cruce{ //REPASAR POR SI HAY ALGUN ERROR
 			m1= new HashMap<Integer,Boolean>();
 			m2= new HashMap<Integer,Boolean>();
 			
-			x1=new ArrayList<Integer>();
-			x2=new ArrayList<Integer>();
-			
 			copia1=new Integer[TamC];
 			copia2=new Integer[TamC];
 			
@@ -57,55 +54,33 @@ public class CrucePMX extends Cruce{ //REPASAR POR SI HAY ALGUN ERROR
 				m2.put((Integer) crom1[j], true);
 			}
 			
-			int x=(puntoCruce2+1)%TamC;
-			while(x!=puntoCruce1) {
-				if(!m1.containsKey(crom1[x])) {
-					copia1[x]=crom1[x];
-					m1.put((Integer) crom1[x], true);
+			int pos=(puntoCruce2+1)%TamC;
+			int aux=(puntoCruce2+1)%TamC;
+			
+			while(pos!=puntoCruce1) {
+				while(m1.containsKey(crom1[aux]))aux=(aux+1)%TamC;
+				copia1[pos]=crom1[aux];
+				m1.put((Integer) crom1[aux], true);
+				pos=(pos+1)%TamC;
+				
+				/*if(!m1.containsKey(crom1[aux])) {
+					copia1[pos]=crom1[aux];
+					m1.put((Integer) crom1[aux], true);
+					pos=(pos+1)%TamC;
 				}
-				else x1.add(x);
-				if(!m2.containsKey(crom2[x])) {
-					copia2[x]=crom2[x];
-					m2.put((Integer) crom2[x], true);
-				}
-				else x2.add(x);
-				x++;
-				x=x%TamC;
+				aux=(aux+1)%TamC;*/
 			}
 			
-			/*for(int j=puntoCruce2+1;j<TamC;j++) {
-			if(!m1.containsKey(crom1[j])) {
-				copia1[j]=crom1[j];
-				m1.put((Integer) crom1[j], true);
-			}
-			else x1.add(j);
-			if(!m2.containsKey(crom2[j])) {
-				copia2[j]=crom2[j];
-				m2.put((Integer) crom2[j], true);
-			}
-			else x2.add(j);
+			pos=(puntoCruce2+1)%TamC;
+			aux=(puntoCruce2+1)%TamC;
+			
+			while(pos!=puntoCruce1) {
+				while(m2.containsKey(crom2[aux]))aux=(aux+1)%TamC;
+				copia1[pos]=crom2[aux];
+				m2.put((Integer) crom2[aux], true);
+				pos=(pos+1)%TamC;
 			}
 			
-			for(int j=0;j<puntoCruce1;j++) {
-				if(!m1.containsKey(crom1[j]))copia1[j]=crom1[j];
-				else x1.add(j);
-				if(!m2.containsKey(crom2[j]))copia2[j]=crom2[j];
-				else x2.add(j);
-			}*/
-			
-			x=puntoCruce1;
-			for(int j=0;j<x1.size();j++) {			
-				while(m1.containsKey(crom1[x]))x++;
-				copia1[x1.get(j)]=crom1[x];
-				m1.put((Integer) crom1[x], true);
-			}
-			x=puntoCruce1;
-			for(int j=0;j<x2.size();j++) {
-				while(m2.containsKey(crom2[x]))x++;
-				copia2[x2.get(j)]=crom2[x];	
-				m2.put((Integer) crom2[x], true);
-			}
-					
 			nuevaPob.get(sel_cruce.get(i)).setCromosoma(copia1);
 			nuevaPob.get(sel_cruce.get(i+1)).setCromosoma(copia2);
 			
