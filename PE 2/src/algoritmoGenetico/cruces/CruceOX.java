@@ -7,7 +7,7 @@ import java.util.Map;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class CruceOX extends Cruce{
+public class CruceOX extends Cruce{ //REPASAR POR SI ACASO
 
 	public CruceOX(double p) {
 		super(p);
