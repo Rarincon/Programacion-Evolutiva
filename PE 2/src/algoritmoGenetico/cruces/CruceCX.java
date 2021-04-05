@@ -21,20 +21,7 @@ public class CruceCX extends Cruce{ //REPASAR POR SI ACASO
 		for(int i=0; i<pob.size(); i++) {
 			nuevaPob.add(pob.get(i).copia());
 		}
-		/*
-		int puntoCruce1=(int) (Math.random()*TamC);
-		int puntoCruce2;
-		
-		do{
-			puntoCruce2=(int) (Math.random()*TamC);
-		}while(puntoCruce1==puntoCruce2);
-		
-		if(puntoCruce1>puntoCruce2) {
-			int a=puntoCruce1;
-			puntoCruce1=puntoCruce2;
-			puntoCruce2=a;
-		}
-		*/
+	
 		Map<Integer,Boolean> m1,m2;
 		List<Integer> x1,x2;
 			
@@ -44,7 +31,7 @@ public class CruceCX extends Cruce{ //REPASAR POR SI ACASO
 			Object elem1;
 			Object elem2;
 			
-			for(int j=0; j<sel_cruce.size(); j++) {
+			for(int j=0; j<sel_cruce.size(); j++) { //ARREGLAR
 				crom1=nuevaPob.get(sel_cruce.get(j)).getCromosoma();
 				crom2=nuevaPob.get(sel_cruce.get(j+1)).getCromosoma();
 				
