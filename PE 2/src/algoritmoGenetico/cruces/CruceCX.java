@@ -2,16 +2,19 @@ package algoritmoGenetico.cruces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class CruceCX extends Cruce{
+public class CruceCX extends Cruce{ //REPASAR POR SI ACASO
 
 	boolean[] ocupado1,ocupado2;
 	
 	public CruceCX(double p) {
-		super(p); 		
+		super(p);
+
 	}
 
 	@Override
