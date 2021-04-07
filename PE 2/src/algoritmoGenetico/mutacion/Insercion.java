@@ -49,35 +49,3 @@ public class Insercion  extends Mutacion{
 		return nuevaPob;
 	}
 }
-/*
-				//for(int j=0;j<tam && !mutado ;j++) {
-					prob=Math.random();
-					if(prob < probMutacion) {
-						int pos;
-						do {
-							pos = (int) (Math.random()*tam);
-						}while(pos==j);
-						
-						int aux;
-						for(;pos<tam;pos++) {
-							aux=crom[j];
-							if(pos<j) {
-								for(int x=j;x>pos;x--)
-									crom[x]=crom[x-1];	
-							}
-							else {
-								for(int x=j;x<pos;x++)
-									crom[x]=crom[x+1];
-							}
-							crom[pos]=aux;
-						}	
-						mutado=true;
-					}
-				}
-				nuevaPob.get(i).setCromosoma(crom);
-			}
-		}		
-		return nuevaPob;
-	}
-
-}*/
