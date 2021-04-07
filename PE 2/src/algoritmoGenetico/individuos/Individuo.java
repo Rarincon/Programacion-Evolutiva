@@ -89,4 +89,9 @@ public abstract class Individuo implements Comparable<Individuo> {
 		else if(this.getFitness()==arg0.getFitness()) return 0;
 		else return -1;
 	}
+
+	public static double apply(Integer[] integers) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
