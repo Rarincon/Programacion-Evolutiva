@@ -64,7 +64,6 @@ public class ControlPanel extends JPanel implements ItemListener{
 	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos"};
 	private String[] cruce= {"Monopunto","Uniforme","Aritmetico"};
-	//private String[] indis= {"Funcion1","Funcion2","Funcion3" ,"Funcion4", "Funcion5", "Gramacy & Lee", "Eggholder"};
 	
 	private Map<String, String> datos;
 	
