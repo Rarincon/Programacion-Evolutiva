@@ -8,6 +8,7 @@ import utils.SortedArrayList;
 
 public abstract class Mutacion {
 	
+	protected static final int n=3;
 	protected double probMutacion;
 	
 	public Mutacion(double _probMutacion) {
