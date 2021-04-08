@@ -69,9 +69,12 @@ public class AlgoritmoGenetico {
 	
 	private int GenActual;
 	
-	private static String cifrado="";
-	private static Map<Object,Integer>conteo,gramas;
-
+	private static String cifrado;
+	//private static Map<Object,Integer>conteo;
+	
+	private static final String _default= "Eqa ycwe aqqt aqcit v aqqtwecwb wecwb zn v aqqtwecwb wqcit wecwb aqqt?  Zr aqcit wecwb vii rep aqqt revr v aqqtwecwb wqcit, zn v aqqtwecwb wqcit wecwb aqqt.";
+	private static final String[] NGRAMAS= {"Bigram","Monogram","Trigram"};
+	private static Map<String,Map<Object,Integer>>gramas;
 	
 	public AlgoritmoGenetico() {
 		
@@ -86,8 +89,9 @@ public class AlgoritmoGenetico {
 		NGen=defaultNGen;
 		maximizar=true;
 		
-		conteo= new HashMap<Object, Integer>();
-		gramas= new HashMap<Object, Integer>();
+		//conteo= new HashMap<Object, Integer>();
+		cifrado=_default;
+		gramas= new HashMap<String,Map<Object,Integer>>();
 		reset();
 		//loadMapa();
 	}
@@ -103,8 +107,15 @@ public class AlgoritmoGenetico {
 		
 		if(opcionS==0) selMod= (Seleccion) new Ruleta();
 		else if(opcionS==1) selMod= (Seleccion) new Estocastico();
-		else if(opcionS==2) selMod= (Seleccion) new TorneoProbabilistico(tamTorneo);
-		else if(opcionS==3) selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
+		else if(opcionS==2 || opcionS==3) {
+			JSpinner N = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
+			tamTorneo = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			if(opcionS==2)
+				selMod= (Seleccion) new TorneoProbabilistico(tamTorneo);
+			else
+				selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
+		}
+		//else if(opcionS==3) selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
 		else if(opcionS==4) selMod= (Seleccion) new Truncamiento(maximizar);
 		else selMod= (Seleccion) new Restos();
 		
@@ -288,15 +299,27 @@ public class AlgoritmoGenetico {
 		try {
 			String a;
 			int b;
+			long total;
+			Map<Object,Integer> map;
 			for(int j=0;j<objects.length;j++) {		
 				Scanner s = new Scanner(new File(objects[j].toString()));
+				map = new HashMap<Object,Integer>();
+				total=0;
 				while(s.hasNext()) {
 					a=s.next().toLowerCase();
 					b=s.nextInt();
-					gramas.put(a,b);
-					
-					//cifrado+=s.next().toLowerCase()+" ";
+					total+=b;
+					map.put(a,b);				
 				}
+				map.put(NGRAMAS[j]+"total", (int) total);
+				gramas.put(NGRAMAS[j],map);
+				
+				/*if(gramas.containsKey(NGRAMAS[j])) {
+					map=gramas.get(NGRAMAS[j]);
+					if(map.containsKey(NGRAMAS[j]+"total"))
+						System.out.print("TODO OK");
+				}*/
+				
 				/*conteo.clear();
 				for(int i=0;i<cifrado.length();i++) {				
 					if(Character.isLetter(cifrado.charAt(i))) {
@@ -311,19 +334,6 @@ public class AlgoritmoGenetico {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	/*private void loadMapa() {
-		try {
-			Scanner s = new Scanner(new File("resources/ngrams/"));
-		
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-	}*/
 
 
 	public void setText(String text) {

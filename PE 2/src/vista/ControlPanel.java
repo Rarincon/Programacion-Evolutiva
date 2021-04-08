@@ -84,8 +84,8 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		mutacion.setPreferredSize(new Dimension(65,25));
 		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));
 		elitismo.setPreferredSize(new Dimension(65,25));
-		torneo = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
-		torneo.setPreferredSize(new Dimension(65,25));
+		//torneo = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
+		//torneo.setPreferredSize(new Dimension(65,25));
 		probCruce= new JSpinner(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
 		probCruce.setPreferredSize(new Dimension(65,25));
 		precision = new JSpinner(new SpinnerListModel(Precision));
@@ -119,7 +119,8 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		//add(estructura("Individuo", Individuo));
 		add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
-		add(estructura2(estructura1("Selection", Seleccion), estructura1("Tamaño Torneo", torneo)));
+		//add(estructura2(estructura1("Selection", Seleccion), estructura1("Tamaño Torneo", torneo)));
+		add(estructura1("Selection", Seleccion));
 		add(estructura2(estructura1("Cruce", Cruce), estructura1("Probabilidad", probCruce)));
 		add(estructura2(estructura1("Mutacion", mutacion), estructura1("Valor de Error", precision)));	
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));			
@@ -187,13 +188,13 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	}
 	
 	private void carga() {
-		_ctrl.setIndi(Individuo.getSelectedIndex());
+		//_ctrl.setIndi(Individuo.getSelectedIndex());
 		_ctrl.setPob((int) poblacion.getValue());
 		_ctrl.setMaxGen((int) maxGeneracion.getValue());		
 		_ctrl.setElitism(Elitismo.isSelected());
 		_ctrl.setElitismRango((double) elitismo.getValue());
 		_ctrl.setSelection(Seleccion.getSelectedIndex());//getSelectedItem().toString());
-		_ctrl.setTamTorneo((int) torneo.getValue());
+		//_ctrl.setTamTorneo((int) torneo.getValue());
 		_ctrl.setCruce(Cruce.getSelectedIndex()); //Devolver String o entero, comprobar	
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
@@ -209,7 +210,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 			}
 		}
 		Object[] list = datos.values().toArray();//keySet().toArray();
-		//Arrays.sort(list);
+		Arrays.sort(list);
 		return list;
 	}
 
