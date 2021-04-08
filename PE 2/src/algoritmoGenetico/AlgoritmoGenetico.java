@@ -43,6 +43,7 @@ public class AlgoritmoGenetico {
 	static private final int defaultTamTorn = 5;
 	static private final int defaultNGen = 5;
 	
+	
 	private List<Individuo> poblacion;
 	private int TamPob;
 	private Seleccion selMod;
@@ -69,7 +70,7 @@ public class AlgoritmoGenetico {
 	private int GenActual;
 	
 	private static String cifrado="";
-	private static Map<Object,Integer>conteo;
+	private static Map<Object,Integer>conteo,gramas;
 
 	
 	public AlgoritmoGenetico() {
@@ -86,9 +87,12 @@ public class AlgoritmoGenetico {
 		maximizar=true;
 		
 		conteo= new HashMap<Object, Integer>();
+		gramas= new HashMap<Object, Integer>();
 		reset();
+		//loadMapa();
 	}
-	
+
+
 	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
 		if(opcionI==0)maximizar=true;
 		else maximizar=false;
@@ -280,24 +284,50 @@ public class AlgoritmoGenetico {
 	public void setEliteR(double e) {		eliteRango=e;			}
 	public void setTamPob(int value) { TamPob=value; }
 	
-	public static void loadDataFile(String Path) {
+	public static void loadDataFile(Object[] objects) {
 		try {
-			Scanner s = new Scanner(new File(Path));
-			while(s.hasNext()) {
-				cifrado+=s.next().toLowerCase()+" ";
-			}
-			conteo.clear();
-			for(int i=0;i<cifrado.length();i++) {				
-				if(Character.isLetter(cifrado.charAt(i))) {
-					if(!conteo.containsKey(cifrado.charAt(i)))
-						conteo.put(cifrado.charAt(i),1);
-					else
-						conteo.put(cifrado.charAt(i), conteo.get(cifrado.charAt(i))+1);
+			String a;
+			int b;
+			for(int j=0;j<objects.length;j++) {		
+				Scanner s = new Scanner(new File(objects[j].toString()));
+				while(s.hasNext()) {
+					a=s.next().toLowerCase();
+					b=s.nextInt();
+					gramas.put(a,b);
+					
+					//cifrado+=s.next().toLowerCase()+" ";
 				}
+				/*conteo.clear();
+				for(int i=0;i<cifrado.length();i++) {				
+					if(Character.isLetter(cifrado.charAt(i))) {
+						if(!conteo.containsKey(cifrado.charAt(i)))
+							conteo.put(cifrado.charAt(i),1);
+						else
+							conteo.put(cifrado.charAt(i), conteo.get(cifrado.charAt(i))+1);
+					}
+				}*/
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	
+	/*private void loadMapa() {
+		try {
+			Scanner s = new Scanner(new File("resources/ngrams/"));
+		
+		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}*/
+
+
+	public void setText(String text) {
+		cifrado=text;
 	}
 	
 }

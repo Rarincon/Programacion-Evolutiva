@@ -50,7 +50,7 @@ import javax.swing.border.TitledBorder;
 import algoritmoGenetico.AlgoritmoGenetico;
 import controller.Controller;
 
-public class ControlPanel extends JPanel implements ItemListener{
+public class ControlPanel extends JPanel {//implements ItemListener{
 	
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
@@ -94,8 +94,10 @@ public class ControlPanel extends JPanel implements ItemListener{
 		Seleccion = SComboBox();
 		Cruce= CComboBox();
 		
-		Individuo= DComboBox(loadData()); //CAMBIADO
-		AlgoritmoGenetico.loadDataFile(datos.get(Individuo.getSelectedItem().toString()));
+		//Individuo= DComboBox(loadData()); //CAMBIADO
+		//loadData();
+		AlgoritmoGenetico.loadDataFile(loadData());
+		//AlgoritmoGenetico.loadDataFile(datos.get(Individuo.getSelectedItem().toString()));
 		
 		Elitismo = new JCheckBox();
 		Elitismo.setSelected(_ctrl.getElitism());
@@ -114,7 +116,7 @@ public class ControlPanel extends JPanel implements ItemListener{
 	private void createControl() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Controles", TitledBorder.LEFT, TitledBorder.TOP));
-		add(estructura("Individuo", Individuo));
+		//add(estructura("Individuo", Individuo));
 		add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
 		add(estructura2(estructura1("Selection", Seleccion), estructura1("Tamaño Torneo", torneo)));
@@ -148,12 +150,12 @@ public class ControlPanel extends JPanel implements ItemListener{
 		return c;
 	}*/
 	
-	private JComboBox<String> DComboBox(Object[] options) {
+	/*private JComboBox<String> DComboBox(Object[] options) {
 		JComboBox<String> c = new JComboBox<String>();
 		for (int i = 0; i < options.length;i++) c.addItem(options[i].toString());
 		c.setPreferredSize(new Dimension(100,25));
 		return c;
-	}
+	}*/
 	
 	private JPanel estructura(String a, JComponent c) { 
 		JPanel p = new JPanel(new GridLayout(1,2));
@@ -199,21 +201,21 @@ public class ControlPanel extends JPanel implements ItemListener{
 	}
 	
 	private Object[] loadData() {
-		File f = new File("resources/pruebas/");
+		File f = new File("resources/ngrams/");
 		datos = new HashMap<String, String>();
 		for (File fil : f.listFiles()) {
 			if (fil.getName().substring(fil.getName().lastIndexOf('.'), fil.getName().length()).equalsIgnoreCase(".txt")) {
 				datos.put(fil.getName(), fil.getAbsolutePath());
 			}
 		}
-		Object[] list = datos.keySet().toArray();
+		Object[] list = datos.values().toArray();//keySet().toArray();
 		//Arrays.sort(list);
 		return list;
 	}
 
-	@Override
+	/*@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == Individuo) 
 			AlgoritmoGenetico.loadDataFile(datos.get(Individuo.getSelectedItem().toString()));
-	}
+	}*/
 }

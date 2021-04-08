@@ -39,13 +39,12 @@ public class WritePanel extends JPanel implements AlgoritmoGenObserver {
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-	
+		
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		_ctrl.setText(text.getText().toLowerCase());
 	}
 
 }

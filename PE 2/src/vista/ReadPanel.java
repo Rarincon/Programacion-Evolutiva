@@ -41,14 +41,12 @@ public class ReadPanel extends JPanel implements AlgoritmoGenObserver{
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		// TODO Auto-generated method stub
-		
+		text = new JTextArea(stats.get("descifrado").toString());		
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		text = new JTextArea();		
 	}
 
 }

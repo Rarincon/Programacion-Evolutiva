@@ -116,6 +116,10 @@ public class Controller {
 	public void setPrecision(double value) {
 		precision=value;
 	}
+
+	public void setText(String text) {
+		AlGen.setText(text);	
+	}
 	
 	/*public void setNGenos(int value) {
 		NGen=value;
