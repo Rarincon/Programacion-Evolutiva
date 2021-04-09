@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -77,22 +78,22 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private void InitGui() {
 
 		poblacion = new JSpinner(new SpinnerNumberModel(100,10,500,1));
-		poblacion.setPreferredSize(new Dimension(65,25));
+		poblacion.setPreferredSize(new Dimension(75,30));
 		maxGeneracion = new JSpinner(new SpinnerNumberModel(100,10,500,10));
-		maxGeneracion.setPreferredSize(new Dimension(65,25));
+		maxGeneracion.setPreferredSize(new Dimension(75,30));
 		mutacion = new JSpinner(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.01));
-		mutacion.setPreferredSize(new Dimension(65,25));
+		mutacion.setPreferredSize(new Dimension(75,30));
 		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));
-		elitismo.setPreferredSize(new Dimension(65,25));
+		elitismo.setPreferredSize(new Dimension(75,30));
 		//torneo = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
 		//torneo.setPreferredSize(new Dimension(65,25));
 		probCruce= new JSpinner(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
-		probCruce.setPreferredSize(new Dimension(65,25));
+		probCruce.setPreferredSize(new Dimension(75,30));
 		precision = new JSpinner(new SpinnerListModel(Precision));
 		precision.setValue(0.001);
-		precision.setPreferredSize(new Dimension(65,25));
-		Seleccion = SComboBox();
-		Cruce= CComboBox();
+		precision.setPreferredSize(new Dimension(75,30));
+		Seleccion = ComboBox(seleccion);
+		Cruce= ComboBox(cruce);
 		
 		//Individuo= DComboBox(loadData()); //CAMBIADO
 		//loadData();
@@ -117,12 +118,22 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Controles", TitledBorder.LEFT, TitledBorder.TOP));
 		//add(estructura("Individuo", Individuo));
-		add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
-		add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
+		
+		add(estructura("Poblacion", poblacion));
+		add(estructura("Generaciones", maxGeneracion));
+		add(estructura("Elitismo", Elitismo));
+		add(estructura("Rango", elitismo));
+		add(estructura("Selection", Seleccion));
+		add(estructura("Cruce", Cruce));
+		add(estructura("Probabilidad", probCruce));
+		add(estructura("Mutacion", mutacion));
+		add(estructura("Valor de Error", precision));	
+		//add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
+		//add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
 		//add(estructura2(estructura1("Selection", Seleccion), estructura1("Tamaño Torneo", torneo)));
-		add(estructura1("Selection", Seleccion));
-		add(estructura2(estructura1("Cruce", Cruce), estructura1("Probabilidad", probCruce)));
-		add(estructura2(estructura1("Mutacion", mutacion), estructura1("Valor de Error", precision)));	
+		//add(estructura1("Selection", Seleccion));
+		//add(estructura2(estructura1("Cruce", Cruce), estructura1("Probabilidad", probCruce)));
+		//add(estructura2(estructura1("Mutacion", mutacion), estructura1("Valor de Error", precision)));	
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));			
 		buttons.add(run);
 		add(buttons);
@@ -130,19 +141,19 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		setVisible(true);
 	}
 	
-	private JComboBox<String> SComboBox() {
+	private JComboBox<String> ComboBox(String[] a) {
 		JComboBox<String> s = new JComboBox<String>();
-		for (int i = 0; i < seleccion.length;i++) s.addItem(seleccion[i].toString());
-		s.setPreferredSize(new Dimension(130,25));
+		for (int i = 0; i < a.length;i++) s.addItem(a[i].toString());
+		s.setPreferredSize(new Dimension(125,30));
 		return s;
 	}
 	
-	private JComboBox<String> CComboBox() {
+	/*private JComboBox<String> CComboBox() {
 		JComboBox<String> c = new JComboBox<String>();
 		for (int i = 0; i < cruce.length;i++) c.addItem(cruce[i].toString());
 		c.setPreferredSize(new Dimension(100,25));
 		return c;
-	}
+	}*/
 	
 	/*private JComboBox<String> IComboBox() {
 		JComboBox<String> c = new JComboBox<String>();
@@ -160,16 +171,18 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	
 	private JPanel estructura(String a, JComponent c) { 
 		JPanel p = new JPanel(new GridLayout(1,2));
-		JPanel up = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		up.add(new JLabel(a));
-		JPanel down = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel up = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JLabel l= new JLabel(a);
+		l.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
+		up.add(l);
+		JPanel down = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		down.add(c);
 		p.add(up);
 		p.add(down);
 		return p;
 	}
 	
-	private JPanel estructura1(String a, JComponent c) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
+	/*private JPanel estructura1(String a, JComponent c) { //REVISAR PARA PODER HACERLO DE OTRA FORMA
 		JPanel p = new JPanel(new GridLayout(2,1));
 		JPanel up = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		up.add(new JLabel(a));
@@ -185,7 +198,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		r.add(a);
 		r.add(b);
 		return r;
-	}
+	}*/
 	
 	private void carga() {
 		//_ctrl.setIndi(Individuo.getSelectedIndex());

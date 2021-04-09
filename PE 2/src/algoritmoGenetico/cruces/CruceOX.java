@@ -24,7 +24,7 @@ public class CruceOX extends Cruce{ //REPASAR POR SI ACASO
 		}
 		int puntoCruce1,puntoCruce2;
 		
-		Map<Integer,Boolean> m1,m2;
+		//Map<Integer,Boolean> m1,m2;
 		boolean[] ocupado1,ocupado2;
 		ocupado1= new boolean[TamC];
 		ocupado2= new boolean[TamC];
