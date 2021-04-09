@@ -1,6 +1,7 @@
 package algoritmoGenetico.cruces;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,7 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 			
 			for(int j=0; j<TamC; j++) {
 				HashSet<Integer> l = new HashSet<Integer>();
-				valor=(int) crom1[j];
+				valor= crom1[j];
 				l.add(crom1[(j+1)%TamC]);
 				anterior=j-1;
 				if(anterior==-1) anterior=TamC-1;
@@ -49,53 +50,16 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 				l.add(crom2[anterior2]);
 				matrizAdyacencia.put(valor, l);
 			}
-			boolean cromoturno=false; //si es false empeizas por el crom1 y si es true empiezas por el true
-			int eleccion; //para elegir por que cromosoma empezamos
+			
 			if(Math.random()*2 > 1) {
-				eleccion=crom1[0];
+				copia1=descendiente(matrizAdyacencia, crom1[0]);
+				copia2=descendiente(matrizAdyacencia, crom2[0]);
 			}
 			else {
-				eleccion=crom2[0];
-				cromoturno=true;
-			}
-			int menorElegido=0;
-			int menor=99999999;
-			
-			for(int k=0; k<matrizAdyacencia.size(); k++) {
-				
-				HashSet<Integer> li = new HashSet<Integer>();
-				li=matrizAdyacencia.get(eleccion);
-				
-				for (Integer entry : li) {
-					if(matrizAdyacencia.get(entry).size() < menor) {
-						menor=matrizAdyacencia.get(entry).size();
-						menorElegido=entry;
-					}
-				}
-				copia1[k]=eleccion;
-				eleccion=menorElegido;
-				li.clear();
+				copia2=descendiente(matrizAdyacencia, crom2[0]);
+				copia1=descendiente(matrizAdyacencia, crom1[0]);			
 			}
 			
-			menor=999999999;
-			menorElegido=0;
-			if(cromoturno) eleccion=crom1[0];
-			else eleccion=crom2[0];
-			
-			for(int n=0; n<matrizAdyacencia.size(); n++) {
-				
-				HashSet<Integer> li = new HashSet<Integer>();
-				li=matrizAdyacencia.get(eleccion);
-				
-				for (Integer entry : li) {
-					if(matrizAdyacencia.get(entry).size() < menor) {
-						menor=matrizAdyacencia.get(entry).size();
-						menorElegido=entry;
-					}
-				}
-				copia2[n]=eleccion;
-				eleccion=menorElegido;
-			}
 			
 			nuevaPob.get(sel_cruce.get(i)).setCromosoma(copia1);
 			nuevaPob.get(sel_cruce.get(i+1)).setCromosoma(copia2);
@@ -111,6 +75,36 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 		        pos = i;	    
 		} 		
 		return pos;
+	}
+	
+	private Integer[] descendiente(Map<Integer, HashSet<Integer>> matriz, int select) {	
+		
+		int menorElegido=0;
+		int menor;
+		
+		Integer[] copia =new Integer[TamC];
+		boolean[] ocupado = new boolean[TamC];
+		
+		Arrays.fill(ocupado, false);
+		
+		for(int k=0; k<matriz.size(); k++) {
+			menor=Integer.MAX_VALUE;
+			HashSet<Integer> li = new HashSet<Integer>();
+			li=matriz.get(select);
+			
+			for (Integer entry : li) {
+				if(matriz.get(entry).size() < menor && !ocupado[entry]) {
+					menor=matriz.get(entry).size();
+					menorElegido=entry;
+				}
+			}
+			copia[k]=select;
+			ocupado[select]=true;
+			select=menorElegido;
+			li.clear();
+		}
+		
+		return copia;
 	}
 
 }
