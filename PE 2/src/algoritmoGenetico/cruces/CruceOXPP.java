@@ -20,7 +20,7 @@ public class CruceOXPP extends Cruce {
 	@Override
 	public List<Individuo> cruce(List<Individuo> pob) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
-		Object[] crom1,crom2, copia1, copia2;
+		Integer[] crom1,crom2, copia1, copia2;
 
 		for(int i=0; i<pob.size(); i++) {
 			nuevaPob.add(pob.get(i).copia());
@@ -39,7 +39,8 @@ public class CruceOXPP extends Cruce {
 		}
 		
 		boolean[] ocupado1,ocupado2;
-		List<Integer> x1,x2;
+		ocupado1= new boolean[TamC];
+		ocupado2= new boolean[TamC];
 		
 		for(int i=0; i<sel_cruce.size(); i+=2) {
 			HashSet<Integer> l= new HashSet<Integer>();
@@ -55,40 +56,35 @@ public class CruceOXPP extends Cruce {
 			copia1=new Integer[TamC];
 			copia2=new Integer[TamC];
 			
-			crom1=nuevaPob.get(sel_cruce.get(i)).getCromosoma();
-			crom2=nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
-			int pos;
+			crom1=(Integer[]) nuevaPob.get(sel_cruce.get(i)).getCromosoma();
+			crom2=(Integer[]) nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
+			
+			int pos=0;
 			
 			for (Integer entry :  l) {
 				copia1[entry]=crom2[entry];
 				copia2[entry]=crom1[entry];
-				ocupado1[entry]=true;
-				ocupado2[entry]=true;
-				pos=(entry+1)%TamC;
-			}
-			/*
-			for(int i=pos; ) {
-				
-			}*/
-			
-			int pos=(puntoCruce2+1)%TamC;
-			int aux=(puntoCruce2+1)%TamC;
-			
-			while(pos!=puntoCruce1) {
-				while(m1.containsKey(crom1[aux]))aux=(aux+1)%TamC;
-				copia1[pos]=crom1[aux];
-				m1.put((Integer) crom1[aux], true);
-				pos=(pos+1)%TamC;
+				ocupado1[crom1[entry]]=true;
+				ocupado2[crom2[entry]]=true;
+				pos=entry;
 			}
 			
-			pos=(puntoCruce2+1)%TamC;
-			aux=(puntoCruce2+1)%TamC;
+			int x=(pos+1)%TamC;
+			int y=(pos+1)%TamC;
+			while(x!=pos) {
+				while(ocupado1[crom1[y]])y=(y+1)%TamC;
+				copia1[x]=crom1[y];				
+				ocupado1[crom1[y]]=true;
+				x=(x+1)%TamC;
+			}
 			
-			while(pos!=puntoCruce1) {
-				while(m2.containsKey(crom2[aux]))aux=(aux+1)%TamC;
-				copia1[pos]=crom2[aux];
-				m2.put((Integer) crom2[aux], true);
-				pos=(pos+1)%TamC;
+			x=(pos+1)%TamC;
+			y=(pos+1)%TamC;
+			while(x!=pos) {
+				while(ocupado2[crom2[y]])y=(y+1)%TamC;
+				copia2[x]=crom2[y];				
+				ocupado2[crom2[y]]=true;
+				x=(x+1)%TamC;
 			}
 			
 			nuevaPob.get(sel_cruce.get(i)).setCromosoma(copia1);
