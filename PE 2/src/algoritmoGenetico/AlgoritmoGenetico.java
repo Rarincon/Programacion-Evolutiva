@@ -83,7 +83,7 @@ public class AlgoritmoGenetico {
 	private static String cifrado;
 	//private static Map<Object,Integer>conteo;
 	
-	private static final String _default= "Eqa ycwe aqqt aqcit v aqqtwecwb wecwb zn v aqqtwecwb wqcit wecwb aqqt?  Zr aqcit wecwb vii rep aqqt revr v aqqtwecwb wqcit, zn v aqqtwecwb wqcit wecwb aqqt.";
+	private static final String _default= "eqa ycwe aqqt aqcit v aqqtwecwb wecwb zn v aqqtwecwb wqcit wecwb aqqt?  zr aqcit wecwb vii rep aqqt revr v aqqtwecwb wqcit, zn v aqqtwecwb wqcit wecwb aqqt.";
 	private static final String[] NGRAMAS= {"Bigram","Monogram","Trigram"};
 	private static Map<String,Map<Object,Integer>>gramas;
 	
@@ -112,7 +112,7 @@ public class AlgoritmoGenetico {
 		//if(opcionI==0)maximizar=true;
 		//else maximizar=false;
 		
-		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(precision)); 
+		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(cifrado)); 
 		
 		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		
@@ -359,7 +359,8 @@ public class AlgoritmoGenetico {
 
 
 	public void setText(String text) {
-		cifrado=text;
+		if(!text.isEmpty())
+			cifrado=text;
 	}
 	
 }

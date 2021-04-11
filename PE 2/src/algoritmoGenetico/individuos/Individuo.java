@@ -1,9 +1,14 @@
 package algoritmoGenetico.individuos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public abstract class Individuo implements Comparable<Individuo> {
@@ -14,16 +19,28 @@ public abstract class Individuo implements Comparable<Individuo> {
 	protected Object[] cromosoma;
 	//protected int valorError;
 	protected Random r = new Random();
+	protected Map<String,Integer> abec;
 	
 	protected double aptitud;
 	protected double puntuacion;
 	protected double punt_acum;
+	protected Map<String,Long> MonoFrec,BiFrec,TriFrec;
 	
-	protected double precision;
+	//protected double precision;
+	protected String cifrado;
 	
-	public Individuo(double p) {
-		precision=p;
-		cromosoma=  new Integer[TAM];
+	public Individuo(String s) {
+		cifrado=s;
+		Gram();
+		carga();
+		cromosoma=  new Integer[TAM];		
+	}
+	
+	private void carga() {
+		abec = new HashMap<String,Integer>();
+		for(int i=0;i<TAM;i++) {
+			abec.put(abecedario[i], i);
+		}
 	}
 	
 	public void inicializa() {
@@ -37,6 +54,29 @@ public abstract class Individuo implements Comparable<Individuo> {
 			int codigoAscii = (int)Math.floor(Math.random()*(122 -97)+97);
 			cromosoma[i]=codigoAscii;
 	   }*/
+	}
+	
+	protected String Descifrar() {
+		String a="";
+		String p="";
+		for(int i=0;i<cifrado.length();i++) {
+			if(Character.isLetter(cifrado.charAt(i))){
+				p+=cifrado.charAt(i);
+				a+=abecedario[(int) cromosoma[abec.get(p)]];
+				p="";
+			}
+			else a+=cifrado.charAt(i);
+		}
+		return a;		
+	}
+
+	private void Gram() {
+		Stream<String> o= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)"));
+		Stream<String> p= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)"));
+		Stream<String> m= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?!| ).(?! |$)", "$0$0$0").split(" |(?<=\\G...)"));
+		MonoFrec=Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)")).filter(s -> s.length() == 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
+		BiFrec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)")).filter(s -> s.length() > 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
+		TriFrec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G...)")).filter(s -> s.length() > 2).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
 	}
 	
 	public void setFitness(double f) {
