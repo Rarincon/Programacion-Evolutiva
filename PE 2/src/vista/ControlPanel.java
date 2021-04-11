@@ -58,13 +58,14 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 
 	private Controller _ctrl;
 	private JButton run;
-	private JComboBox<String> Seleccion, Cruce,Individuo;
+	private JComboBox<String> Seleccion, Cruce,Mutacion;
 	private JCheckBox Elitismo;
-	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,precision,torneo,probCruce;//NGenotipos;
+	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,precision,probCruce;//NGenotipos;
 	
 	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
-	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos"};
-	private String[] cruce= {"Monopunto","Uniforme","Aritmetico"};
+	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
+	private String[] cruce= {"PMX","OX","OXPP","CX","ERX","CO"};
+	private String[] mutac= {"Inversion","Intercambio","Insercion","Heuristica"};
 	
 	private Map<String, String> datos;
 	
@@ -94,6 +95,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		precision.setPreferredSize(new Dimension(75,30));
 		Seleccion = ComboBox(seleccion);
 		Cruce= ComboBox(cruce);
+		Mutacion=ComboBox(mutac);
 		
 		//Individuo= DComboBox(loadData()); //CAMBIADO
 		//loadData();
@@ -125,8 +127,9 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		add(estructura("Rango", elitismo));
 		add(estructura("Selection", Seleccion));
 		add(estructura("Cruce", Cruce));
-		add(estructura("Probabilidad", probCruce));
-		add(estructura("Mutacion", mutacion));
+		add(estructura("Mutación", Mutacion));
+		add(estructura("Prob. Cruce", probCruce));
+		add(estructura("Prob. Mutación", mutacion));
 		add(estructura("Valor de Error", precision));	
 		//add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		//add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
@@ -209,6 +212,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		_ctrl.setSelection(Seleccion.getSelectedIndex());//getSelectedItem().toString());
 		//_ctrl.setTamTorneo((int) torneo.getValue());
 		_ctrl.setCruce(Cruce.getSelectedIndex()); //Devolver String o entero, comprobar	
+		_ctrl.setMutac(Mutacion.getSelectedIndex());
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
 		_ctrl.setPrecision((double) precision.getValue());

@@ -17,7 +17,7 @@ public class Controller {
 	private int tamTorneo;
 	private int Seleccion;
 	private int cruce;
-	private int funcion;//,NGen;
+	private int mutacion;//,NGen;
 	private Boolean Elitismo;
 	private double elitismoRango;
 	private double precision;
@@ -25,7 +25,7 @@ public class Controller {
 	
 	public Controller() {
 		this.AlGen=new AlgoritmoGenetico();
-		this.funcion=0;
+		this.mutacion=0;
 		this.cruce=0;
 		this.Seleccion=0;
 		this.tamPoblacion=100;
@@ -42,7 +42,7 @@ public class Controller {
 
 	public void run() {
 		reset();
-		AlGen.init(funcion,Seleccion, cruce,0); //el 0 es la opcion de mutacion
+		AlGen.init(Seleccion, cruce,mutacion); //el 0 es la opcion de mutacion
 		AlGen.evaluar();
 		while(this.GenActual < this.maxGeneraciones) {
 			update();
@@ -103,10 +103,13 @@ public class Controller {
 	}
 	public void setCruce(int selectedIndex) {
 		cruce= selectedIndex;	
-	}	
-	public void setIndi(int selectedIndex) {
-		funcion= selectedIndex;	
 	}
+	public void setMutac(int selectedIndex) {
+		mutacion= selectedIndex;	
+	}
+	/*public void setIndi(int selectedIndex) {
+		funcion= selectedIndex;	
+	}*/
 	public void setElitism(boolean b) {
 		Elitismo=b;
 	}

@@ -16,14 +16,25 @@ import javax.swing.SpinnerNumberModel;
 
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceAritmetico;
+import algoritmoGenetico.cruces.CruceCO;
+import algoritmoGenetico.cruces.CruceCX;
+import algoritmoGenetico.cruces.CruceERX;
 import algoritmoGenetico.cruces.CruceMonopunto;
+import algoritmoGenetico.cruces.CruceOX;
+import algoritmoGenetico.cruces.CruceOXPP;
+import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoCifrado;
 import algoritmoGenetico.mutacion.Basica;
+import algoritmoGenetico.mutacion.Heuristica;
+import algoritmoGenetico.mutacion.Insercion;
+import algoritmoGenetico.mutacion.Intercambio;
+import algoritmoGenetico.mutacion.Inversion;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.mutacion.Uniforme;
 import algoritmoGenetico.seleccion.Estocastico;
+import algoritmoGenetico.seleccion.Ranking;
 import algoritmoGenetico.seleccion.Restos;
 import algoritmoGenetico.seleccion.Ruleta;
 import algoritmoGenetico.seleccion.Seleccion;
@@ -41,7 +52,7 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	static private final double defaultPrec = 0.001;
 	static private final int defaultTamTorn = 5;
-	static private final int defaultNGen = 5;
+	//static private final int defaultNGen = 5;
 	
 	
 	private List<Individuo> poblacion;
@@ -55,7 +66,7 @@ public class AlgoritmoGenetico {
 	private double precision;
 	private double eliteRango;
 	private boolean maximizar;
-	private int NGen;
+	//private int NGen;
 	
 	private double MejorF;
 	private double PeorF;
@@ -86,7 +97,7 @@ public class AlgoritmoGenetico {
 		precision=defaultPrec;
 		eliteRango=defaultEliteRate;
 		tamTorneo=defaultTamTorn;
-		NGen=defaultNGen;
+		//NGen=defaultNGen;
 		maximizar=true;
 		
 		//conteo= new HashMap<Object, Integer>();
@@ -97,34 +108,45 @@ public class AlgoritmoGenetico {
 	}
 
 
-	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
-		if(opcionI==0)maximizar=true;
-		else maximizar=false;
+	public void init(int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
+		//if(opcionI==0)maximizar=true;
+		//else maximizar=false;
 		
 		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(precision)); 
 		
 		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		
-		if(opcionS==0) selMod= (Seleccion) new Ruleta();
-		else if(opcionS==1) selMod= (Seleccion) new Estocastico();
-		else if(opcionS==2 || opcionS==3) {
+		if(opcionS==2 || opcionS==3) {
 			JSpinner N = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
 			tamTorneo = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			if(opcionS==2)
-				selMod= (Seleccion) new TorneoProbabilistico(tamTorneo);
-			else
-				selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
 		}
-		//else if(opcionS==3) selMod= (Seleccion) new TorneoDeterministico(tamTorneo);
-		else if(opcionS==4) selMod= (Seleccion) new Truncamiento(maximizar);
-		else selMod= (Seleccion) new Restos();
 		
-		if(opcionC==2 && opcionI == 4) crucMod= new CruceAritmetico(probCruce);
+		if(opcionS==0) selMod= new Ruleta();
+		else if(opcionS==1) selMod= new Estocastico();
+		else if(opcionS==2 )selMod= new TorneoProbabilistico(tamTorneo);
+		else if(opcionS==3) selMod= new TorneoDeterministico(tamTorneo);
+		else if(opcionS==4) selMod= new Truncamiento(maximizar);
+		else if(opcionS==5) selMod= new Restos();
+		else selMod= new Ranking();
+		
+		if(opcionC==0) crucMod= new CrucePMX(probCruce);
+		else if(opcionC==1)crucMod= new CruceOX(probCruce);
+		else if(opcionC==2)crucMod= new CruceOXPP(probCruce);
+		else if(opcionC==3)crucMod= new CruceCX(probCruce);
+		else if(opcionC==4)crucMod= new CruceERX(probCruce);
+		else crucMod= new CruceCO(probCruce);
+		
+		if(opcionM==0)mutMod= new Inversion(probMut);
+		else if(opcionM==1)mutMod= new Intercambio(probMut);
+		else if(opcionM==1)mutMod= new Insercion(probMut);
+		else mutMod= new Heuristica(probMut);
+		
+		/*if(opcionC==2 && opcionI == 4) crucMod= new CruceAritmetico(probCruce);
 		else if(opcionC==0) crucMod= new CruceMonopunto(probCruce);
 		else crucMod= new CruceUniforme(probCruce);
 		
 		if(opcionI==4)mutMod= new Uniforme(probMut);
-		else mutMod= new Basica(probMut);
+		else mutMod= new Basica(probMut);*/
 		
 		MejorF= Double.NEGATIVE_INFINITY;
 		PeorF = Double.POSITIVE_INFINITY;
@@ -288,12 +310,12 @@ public class AlgoritmoGenetico {
 	}
 
 	//public void setNGen(int value) {		NGen=value;		}
-	public void setProbMut(double p) {		probMut=p;	}
-	public void setProbCruc(double p) {		probCruce=p;	}
-	public void setTamTor(int t) {		tamTorneo=t;			}
-	public void setPrec(double p) {		precision=p;		}
-	public void setEliteR(double e) {		eliteRango=e;			}
-	public void setTamPob(int value) { TamPob=value; }
+	public void setProbMut(double p)	{		probMut=p;		}
+	public void setProbCruc(double p)	{		probCruce=p;	}
+	public void setTamTor(int t)		{		tamTorneo=t;	}
+	public void setPrec(double p) 		{		precision=p;	}
+	public void setEliteR(double e) 	{		eliteRango=e;	}
+	public void setTamPob(int value) 	{ 		TamPob=value;	}
 	
 	public static void loadDataFile(Object[] objects) {
 		try {
