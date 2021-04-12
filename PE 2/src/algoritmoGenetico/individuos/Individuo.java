@@ -171,7 +171,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 		this.cromosoma[pos]=valor;
 	}
 	
-	public abstract double evaluar();
+	public abstract double evaluar(Map<String,Map<Object,Integer>> map, Map<String, Long> total);
 	public abstract Individuo copia();
 	
 	public int compareTo(Individuo arg0) {

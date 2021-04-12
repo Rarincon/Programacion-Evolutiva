@@ -82,6 +82,7 @@ public class AlgoritmoGenetico {
 	private static final String _default= "eqa ycwe aqqt aqcit v aqqtwecwb wecwb zn v aqqtwecwb wqcit wecwb aqqt?  zr aqcit wecwb vii rep aqqt revr v aqqtwecwb wqcit, zn v aqqtwecwb wqcit wecwb aqqt.";
 	private static final String[] NGRAMAS= {"Bigram","Monogram","Trigram"};
 	private static Map<String,Map<Object,Integer>>gramas;
+	private static Map<String, Long> total;
 	
 	public AlgoritmoGenetico() {
 		
@@ -99,6 +100,7 @@ public class AlgoritmoGenetico {
 		//conteo= new HashMap<Object, Integer>();
 		cifrado=_default;
 		gramas= new HashMap<String,Map<Object,Integer>>();
+		total= new HashMap<String,Long>();
 		reset();
 		//loadMapa();
 	}
@@ -114,7 +116,8 @@ public class AlgoritmoGenetico {
 		
 		if(opcionS==2 || opcionS==3) {
 			JSpinner N = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
-			tamTorneo = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			int n = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			tamTorneo =  (n == JOptionPane.OK_OPTION) ? (int) N.getValue() : 5;
 		}
 		
 		if(opcionS==0) selMod= new Ruleta();
@@ -181,7 +184,7 @@ public class AlgoritmoGenetico {
 		int pos_mejor=0,pos_peor=0;
 
 		for(int i=0;i<poblacion.size();i++) {
-			poblacion.get(i).setFitness(poblacion.get(i).evaluar());
+			poblacion.get(i).setFitness(poblacion.get(i).evaluar(gramas,total));
 			
 			TotalFitness+=poblacion.get(i).getFitness();
 			
@@ -317,19 +320,19 @@ public class AlgoritmoGenetico {
 		try {
 			String a;
 			int b;
-			long total;
+			long tot;
 			Map<Object,Integer> map;
 			for(int j=0;j<objects.length;j++) {		
 				Scanner s = new Scanner(new File(objects[j].toString()));
 				map = new HashMap<Object,Integer>();
-				total=0;
+				tot=0;
 				while(s.hasNext()) {
 					a=s.next().toLowerCase();
 					b=s.nextInt();
-					total+=b;
+					tot+=b;
 					map.put(a,b);				
 				}
-				map.put(NGRAMAS[j]+"total", (int) total);
+				total.put(NGRAMAS[j], tot);
 				gramas.put(NGRAMAS[j],map);
 				
 				/*if(gramas.containsKey(NGRAMAS[j])) {
