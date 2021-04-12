@@ -22,7 +22,7 @@ public class Inversion extends Mutacion {
 			nuevaPob.add(p.get(i).copia());
 			prob=Math.random();
 			if(prob < probMutacion) {
-				crom=(Integer[]) nuevaPob.get(i).getCromosoma();
+				crom= nuevaPob.get(i).getCromosoma();
 				pos1=(int) (Math.random()*tam);
 				do {
 					pos2 = (int) (Math.random()*(tam));

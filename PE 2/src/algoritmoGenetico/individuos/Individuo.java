@@ -16,7 +16,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 	static private final int TAM=26;
 	static private final String[] abecedario={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
 	
-	protected Object[] cromosoma;
+	protected Integer[] cromosoma;
 	//protected int valorError;
 	protected Random r = new Random();
 	protected Map<String,Integer> abec;
@@ -24,14 +24,15 @@ public abstract class Individuo implements Comparable<Individuo> {
 	protected double aptitud;
 	protected double puntuacion;
 	protected double punt_acum;
-	protected Map<String,Long> MonoFrec,BiFrec,TriFrec;
+	protected Map<String,Long> Mono2Frec,Bi2Frec;
+	protected Map<String,Integer> MonoFrec,BiFrec,TriFrec;
 	
 	//protected double precision;
-	protected String cifrado;
+	protected String cifrado,descifrado;
 	
 	public Individuo(String s) {
 		cifrado=s;
-		Gram();
+		//Gram();
 		carga();
 		cromosoma=  new Integer[TAM];		
 	}
@@ -70,13 +71,62 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return a;		
 	}
 
-	private void Gram() {
+	/*private void Gram() {
 		Stream<String> o= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)"));
 		Stream<String> p= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)"));
 		Stream<String> m= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?!| ).(?! |$)", "$0$0$0").split(" |(?<=\\G...)"));
-		MonoFrec=Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)")).filter(s -> s.length() == 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
-		BiFrec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)")).filter(s -> s.length() > 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
-		TriFrec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G...)")).filter(s -> s.length() > 2).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
+		Mono2Frec=Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)")).filter(s -> s.length() == 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
+		Bi2Frec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)")).filter(s -> s.length() > 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
+		//TriFrec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0$0").split(" |(?<=\\G...)")).filter(s -> s.length() > 2).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
+		NGram(cifrado);
+	}*/
+	
+	protected void NGram(String text) {
+		String trio="",mono="",bi="";
+		
+		MonoFrec= new HashMap<String,Integer>();
+		BiFrec= new HashMap<String,Integer>();
+		TriFrec= new HashMap<String,Integer>();
+		
+		for(int i=0;i<text.length();i++) {
+			if(!Character.isWhitespace(text.charAt(i))) {
+				mono+=text.charAt(i);
+				bi+=text.charAt(i);
+				trio+=text.charAt(i);
+				if(mono.length()==1) {
+					if(!MonoFrec.containsKey(mono)) {
+						MonoFrec.put(mono, 1);
+					}
+					else {
+						MonoFrec.put(mono, MonoFrec.get(mono)+1);
+					}
+					mono="";
+				}
+				if(bi.length()>1) {
+					if(!BiFrec.containsKey(bi)) {
+						BiFrec.put(bi, 1);
+					}
+					else {
+						BiFrec.put(bi, BiFrec.get(bi)+1);
+					}
+					bi = bi.substring(1, bi.length());
+				}
+				if(trio.length()>2) {
+					if(!TriFrec.containsKey(trio)) {
+						TriFrec.put(trio, 1);
+					}
+					else {
+						TriFrec.put(trio, TriFrec.get(trio)+1);
+					}
+					trio = trio.substring(1, trio.length());
+				}
+			}
+			else {
+				mono="";
+				bi="";
+				trio="";
+			}
+		}
 	}
 	
 	public void setFitness(double f) {
@@ -107,11 +157,11 @@ public abstract class Individuo implements Comparable<Individuo> {
 		return cromosoma.length;
 	}
 
-	public Object[] getCromosoma() {
+	public Integer[] getCromosoma() {
 		return cromosoma;
 	}
 		
-	public void setCromosoma(Object[] crom) {
+	public void setCromosoma(Integer[] crom) {
 		for(int i=0; i<cromosoma.length;i++) {
 			this.cromosoma[i]=(Integer) crom[i];
 		}

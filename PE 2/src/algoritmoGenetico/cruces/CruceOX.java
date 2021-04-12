@@ -51,8 +51,8 @@ public class CruceOX extends Cruce{ //REPASAR POR SI ACASO
 			copia1=new Integer[TamC];
 			copia2=new Integer[TamC];
 			
-			crom1=(Integer[]) nuevaPob.get(sel_cruce.get(i)).getCromosoma();
-			crom2=(Integer[]) nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
+			crom1= nuevaPob.get(sel_cruce.get(i)).getCromosoma();
+			crom2= nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
 			
 			for(int j=puntoCruce1;j<=puntoCruce2;j++) {
 				copia1[j]=crom2[j];

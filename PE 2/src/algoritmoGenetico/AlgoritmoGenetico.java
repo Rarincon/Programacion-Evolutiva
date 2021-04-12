@@ -15,15 +15,12 @@ import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 
 import algoritmoGenetico.cruces.Cruce;
-import algoritmoGenetico.cruces.CruceAritmetico;
 import algoritmoGenetico.cruces.CruceCO;
 import algoritmoGenetico.cruces.CruceCX;
 import algoritmoGenetico.cruces.CruceERX;
-import algoritmoGenetico.cruces.CruceMonopunto;
 import algoritmoGenetico.cruces.CruceOX;
 import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
-import algoritmoGenetico.cruces.CruceUniforme;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoCifrado;
 import algoritmoGenetico.mutacion.Basica;
@@ -32,7 +29,6 @@ import algoritmoGenetico.mutacion.Insercion;
 import algoritmoGenetico.mutacion.Intercambio;
 import algoritmoGenetico.mutacion.Inversion;
 import algoritmoGenetico.mutacion.Mutacion;
-import algoritmoGenetico.mutacion.Uniforme;
 import algoritmoGenetico.seleccion.Estocastico;
 import algoritmoGenetico.seleccion.Ranking;
 import algoritmoGenetico.seleccion.Restos;
@@ -281,7 +277,7 @@ public class AlgoritmoGenetico {
 		return pob;
 	}
 
-	public Map<String, Object> getResults() {
+	public Map<String, Object> getResults() { //CAMBIAR ATRIBUTOS DEL MAP, el OBJECT
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Media", Media);
 		if(maximizar) {

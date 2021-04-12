@@ -27,7 +27,7 @@ public class Heuristica extends Mutacion {
 			prob=Math.random();
 			if(prob < probMutacion) {
 				mapa= new HashMap<Integer,Integer>();
-				crom=(Integer[]) nuevaPob.get(i).getCromosoma();	
+				crom= nuevaPob.get(i).getCromosoma();	
 				while(!mapa.containsKey(pos))
 				do {
 					pos= (int) (Math.random()*tam);

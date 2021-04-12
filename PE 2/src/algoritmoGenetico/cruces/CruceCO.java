@@ -25,8 +25,8 @@ public class CruceCO extends Cruce {
 			copia1=new Integer[TamC];
 			copia2=new Integer[TamC];
 			
-			crom1=(Integer[]) nuevaPob.get(sel_cruce.get(i)).getCromosoma();
-			crom2=(Integer[]) nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
+			crom1= nuevaPob.get(sel_cruce.get(i)).getCromosoma();
+			crom2= nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
 			
 			copia1=getCOcrom(crom1);
 			copia2=getCOcrom(crom2);

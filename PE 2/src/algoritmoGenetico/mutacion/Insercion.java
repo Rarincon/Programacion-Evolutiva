@@ -24,7 +24,7 @@ public class Insercion  extends Mutacion{
 			
 			prob=Math.random();
 			if(prob < probMutacion) {
-				crom=(Integer[]) nuevaPob.get(i).getCromosoma();
+				crom= nuevaPob.get(i).getCromosoma();
 				pos1=(int) (Math.random()*tam);
 				do {
 					pos2 = (int) (Math.random()*tam);

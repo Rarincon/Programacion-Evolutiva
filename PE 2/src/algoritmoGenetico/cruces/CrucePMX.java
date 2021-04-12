@@ -16,7 +16,7 @@ public class CrucePMX extends Cruce{ //REPASAR POR SI HAY ALGUN ERROR
 	@Override
 	public List<Individuo> cruce(List<Individuo> pob) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
-		Object[] crom1,crom2, copia1, copia2;
+		Integer[] crom1,crom2, copia1, copia2;
 
 		for(int i=0; i<pob.size(); i++) {
 			nuevaPob.add(pob.get(i).copia());
