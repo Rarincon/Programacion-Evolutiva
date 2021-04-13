@@ -148,11 +148,11 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		add(estructura("Generaciones", maxGeneracion));
 		add(estructura("Elitismo", Elitismo));
 		add(estructura("Rango", elitismo));
-		add(estructura("Selection", Seleccion));
+		add(estructura("Seleccion", Seleccion));
 		add(estructura("Cruce", Cruce));
-		add(estructura("Mutación", Mutacion));
+		add(estructura("Mutacion", Mutacion));
 		add(estructura("Prob. Cruce", probCruce));
-		add(estructura("Prob. Mutación", mutacion));
+		add(estructura("Prob. Mutacion", mutacion));
 		add(estructura("Valor de Error", precision));	
 		//add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		//add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
