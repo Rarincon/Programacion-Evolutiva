@@ -44,9 +44,13 @@ public class Controller {
 		reset();
 		AlGen.init(Seleccion, cruce,mutacion); //el 0 es la opcion de mutacion
 		AlGen.evaluar();
-		while(this.GenActual < this.maxGeneraciones) {
+		/*while(this.GenActual < this.maxGeneraciones) {
 			update();
-		}
+		}*/
+	}
+	
+	public void run_sim() {
+		update();
 	}
 	
 	public void update() {

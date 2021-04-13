@@ -2,10 +2,13 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -16,10 +19,11 @@ import javax.swing.border.TitledBorder;
 import algoritmoGenetico.AlgoritmoGenObserver;
 import controller.Controller;
 
-public class ReadPanel extends JPanel implements AlgoritmoGenObserver{
+public class ReadPanel extends JPanel implements AlgoritmoGenObserver, ActionListener{
 
 	private Controller _ctrl;
 	private JTextArea text;
+	//private JLabel text;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
 	
 	public ReadPanel(Controller c) {
@@ -41,12 +45,24 @@ public class ReadPanel extends JPanel implements AlgoritmoGenObserver{
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		text = new JTextArea(stats.get("descifrado").toString());		
+		String s =  (String) stats.get("Descifrado");
+		text.setText(s);
+		/*try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 	@Override
 	public void reset() {
-		text = new JTextArea();		
+		text.setText("");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

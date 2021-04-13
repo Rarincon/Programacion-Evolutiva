@@ -64,6 +64,7 @@ public class AlgoritmoGenetico {
 	private boolean maximizar;
 	//private int NGen;
 	
+	
 	private double MejorF;
 	private double PeorF;
 	private double MejorAF;
@@ -76,6 +77,7 @@ public class AlgoritmoGenetico {
 	
 	private int GenActual;
 	
+	private String descifrado,descifradoM,ConversionM,Conversion;
 	private static String cifrado;
 	//private static Map<Object,Integer>conteo;
 	
@@ -99,6 +101,7 @@ public class AlgoritmoGenetico {
 		
 		//conteo= new HashMap<Object, Integer>();
 		cifrado=_default;
+		descifradoM=descifrado="";
 		gramas= new HashMap<String,Map<Object,Integer>>();
 		total= new HashMap<String,Long>();
 		reset();
@@ -108,7 +111,7 @@ public class AlgoritmoGenetico {
 
 	public void init(int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
 		//if(opcionI==0)maximizar=true;
-		//else maximizar=false;
+		maximizar=false;
 		
 		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(cifrado)); 
 		
@@ -191,11 +194,15 @@ public class AlgoritmoGenetico {
 			if(poblacion.get(i).getFitness()>MejorAF) {
 				pos_mejor=i;
 				MejorAF=poblacion.get(i).getFitness();
+				descifrado=poblacion.get(i).getDescifrado();
+				Conversion=poblacion.get(i).getConversion();
 				//MejorVAF=poblacion.get(i).getFenotipos();
 			}
 			if(poblacion.get(i).getFitness()<PeorAF) {
 				pos_peor=i;
 				PeorAF=poblacion.get(i).getFitness();
+				descifrado=poblacion.get(i).getDescifrado();
+				Conversion=poblacion.get(i).getConversion();
 				//PeorVAF=poblacion.get(i).getFenotipos();
 			}
 		}
@@ -220,10 +227,13 @@ public class AlgoritmoGenetico {
 		
 		if(MejorAF > MejorF) {//Faltan los valores del rango
 			MejorF=MejorAF;
+			descifradoM=descifrado;
+			ConversionM=Conversion;
 			//MejorVF=poblacion.get(pos_mejor).getFenotipos();
 		}
 		if(PeorAF < PeorF) {
 			PeorF=PeorAF;
+			descifradoM=descifrado;
 			//PeorVF=poblacion.get(pos_peor).getFenotipos();
 		}
 	}
@@ -283,17 +293,19 @@ public class AlgoritmoGenetico {
 	public Map<String, Object> getResults() { //CAMBIAR ATRIBUTOS DEL MAP, el OBJECT
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Media", Media);
+		map.put("Descifrado", descifradoM);
+		map.put("Conversion", ConversionM);
 		if(maximizar) {
-			map.put("Objetivo", MejorF);
-			map.put("Objetivo Genotipos",MejorVF);
+			map.put("fitness", MejorF);
+			//map.put("Objetivo Genotipos",MejorVF);
 			map.put("Mejor Actual", MejorAF);
-			map.put("Mejor Actual Genotipos",MejorVAF);
+			//map.put("Mejor Actual Genotipos",MejorVAF);
 		}
 		else {
-			map.put("Objetivo", PeorF);
-			map.put("Objetivo Genotipos",PeorVF);
+			map.put("fitness", PeorF);
+			//map.put("Objetivo Genotipos",PeorVF);
 			map.put("Mejor Actual", PeorAF);
-			map.put("Mejor Actual Genotipos",PeorVAF);
+			//map.put("Mejor Actual Genotipos",PeorVAF);
 		}
 		return map;
 	}

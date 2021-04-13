@@ -111,9 +111,32 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		    	carga();
 				_ctrl.reset();
 				_ctrl.run();
+				run.setEnabled(false);
+				run_sim((int) maxGeneracion.getValue());
 		    }
 			}); 
 		run.setPreferredSize(new Dimension(75,30));		
+	}
+	
+	private void run_sim(int n) {
+		if (n > 0 ){
+			try {
+				Thread.sleep(300);
+				_ctrl.run_sim(); 
+			} catch (Exception e) {
+				System.out.print(e);
+				return;
+			}
+			
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					run_sim(n - 1);
+				}
+			});
+		}
+		else
+			run.setEnabled(true);
 	}
 	
 	private void createControl() {

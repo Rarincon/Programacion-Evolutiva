@@ -8,7 +8,7 @@ import java.util.Map;
 
 import algoritmoGenetico.individuos.Individuo;
 
-public class CruceOX extends Cruce{ //REPASAR POR SI ACASO
+public class CruceOX extends Cruce{ //Necesario Repasar, haces unas copias mal y coge solo un elemento para todo
 
 	public CruceOX(double p) {
 		super(p);

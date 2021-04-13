@@ -75,7 +75,7 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		plot.setAxisLabel(0, " Generacion: " + Integer.toString(generation));
 		Generaciones.add((double) generation);
 		Media.add((Double) stats.get("Media"));
-		Objetivo.add((Double) stats.get("Objetivo"));
+		Objetivo.add((Double) stats.get("fitness"));
 		MejorActual.add((Double) stats.get("Mejor Actual"));
 
 		paint();

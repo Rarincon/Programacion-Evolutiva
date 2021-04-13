@@ -39,7 +39,7 @@ public class WritePanel extends JPanel implements AlgoritmoGenObserver {
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
-		
+
 	}
 
 	@Override

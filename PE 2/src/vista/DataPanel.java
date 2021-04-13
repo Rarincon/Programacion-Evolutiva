@@ -62,7 +62,7 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	static private final int TAM= 26;
 	
 	private Controller _ctrl;
-	private int fitness;
+	private double fitness;
 	private String descifrado;
 	
 	public DataPanel(Controller c) {
@@ -130,8 +130,8 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
 		
-		fitness=(int) stats.get("fitness");
-		descifrado=(String) stats.get("descifrado");
+		fitness= (double) stats.get("fitness");
+		descifrado=(String) stats.get("Conversion");
 		String aux= "Fitness: "+ String.valueOf(fitness);
 		fit.setText(aux);
 		descif.setText(descifrado);

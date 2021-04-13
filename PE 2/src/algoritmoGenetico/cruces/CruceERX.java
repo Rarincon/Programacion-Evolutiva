@@ -93,7 +93,7 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 			li=matriz.get(select);
 			
 			for (Integer entry : li) {
-				if(matriz.get(entry).size() < menor && !ocupado[entry]) {
+				if(matriz.get(entry).size() < menor && !ocupado[entry]) { //DA NULL POINTER EN UN PUNTO
 					menor=matriz.get(entry).size();
 					menorElegido=entry;
 				}

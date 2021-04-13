@@ -34,7 +34,7 @@ public abstract class Individuo implements Comparable<Individuo> {
 		cifrado=s;
 		//Gram();
 		carga();
-		cromosoma=  new Integer[TAM];		
+		cromosoma =  new Integer[TAM];		
 	}
 	
 	private void carga() {
@@ -159,6 +159,17 @@ public abstract class Individuo implements Comparable<Individuo> {
 
 	public Integer[] getCromosoma() {
 		return cromosoma;
+	}
+	
+	public String getDescifrado() {
+		return descifrado;
+	}
+	
+	public String getConversion() {
+		String s="";
+		for(int i=0;i<TAM;i++)
+			s+= abecedario[cromosoma[i]]+" ";
+		return s;
 	}
 		
 	public void setCromosoma(Integer[] crom) {

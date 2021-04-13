@@ -27,8 +27,10 @@ public class IndividuoCifrado extends Individuo{
 				a *=100;
 				b = total.get("Monogram");
 				a = a/b;
-				double x= (Math.log(a)/Math.log(2)); 
-				fitMon+= entry.getValue() * x;
+				if(a>0.1) {
+					double x= (Math.log(a)/Math.log(2)); 
+					fitMon+= entry.getValue() * x;
+				}
 			}
 			
 		}
@@ -39,8 +41,10 @@ public class IndividuoCifrado extends Individuo{
 				a *=100;
 				b = total.get("Bigram");
 				a = a/b;
-				double x= (Math.log(a)/Math.log(2)); 
-				fitBi+= entry.getValue() * x;
+				if(a>0.1) {
+					double x= (Math.log(a)/Math.log(2)); 
+					fitBi+= entry.getValue() * x;
+				}
 			}			
 		}
 		aptitud= fitMon+fitBi+fitTri;

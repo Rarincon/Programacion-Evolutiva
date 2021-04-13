@@ -13,7 +13,7 @@ public class CruceOXPP extends Cruce {
 	
 	static private final int n=5;
 
-	public CruceOXPP(double p) {
+	public CruceOXPP(double p) { //Bucle infinito en algun lado, no arranca, revisar
 		super(p);
 	}
 
