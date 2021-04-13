@@ -119,7 +119,7 @@ public class AlgoritmoGenetico {
 		
 		if(opcionS==2 || opcionS==3) {
 			JSpinner N = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
-			int n = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			int n = JOptionPane.showConfirmDialog(null, N, "Tamano del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			tamTorneo =  (n == JOptionPane.OK_OPTION) ? (int) N.getValue() : 5;
 		}
 		

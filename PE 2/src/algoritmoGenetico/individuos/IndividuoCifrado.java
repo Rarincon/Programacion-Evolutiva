@@ -19,7 +19,8 @@ public class IndividuoCifrado extends Individuo{
 		HashMap<Object,Integer>B=(HashMap<Object, Integer>) map.get("Bigram");
 		double fitMon=0,fitBi=0,fitTri=0;
 		String key;
-		double a,b; 
+		double a,b;
+		/*
 		for(Entry<String, Integer> entry : MonoFrec.entrySet()) {
 			key= entry.getKey();
 			if(M.containsKey(key)) {
@@ -47,7 +48,23 @@ public class IndividuoCifrado extends Individuo{
 				}
 			}			
 		}
-		aptitud= fitMon+fitBi+fitTri;
+		*/
+		double F=0;
+		double valu=0;
+		for(Entry<String, Integer> entry : MonoFrec.entrySet()) {
+			key= entry.getKey(); //Frecuencia real de aparicion
+			if(M.containsKey(key)) {
+				a = M.get(key);  //Frecuencia esperada de aparicion
+				a *=100;
+				b = total.get("Bigram");
+				a = a/b;
+				valu=entry.getValue()*100;
+				valu = valu / MonoFrec.get("total") ;
+				F+=(Math.pow((valu-a), 2));
+			}
+		}
+		//aptitud= fitMon+fitBi+fitTri;
+		aptitud=F;
 		
 		//Para cada ngram en Textodescifrado
 		/*{

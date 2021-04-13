@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -127,6 +128,11 @@ public abstract class Individuo implements Comparable<Individuo> {
 				trio="";
 			}
 		}
+		int total=0;
+		for(Entry<String, Integer> entry : MonoFrec.entrySet()) {
+			total+= entry.getValue();
+		}
+		MonoFrec.put("total", total);
 	}
 	
 	public void setFitness(double f) {

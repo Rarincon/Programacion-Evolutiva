@@ -47,11 +47,6 @@ public class ReadPanel extends JPanel implements AlgoritmoGenObserver, ActionLis
 	public void update(int generation, Map<String, Object> stats) {
 		String s =  (String) stats.get("Descifrado");
 		text.setText(s);
-		/*try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 	@Override
