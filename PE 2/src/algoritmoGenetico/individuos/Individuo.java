@@ -133,6 +133,16 @@ public abstract class Individuo implements Comparable<Individuo> {
 			total+= entry.getValue();
 		}
 		MonoFrec.put("total", total);
+		total=0;
+		for(Entry<String, Integer> entry : BiFrec.entrySet()) {
+			total+= entry.getValue();
+		}
+		BiFrec.put("total", total);
+		total=0;
+		for(Entry<String, Integer> entry : TriFrec.entrySet()) {
+			total+= entry.getValue();
+		}
+		TriFrec.put("total", total);
 	}
 	
 	public void setFitness(double f) {

@@ -119,14 +119,14 @@ public class AlgoritmoGenetico {
 		
 		if(opcionS==2 || opcionS==3) {
 			JSpinner N = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
-			int n = JOptionPane.showConfirmDialog(null, N, "Tamano del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			int n = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			tamTorneo =  (n == JOptionPane.OK_OPTION) ? (int) N.getValue() : 5;
 		}
 		
 		if(opcionS==0) selMod= new Ruleta();
 		else if(opcionS==1) selMod= new Estocastico();
-		else if(opcionS==2 )selMod= new TorneoProbabilistico(tamTorneo);
-		else if(opcionS==3) selMod= new TorneoDeterministico(tamTorneo);
+		else if(opcionS==2 )selMod= new TorneoProbabilistico(tamTorneo,maximizar);
+		else if(opcionS==3) selMod= new TorneoDeterministico(tamTorneo,maximizar);
 		else if(opcionS==4) selMod= new Truncamiento(maximizar);
 		else if(opcionS==5) selMod= new Restos();
 		else selMod= new Ranking();
@@ -234,6 +234,7 @@ public class AlgoritmoGenetico {
 		if(PeorAF < PeorF) {
 			PeorF=PeorAF;
 			descifradoM=descifrado;
+			ConversionM=Conversion;
 			//PeorVF=poblacion.get(pos_peor).getFenotipos();
 		}
 	}
