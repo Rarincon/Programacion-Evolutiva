@@ -78,7 +78,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		
 	private void InitGui() {
 
-		poblacion = new JSpinner(new SpinnerNumberModel(100,10,500,1));
+		poblacion = new JSpinner(new SpinnerNumberModel(100,15,500,1));
 		poblacion.setPreferredSize(new Dimension(75,30));
 		maxGeneracion = new JSpinner(new SpinnerNumberModel(100,10,500,10));
 		maxGeneracion.setPreferredSize(new Dimension(75,30));

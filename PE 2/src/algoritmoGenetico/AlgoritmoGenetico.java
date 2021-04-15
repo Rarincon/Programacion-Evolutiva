@@ -48,7 +48,7 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	//static private final double defaultPrec = 0.001;
 	static private final int defaultTamTorn = 5;
-	static private final int maxreinicio = 5;
+	static private final int maxreinicio = 7;
 	//static private final int defaultNGen = 5;
 	
 	
@@ -281,7 +281,11 @@ public class AlgoritmoGenetico {
 		for (int i = 0; i < tam; i++) {
 			elite.add(pob.get(i).copia());
 		}
-		return elite;
+		Individuo x= elite.get(0);
+		List<Individuo> mutado =mutacion(elite);
+		mutado.remove(mutado.size()-1);
+		mutado.add(x);
+		return mutado;
 	}
 	
 	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
