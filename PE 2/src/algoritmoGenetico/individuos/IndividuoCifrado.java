@@ -87,7 +87,7 @@ public class IndividuoCifrado extends Individuo{
 		}
 		b = total.get("Trigram");
 		t = TriFrec.get("total") ;
-		fitBi*=0.25; //0.3
+		fitBi*=0.3;//25; //0.3
 		for(Entry<String, Integer> entry : TriFrec.entrySet()) {
 			key= entry.getKey(); //Frecuencia real de aparicion
 			if(T.containsKey(key)) {
@@ -104,7 +104,8 @@ public class IndividuoCifrado extends Individuo{
 			}
 		}
 		fitTri*=0.7;
-		return fitMon+fitBi+fitTri;
+		//return fitMon+fitBi+fitTri;
+		return fitBi+fitTri;
 		//aptitud=F;
 		
 		//Para cada ngram en Textodescifrado

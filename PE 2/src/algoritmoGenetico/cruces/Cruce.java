@@ -1,6 +1,7 @@
 package algoritmoGenetico.cruces;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import algoritmoGenetico.individuos.Individuo;
@@ -27,7 +28,8 @@ public abstract class Cruce {
 		}
 		if((sel_cruce.size()%2)==1) {
 			sel_cruce.remove(sel_cruce.size()-1); 
-		}		
+		}
+		Collections.shuffle(sel_cruce);
 		return cruce(pob);
 	}
 	public abstract List<Individuo> cruce(List<Individuo> l);

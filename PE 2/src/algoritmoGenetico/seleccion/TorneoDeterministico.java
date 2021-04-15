@@ -10,11 +10,9 @@ import utils.Sorted;
 public class TorneoDeterministico implements Seleccion{
 
 	private int tamTorneo;
-	private boolean maximizar;
 	
-	public TorneoDeterministico(int tam,boolean m) {
+	public TorneoDeterministico(int tam) {
 		tamTorneo=tam;
-		maximizar=m;
 	}
 
 
@@ -31,7 +29,7 @@ public class TorneoDeterministico implements Seleccion{
 				rivales.add(poblacion.get((int) (Math.random()*poblacion.size())).copia());
 			
 			//Collections.sort(rivales);
-			rivales.sort(new Sorted(maximizar));
+			rivales.sort(new Sorted(false));
 			nuevaPob.add(rivales.get(0));
 		}
 		return nuevaPob;

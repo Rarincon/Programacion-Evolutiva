@@ -18,9 +18,9 @@ public class Controller {
 	private int Seleccion;
 	private int cruce;
 	private int mutacion;//,NGen;
-	private Boolean Elitismo;
+	//private Boolean Elitismo;
 	private double elitismoRango;
-	private double precision;
+	//private double precision;
 	private List<AlgoritmoGenObserver> observers;
 	
 	public Controller() {
@@ -31,11 +31,11 @@ public class Controller {
 		this.tamPoblacion=100;
 		this.GenActual=0;
 		this.maxGeneraciones=100;
-		this.Elitismo=false;
+		//this.Elitismo=false;
 		this.elitismoRango=0.03;
 		this.probCruce=0.6;
 		this.probMutacion=0.05;
-		this.precision=0.001;
+		//this.precision=0.001;
 		//NGen=2;
 		observers = new ArrayList<AlgoritmoGenObserver>();
 	}
@@ -54,10 +54,11 @@ public class Controller {
 	}
 	
 	public void update() {
-		if(Elitismo)AlGen.nextElisGen(Seleccion,cruce);
-		else AlGen.nextGen(Seleccion,cruce);
+		//if(Elitismo)AlGen.nextElisGen(Seleccion,cruce);
+		//else AlGen.nextGen(Seleccion,cruce);
 		//if(AlGen.getMaximizar())AlGen.Mejor();
 		//else AlGen.Peor();
+		AlGen.nextElisGen();
 		GenActual++;
 		for (AlgoritmoGenObserver o : observers) o.update(GenActual, AlGen.getResults());
 	}
@@ -78,14 +79,14 @@ public class Controller {
 		AlGen.setProbMut(probMutacion);
 		AlGen.setProbCruc(probCruce);
 		AlGen.setTamTor(tamTorneo);
-		AlGen.setPrec(precision);
+		//AlGen.setPrec(precision);
 		AlGen.setEliteR(elitismoRango);
 		AlGen.setTamPob(tamPoblacion);
 	}
 	
-	public boolean getElitism() {
+	/*public boolean getElitism() {
 		return Elitismo;
-	}
+	}*/
 	
 	public void setPob(int i) {
 		tamPoblacion=i;
@@ -114,15 +115,15 @@ public class Controller {
 	/*public void setIndi(int selectedIndex) {
 		funcion= selectedIndex;	
 	}*/
-	public void setElitism(boolean b) {
+	/*public void setElitism(boolean b) {
 		Elitismo=b;
-	}
+	}*/
 	public void setElitismRango(double value) {
 		elitismoRango=value;
 	}
-	public void setPrecision(double value) {
+	/*public void setPrecision(double value) {
 		precision=value;
-	}
+	}*/
 
 	public void setText(String text) {
 		AlGen.setText(text);	

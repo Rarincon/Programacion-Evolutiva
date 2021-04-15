@@ -12,11 +12,9 @@ import utils.SortedArrayList;
 public class TorneoProbabilistico implements Seleccion{
 	
 	private int tamTorneo;
-	private boolean maximizar;
 
-	public TorneoProbabilistico(int tam,boolean m) {
+	public TorneoProbabilistico(int tam) {
 		tamTorneo=tam;
-		maximizar=m;
 	}
 
 	public List<Individuo> selecciona(List<Individuo> pob, int tam) {
@@ -31,7 +29,7 @@ public class TorneoProbabilistico implements Seleccion{
 			for (int j = 0; j < tamTorneo; j++)
 				rivales.add(pob.get((int) (Math.random()*pob.size())).copia());
 			
-			rivales.sort(new Sorted(maximizar));
+			rivales.sort(new Sorted(false));
 			//Collections.sort(rivales);
 			
 			if(Math.random() > 0.5)

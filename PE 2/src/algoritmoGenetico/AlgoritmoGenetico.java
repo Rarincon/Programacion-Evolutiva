@@ -46,8 +46,9 @@ public class AlgoritmoGenetico {
 	static private final double defaultProbCruce = 0.6;
 	static private final double defaultProbMut = 0.05;
 	static private final double defaultEliteRate = 0.03;
-	static private final double defaultPrec = 0.001;
+	//static private final double defaultPrec = 0.001;
 	static private final int defaultTamTorn = 5;
+	static private final int maxreinicio = 5;
 	//static private final int defaultNGen = 5;
 	
 	
@@ -59,23 +60,22 @@ public class AlgoritmoGenetico {
 	private double probCruce;
 	private double probMut;
 	private int tamTorneo;
-	private double precision;
+	//private double precision;
 	private double eliteRango;
 	private boolean maximizar;
 	//private int NGen;
 	
 	
-	private double MejorF;
+	//private double MejorF;
 	private double PeorF;
-	private double MejorAF;
+	//private double MejorAF;
 	private double PeorAF;
 	private double Media;
-	private Object MejorVF;
+	//private Object MejorVF;
 	private Object PeorVF;
-	private Object MejorVAF;
-	private Object PeorVAF;
 	
 	private int GenActual;
+	private int reinicio;
 	
 	private String descifrado,descifradoM,ConversionM,Conversion;
 	private static String cifrado;
@@ -93,7 +93,7 @@ public class AlgoritmoGenetico {
 		TamPob=defaultPop;
 		probCruce=defaultProbCruce;
 		probMut=defaultProbMut;
-		precision=defaultPrec;
+		//precision=defaultPrec;
 		eliteRango=defaultEliteRate;
 		tamTorneo=defaultTamTorn;
 		//NGen=defaultNGen;
@@ -125,8 +125,8 @@ public class AlgoritmoGenetico {
 		
 		if(opcionS==0) selMod= new Ruleta();
 		else if(opcionS==1) selMod= new Estocastico();
-		else if(opcionS==2 )selMod= new TorneoProbabilistico(tamTorneo,maximizar);
-		else if(opcionS==3) selMod= new TorneoDeterministico(tamTorneo,maximizar);
+		else if(opcionS==2 )selMod= new TorneoProbabilistico(tamTorneo);
+		else if(opcionS==3) selMod= new TorneoDeterministico(tamTorneo);
 		else if(opcionS==4) selMod= new Truncamiento(maximizar);
 		else if(opcionS==5) selMod= new Restos();
 		else selMod= new Ranking();
@@ -150,9 +150,9 @@ public class AlgoritmoGenetico {
 		if(opcionI==4)mutMod= new Uniforme(probMut);
 		else mutMod= new Basica(probMut);*/
 		
-		MejorF= Double.NEGATIVE_INFINITY;
+		//MejorF= Double.NEGATIVE_INFINITY;
 		PeorF = Double.POSITIVE_INFINITY;
-		MejorVF=PeorVF=null;
+		//MejorVF=PeorVF=null;
 	}
 	
 	public List<Individuo> seleccion() {
@@ -172,34 +172,30 @@ public class AlgoritmoGenetico {
 		Media=0;
 		resetAct();
 		GenActual=0;
+		reinicio=0;
 	}
 	
 	public void resetAct() {
-		MejorAF= Double.NEGATIVE_INFINITY;
+		//MejorAF= Double.NEGATIVE_INFINITY;
 		PeorAF = Double.POSITIVE_INFINITY;
-		PeorVAF=MejorVAF=null;
 	}
 	
 	public void evaluar() {
 		resetAct();
 		double punt_acu=0,TotalFitness=0;		
-		
-		int pos_mejor=0,pos_peor=0;
 
 		for(int i=0;i<poblacion.size();i++) {
 			poblacion.get(i).setFitness(poblacion.get(i).evaluar(gramas,total));
 			
 			TotalFitness+=poblacion.get(i).getFitness();
 			
-			if(poblacion.get(i).getFitness()>MejorAF) {
-				pos_mejor=i;
+			/*if(poblacion.get(i).getFitness()>MejorAF) {
 				MejorAF=poblacion.get(i).getFitness();
 				descifrado=poblacion.get(i).getDescifrado();
 				Conversion=poblacion.get(i).getConversion();
 				//MejorVAF=poblacion.get(i).getFenotipos();
-			}
+			}*/
 			if(poblacion.get(i).getFitness()<PeorAF) {
-				pos_peor=i;
 				PeorAF=poblacion.get(i).getFitness();
 				descifrado=poblacion.get(i).getDescifrado();
 				Conversion=poblacion.get(i).getConversion();
@@ -209,37 +205,24 @@ public class AlgoritmoGenetico {
 		
 		Media=TotalFitness/poblacion.size();
 		
-		//Desplazamiento para la Ruleta (No funciona muy bn creo)
-		/*TotalFitness=0; 
-		poblacion.sort(new Sorted(maximizar));
-		
-		for (Individuo p : poblacion) {
-			double f = ((maximizar) ? p.getFitness() + Math.abs(poblacion.get(0).getFitness()) : poblacion.get(0).getFitness() - p.getFitness());
-			p.setFitness(f);
-			TotalFitness += f;
-		} */
-		
 		for(int i=0;i<poblacion.size();i++) {
 			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
 			poblacion.get(i).setPuntAcum(poblacion.get(i).getPunt()+ punt_acu);
 			punt_acu+=poblacion.get(i).getPunt();
 		}
 		
-		if(MejorAF > MejorF) {//Faltan los valores del rango
-			MejorF=MejorAF;
-			descifradoM=descifrado;
-			ConversionM=Conversion;
-			//MejorVF=poblacion.get(pos_mejor).getFenotipos();
-		}
 		if(PeorAF < PeorF) {
 			PeorF=PeorAF;
 			descifradoM=descifrado;
 			ConversionM=Conversion;
-			//PeorVF=poblacion.get(pos_peor).getFenotipos();
+			reinicio=0;
 		}
+		else
+			reinicio++;
+			
 	}
 	
-	public void nextGen(int S, int C) {
+	/*public void nextGen(int S, int C) {
 		List<Individuo> nuevaPob;
 		//Seleccion
 		nuevaPob=seleccion();
@@ -252,12 +235,13 @@ public class AlgoritmoGenetico {
 		evaluar();
 		
 		GenActual++;
-	}
+	}*/
 	
-	public void nextElisGen(int S, int C) {
+	public void nextElisGen() {
 		List<Individuo> nuevaPob;
 		List<Individuo> fijos;
 		fijos=escogerElite(poblacion);
+		
 		//Seleccion
 		nuevaPob=seleccion();
 		//Cruce
@@ -268,8 +252,16 @@ public class AlgoritmoGenetico {
 		nuevaPob=insertartElite(nuevaPob, fijos);
 		poblacion.clear();
 		poblacion= nuevaPob;
+		if(reinicio>=maxreinicio) reinicializar();
 		evaluar();
 		GenActual++;
+	}
+	
+	private void reinicializar() {
+		reinicio=0;
+		List<Individuo>fijos=EliteReset(poblacion);
+		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		insertartElite(poblacion, fijos);
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {
@@ -282,8 +274,18 @@ public class AlgoritmoGenetico {
 		return elite;
 	}
 	
+	private List<Individuo> EliteReset(List<Individuo> pob) {
+		pob.sort(new Sorted(false));
+		List<Individuo> elite = new ArrayList<Individuo>();
+		int tam= (int) Math.ceil(pob.size() * 0.15);
+		for (int i = 0; i < tam; i++) {
+			elite.add(pob.get(i).copia());
+		}
+		return elite;
+	}
+	
 	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
-		pob.sort(new Sorted(maximizar));
+		pob.sort(new Sorted(false));
 		for (int i = 0; i < elite.size(); ++i) {
 			pob.remove(pob.size() - 1 - i);
 			pob.add(elite.get(i).copia());
@@ -295,27 +297,17 @@ public class AlgoritmoGenetico {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Media", Media);
 		map.put("Descifrado", descifradoM);
-		map.put("Conversion", ConversionM);
-		if(maximizar) {
-			map.put("fitness", MejorF);
-			//map.put("Objetivo Genotipos",MejorVF);
-			map.put("Mejor Actual", MejorAF);
-			//map.put("Mejor Actual Genotipos",MejorVAF);
-		}
-		else {
-			map.put("fitness", PeorF);
-			//map.put("Objetivo Genotipos",PeorVF);
-			map.put("Mejor Actual", PeorAF);
-			//map.put("Mejor Actual Genotipos",PeorVAF);
-		}
+		map.put("Conversion", ConversionM);		
+		map.put("fitness", PeorF);	
+		map.put("Mejor Actual", PeorAF);
 		return map;
 	}
 	
 	public boolean getMaximizar() {return maximizar;}
 	
-	public void Mejor() {
+	/*public void Mejor() {
 		System.out.print("Generacion: " + GenActual+ " eL mejor es: "+MejorF+" con Genotipos "+ MejorVF.toString()+"\n");
-	}
+	}*/
 	
 	public void Peor() {
 		System.out.print("Generacion: " + GenActual+ " eL peor es: "+PeorF+" con Genotipos "+ PeorVF.toString()+"\n");
@@ -325,7 +317,7 @@ public class AlgoritmoGenetico {
 	public void setProbMut(double p)	{		probMut=p;		}
 	public void setProbCruc(double p)	{		probCruce=p;	}
 	public void setTamTor(int t)		{		tamTorneo=t;	}
-	public void setPrec(double p) 		{		precision=p;	}
+	//public void setPrec(double p) 		{		precision=p;	}
 	public void setEliteR(double e) 	{		eliteRango=e;	}
 	public void setTamPob(int value) 	{ 		TamPob=value;	}
 	

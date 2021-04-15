@@ -59,7 +59,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private Controller _ctrl;
 	private JButton run;
 	private JComboBox<String> Seleccion, Cruce,Mutacion;
-	private JCheckBox Elitismo;
+	//private JCheckBox Elitismo;
 	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,precision,probCruce;//NGenotipos;
 	
 	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
@@ -102,8 +102,8 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		AlgoritmoGenetico.loadDataFile(loadData());
 		//AlgoritmoGenetico.loadDataFile(datos.get(Individuo.getSelectedItem().toString()));
 		
-		Elitismo = new JCheckBox();
-		Elitismo.setSelected(_ctrl.getElitism());
+		//Elitismo = new JCheckBox();
+		//Elitismo.setSelected(_ctrl.getElitism());
 		run= new JButton("Run");
 		run.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)
@@ -146,8 +146,8 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		
 		add(estructura("Poblacion", poblacion));
 		add(estructura("Generaciones", maxGeneracion));
-		add(estructura("Elitismo", Elitismo));
-		add(estructura("Rango", elitismo));
+		//add(estructura("Elitismo", Elitismo));
+		add(estructura("Elitismo", elitismo));
 		add(estructura("Seleccion", Seleccion));
 		add(estructura("Cruce", Cruce));
 		add(estructura("Mutacion", Mutacion));
@@ -230,7 +230,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		//_ctrl.setIndi(Individuo.getSelectedIndex());
 		_ctrl.setPob((int) poblacion.getValue());
 		_ctrl.setMaxGen((int) maxGeneracion.getValue());		
-		_ctrl.setElitism(Elitismo.isSelected());
+		//_ctrl.setElitism(Elitismo.isSelected());
 		_ctrl.setElitismRango((double) elitismo.getValue());
 		_ctrl.setSelection(Seleccion.getSelectedIndex());//getSelectedItem().toString());
 		//_ctrl.setTamTorneo((int) torneo.getValue());
@@ -238,7 +238,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		_ctrl.setMutac(Mutacion.getSelectedIndex());
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
-		_ctrl.setPrecision((double) precision.getValue());
+		//_ctrl.setPrecision((double) precision.getValue());
 	}
 	
 	private Object[] loadData() {
