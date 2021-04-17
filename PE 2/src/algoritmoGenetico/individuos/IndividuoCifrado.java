@@ -67,7 +67,7 @@ public class IndividuoCifrado extends Individuo{
 				fitMon+=x;//Math.min(x,y);
 			}
 		}
-		fitMon*=0.05; //0.1
+		fitMon*=0.1; //0.1
 		b = total.get("Bigram");
 		t = BiFrec.get("total") ;
 		for(Entry<String, Integer> entry : BiFrec.entrySet()) {
@@ -104,8 +104,8 @@ public class IndividuoCifrado extends Individuo{
 			}
 		}
 		fitTri*=0.7;
-		//return fitMon+fitBi+fitTri;
-		return fitBi+fitTri;
+		return fitMon+fitBi+fitTri;
+		//return fitBi+fitTri;
 		//aptitud=F;
 		
 		//Para cada ngram en Textodescifrado

@@ -80,7 +80,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 
 		poblacion = new JSpinner(new SpinnerNumberModel(100,15,500,1));
 		poblacion.setPreferredSize(new Dimension(75,30));
-		maxGeneracion = new JSpinner(new SpinnerNumberModel(100,10,500,10));
+		maxGeneracion = new JSpinner(new SpinnerNumberModel(100,10,1000,10));
 		maxGeneracion.setPreferredSize(new Dimension(75,30));
 		mutacion = new JSpinner(new SpinnerNumberModel(0.05, 0.0, 1.0, 0.01));
 		mutacion.setPreferredSize(new Dimension(75,30));
@@ -121,7 +121,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private void run_sim(int n) {
 		if (n > 0 ){
 			try {
-				Thread.sleep(300);
+				Thread.sleep(50);
 				_ctrl.run_sim(); 
 			} catch (Exception e) {
 				System.out.print(e);

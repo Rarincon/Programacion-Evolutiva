@@ -238,6 +238,7 @@ public class AlgoritmoGenetico {
 	}*/
 	
 	public void nextElisGen() {
+		if(reinicio>=maxreinicio) reinicializar();
 		List<Individuo> nuevaPob;
 		List<Individuo> fijos;
 		fijos=escogerElite(poblacion);
@@ -252,7 +253,6 @@ public class AlgoritmoGenetico {
 		nuevaPob=insertartElite(nuevaPob, fijos);
 		poblacion.clear();
 		poblacion= nuevaPob;
-		if(reinicio>=maxreinicio) reinicializar();
 		evaluar();
 		GenActual++;
 	}
@@ -262,6 +262,7 @@ public class AlgoritmoGenetico {
 		List<Individuo>fijos=EliteReset(poblacion);
 		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		insertartElite(poblacion, fijos);
+		evaluar();
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {
@@ -277,15 +278,15 @@ public class AlgoritmoGenetico {
 	private List<Individuo> EliteReset(List<Individuo> pob) {
 		pob.sort(new Sorted(false));
 		List<Individuo> elite = new ArrayList<Individuo>();
-		int tam= (int) Math.ceil(pob.size() * 0.15);
+		int tam= (int) Math.ceil(pob.size() * 0.10);
 		for (int i = 0; i < tam; i++) {
 			elite.add(pob.get(i).copia());
 		}
-		Individuo x= elite.get(0);
-		List<Individuo> mutado =mutacion(elite);
-		mutado.remove(mutado.size()-1);
-		mutado.add(x);
-		return mutado;
+		//Individuo x= elite.get(0);
+		//List<Individuo> mutado =mutacion(elite);
+		//mutado.remove(mutado.size()-1);
+		//mutado.add(x);
+		return elite;
 	}
 	
 	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
