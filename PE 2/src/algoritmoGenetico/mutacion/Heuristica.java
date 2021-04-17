@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.individuos.Individuo;
+import algoritmoGenetico.individuos.IndividuoCifrado;
 
 public class Heuristica extends Mutacion {
 	
@@ -37,12 +39,15 @@ public class Heuristica extends Mutacion {
 				List<Integer[]> permuta= new ArrayList<Integer[]>();
 				permuta= perm(mapa,crom);
 				
-				pos=0;				
-				double fitness= Individuo.apply(permuta.get(0));
+				pos=0;	
+				Individuo pruebas = new IndividuoCifrado(AlgoritmoGenetico.getText());
+				pruebas.setCromosoma(permuta.get(0));
+				double fitness= pruebas.evaluar(AlgoritmoGenetico.getMap(), AlgoritmoGenetico.getMapTotal()); //Individuo.apply(permuta.get(0));
 				double fitnessAUX;
 				for(int j=1;j<permuta.size();j++){
-					fitnessAUX=Individuo.apply(permuta.get(j));
-					if(fitnessAUX>fitness) { //MIRAR SI ES MAXIMIZACION O MINIMIZACION
+					pruebas.setCromosoma(permuta.get(j));
+					fitnessAUX=pruebas.evaluar(AlgoritmoGenetico.getMap(), AlgoritmoGenetico.getMapTotal());
+					if(fitnessAUX<fitness) {
 						pos=j;
 						fitness=fitnessAUX;
 					}

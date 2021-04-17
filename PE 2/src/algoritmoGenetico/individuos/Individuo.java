@@ -25,7 +25,6 @@ public abstract class Individuo implements Comparable<Individuo> {
 	protected double aptitud;
 	protected double puntuacion;
 	protected double punt_acum;
-	protected Map<String,Long> Mono2Frec,Bi2Frec;
 	protected Map<String,Integer> MonoFrec,BiFrec,TriFrec;
 	
 	//protected double precision;
@@ -33,7 +32,6 @@ public abstract class Individuo implements Comparable<Individuo> {
 	
 	public Individuo(String s) {
 		cifrado=s;
-		//Gram();
 		carga();
 		cromosoma =  new Integer[TAM];		
 	}
@@ -50,12 +48,6 @@ public abstract class Individuo implements Comparable<Individuo> {
 		for(int i=0;i<TAM;i++)shuffle.add(i);
 		Collections.shuffle(shuffle);
 		for(int i=0;i<TAM;i++)cromosoma[i]=shuffle.get(i);
-		
-		/*int caracteres = (int)(Math.random()*20)+2; 
-		for (int i=0; i<caracteres; i++){ 
-			int codigoAscii = (int)Math.floor(Math.random()*(122 -97)+97);
-			cromosoma[i]=codigoAscii;
-	   }*/
 	}
 	
 	protected String Descifrar() {
@@ -71,16 +63,6 @@ public abstract class Individuo implements Comparable<Individuo> {
 		}
 		return a;		
 	}
-
-	/*private void Gram() {
-		Stream<String> o= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)"));
-		Stream<String> p= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)"));
-		Stream<String> m= Arrays.stream(cifrado.replaceAll("(?<!^| ).(?!| ).(?! |$)", "$0$0$0").split(" |(?<=\\G...)"));
-		Mono2Frec=Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0").split(" |(?<=\\G.)")).filter(s -> s.length() == 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
-		Bi2Frec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0").split(" |(?<=\\G..)")).filter(s -> s.length() > 1).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
-		//TriFrec = Arrays.stream(cifrado.replaceAll("(?<!^| ).(?! |$)", "$0$0$0").split(" |(?<=\\G...)")).filter(s -> s.length() > 2).collect(Collectors.groupingBy(s -> s,Collectors.counting()));
-		NGram(cifrado);
-	}*/
 	
 	protected void NGram(String text) {
 		String trio="",mono="",bi="";
@@ -205,10 +187,5 @@ public abstract class Individuo implements Comparable<Individuo> {
 		if(this.getFitness() < arg0.getFitness()) return 1;
 		else if(this.getFitness()==arg0.getFitness()) return 0;
 		else return -1;
-	}
-
-	public static double apply(Integer[] integers) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

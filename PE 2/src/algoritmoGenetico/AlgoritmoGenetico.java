@@ -366,10 +366,21 @@ public class AlgoritmoGenetico {
 		}
 	}
 
-
 	public void setText(String text) {
 		if(!text.isEmpty())
 			cifrado=text;
+	}
+	
+	public static String getText() {
+		return cifrado;
+	}
+	
+	public static Map<String, Map<Object, Integer>> getMap() {
+		return gramas;
+	}
+	
+	public static Map<String, Long> getMapTotal() {
+		return total;
 	}
 	
 }
