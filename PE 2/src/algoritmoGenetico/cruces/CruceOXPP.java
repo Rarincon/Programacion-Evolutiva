@@ -2,12 +2,14 @@ package algoritmoGenetico.cruces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import algoritmoGenetico.individuos.Individuo;
+import utils.SortedArrayList;
 
 public class CruceOXPP extends Cruce {
 	
@@ -21,70 +23,52 @@ public class CruceOXPP extends Cruce {
 	public List<Individuo> cruce(List<Individuo> pob) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		Integer[] crom1,crom2, copia1, copia2;
+		List<Integer>selec ;
 
 		for(int i=0; i<pob.size(); i++) {
 			nuevaPob.add(pob.get(i).copia());
 		}
-		int puntoCruce1=(int) (Math.random()*TamC);
-		int puntoCruce2;
 		
-		do{
-			puntoCruce2=(int) (Math.random()*TamC);
-		}while(puntoCruce1==puntoCruce2);
-		
-		if(puntoCruce1>puntoCruce2) {
-			int a=puntoCruce1;
-			puntoCruce1=puntoCruce2;
-			puntoCruce2=a;
-		}
-		
-		boolean[] ocupado1,ocupado2;
-		ocupado1= new boolean[TamC];
-		ocupado2= new boolean[TamC];
+		int x,pos,aux1,aux2;
 		
 		for(int i=0; i<sel_cruce.size(); i+=2) {
-			HashSet<Integer> l= new HashSet<Integer>();
-			
-			while(l.size() < n) {
+
+			selec = new SortedArrayList<Integer>();
+			while(selec.size() < n) {
 				int valor=(int) (Math.random()*TamC);
-				l.add(valor); 
+				if(!selec.contains(valor)) {
+					selec.add(valor);
+				}
 			}
-			
-			Arrays.fill(ocupado1, false);
-			Arrays.fill(ocupado2, false);
 	
 			copia1=new Integer[TamC];
 			copia2=new Integer[TamC];
 			
+			Arrays.fill(copia1, -1);
+			Arrays.fill(copia2, -1);
+			
 			crom1= nuevaPob.get(sel_cruce.get(i)).getCromosoma();
 			crom2= nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
 			
-			int pos=0;
-			
-			for (Integer entry :  l) {
-				copia1[entry]=crom2[entry];
-				copia2[entry]=crom1[entry];
-				ocupado1[crom1[entry]]=true;
-				ocupado2[crom2[entry]]=true;
-				pos=entry;
+			for(int p=0;p<n;p++) {
+				copia1[selec.get(p)]=crom2[selec.get(p)];
+				copia2[selec.get(p)]=crom1[selec.get(p)];
 			}
 			
-			int x=(pos+1)%TamC;
-			int y=(pos+1)%TamC;
-			while(x!=pos) {
-				while(ocupado1[crom1[y]])y=(y+1)%TamC;
-				copia1[x]=crom1[y];				
-				ocupado1[crom1[y]]=true;
-				x=(x+1)%TamC;
-			}
+			pos=selec.get(n-1);
+			x=aux1=aux2=(selec.get(n-1)+1)%TamC;
 			
-			x=(pos+1)%TamC;
-			y=(pos+1)%TamC;
 			while(x!=pos) {
-				while(ocupado2[crom2[y]])y=(y+1)%TamC;
-				copia2[x]=crom2[y];				
-				ocupado2[crom2[y]]=true;
-				x=(x+1)%TamC;
+				if(copia1[x]==-1) {
+					while (esta(copia1, crom1[aux1]))aux1=(aux1+1)%TamC;
+					while (esta(copia2, crom2[aux2])) aux2=(aux2+1)%TamC;
+					copia1[x]=crom1[aux1];
+					copia2[x]=crom2[aux2];
+					x=(x+1)%TamC;
+					aux1=(aux1+1)%TamC;
+					aux2=(aux2+1)%TamC;
+				}
+				else x=(x+1)%TamC;
 			}
 			
 			nuevaPob.get(sel_cruce.get(i)).setCromosoma(copia1);
@@ -92,6 +76,11 @@ public class CruceOXPP extends Cruce {
 			
 		}
 		return nuevaPob;
+	}
+	
+	private boolean esta(Integer[] copia, int e) {
+		for (int i = 0; i < copia.length; ++i) if(copia[i] == e) return true;
+		return false;
 	}
 
 }
