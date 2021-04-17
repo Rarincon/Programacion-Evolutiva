@@ -29,7 +29,7 @@ public class TorneoProbabilistico implements Seleccion{
 			for (int j = 0; j < tamTorneo; j++)
 				rivales.add(pob.get((int) (Math.random()*pob.size())).copia());
 			
-			rivales.sort(new Sorted(false));
+			rivales.sort(new Sorted(false,true));
 			//Collections.sort(rivales);
 			
 			if(Math.random() > 0.5)

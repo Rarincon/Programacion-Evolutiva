@@ -266,7 +266,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {
-		pob.sort(new Sorted(maximizar));
+		pob.sort(new Sorted(false,true));
 		List<Individuo> elite = new ArrayList<Individuo>();
 		int tam= (int) Math.ceil(pob.size() * eliteRango);
 		for (int i = 0; i < tam; i++) {
@@ -276,7 +276,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	private List<Individuo> EliteReset(List<Individuo> pob) {
-		pob.sort(new Sorted(false));
+		pob.sort(new Sorted(false,true));
 		List<Individuo> elite = new ArrayList<Individuo>();
 		int tam= (int) Math.ceil(pob.size() * 0.10);
 		for (int i = 0; i < tam; i++) {
@@ -290,7 +290,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
-		pob.sort(new Sorted(false));
+		pob.sort(new Sorted(false,true));
 		for (int i = 0; i < elite.size(); ++i) {
 			pob.remove(pob.size() - 1 - i);
 			pob.add(elite.get(i).copia());

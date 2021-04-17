@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import algoritmoGenetico.individuos.Individuo;
+import utils.Sorted;
 
 public class Ruleta implements Seleccion {
 
@@ -14,6 +15,7 @@ public class Ruleta implements Seleccion {
 		double prob;
 		int pos_super;
 		//Random r = new Random();
+		p.sort(new Sorted(false,false));
 		for(int i=0; i<tam; i++) {
 			prob=Math.random();//r.nextDouble()%1; 
 			pos_super=0;

@@ -60,9 +60,9 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private JButton run;
 	private JComboBox<String> Seleccion, Cruce,Mutacion;
 	//private JCheckBox Elitismo;
-	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,precision,probCruce;//NGenotipos;
+	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce;//NGenotipos, precision;
 	
-	private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
+	//private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
 	private String[] cruce= {"PMX","OX","OXPP","CX","ERX","CO"};
 	private String[] mutac= {"Inversion","Intercambio","Insercion","Heuristica"};
@@ -90,9 +90,9 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		//torneo.setPreferredSize(new Dimension(65,25));
 		probCruce= new JSpinner(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
 		probCruce.setPreferredSize(new Dimension(75,30));
-		precision = new JSpinner(new SpinnerListModel(Precision));
-		precision.setValue(0.001);
-		precision.setPreferredSize(new Dimension(75,30));
+		//precision = new JSpinner(new SpinnerListModel(Precision));
+		//precision.setValue(0.001);
+		//precision.setPreferredSize(new Dimension(75,30));
 		Seleccion = ComboBox(seleccion);
 		Cruce= ComboBox(cruce);
 		Mutacion=ComboBox(mutac);
@@ -153,7 +153,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		add(estructura("Mutacion", Mutacion));
 		add(estructura("Prob. Cruce", probCruce));
 		add(estructura("Prob. Mutacion", mutacion));
-		add(estructura("Valor de Error", precision));	
+		//add(estructura("Valor de Error", precision));	
 		//add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		//add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
 		//add(estructura2(estructura1("Selection", Seleccion), estructura1("Tamaño Torneo", torneo)));

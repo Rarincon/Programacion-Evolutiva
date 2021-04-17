@@ -24,7 +24,7 @@ public class Truncamiento implements Seleccion {
 		nuevaPob = new ArrayList<Individuo>();
 		/*if(maximizar)
 			pob.sort(new Sorted(true));
-		else*/ pob.sort(new Sorted(false));
+		else*/ pob.sort(new Sorted(false,true));
 		
 		int p = (int) (1/trunc);
 		int Nselccionados = pob.size()/p;
