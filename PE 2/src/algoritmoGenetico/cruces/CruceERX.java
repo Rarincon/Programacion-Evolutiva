@@ -2,6 +2,8 @@ package algoritmoGenetico.cruces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,18 +21,21 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 	@Override
 	public List<Individuo> cruce(List<Individuo> pob) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
-		Integer[] crom1,crom2, copia1, copia2;
+		Integer[] crom1,crom2, copia1, copia2, copia;
 
 		for(int i=0; i<pob.size(); i++) {
 			nuevaPob.add(pob.get(i).copia());
 		}
 		
-		Map<Integer, HashSet<Integer>> matrizAdyacencia = new HashMap<Integer, HashSet<Integer>>();
+		Map<Integer, HashSet<Integer>> matrizAdyacencia;
 		int anterior,anterior2,pos,valor;
 		
 		for(int i=0; i<sel_cruce.size(); i+=2) {
 			copia1=new Integer[TamC];
 			copia2=new Integer[TamC];
+			copia=new Integer[TamC];
+			
+			matrizAdyacencia = new HashMap<Integer, HashSet<Integer>>();
 			
 			crom1= nuevaPob.get(sel_cruce.get(i)).getCromosoma();
 			crom2= nuevaPob.get(sel_cruce.get(i+1)).getCromosoma();
@@ -51,18 +56,33 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 				matrizAdyacencia.put(valor, l);
 			}
 			
-			if(Math.random()*2 > 1) {
+			Arrays.fill(copia1, -1);
+			Arrays.fill(copia2, -1);
+			copia1[0]=crom1[0];
+			copia2[0]=crom2[0];
+			
+			
+			
+			/*if(Math.random()*2 > 1) {
 				copia1=descendiente(matrizAdyacencia, crom1[0]);
 				copia2=descendiente(matrizAdyacencia, crom2[0]);
 			}
 			else {
 				copia2=descendiente(matrizAdyacencia, crom2[0]);
 				copia1=descendiente(matrizAdyacencia, crom1[0]);			
-			}
+			}*/
 			
+			List<Integer[]> solucion = new ArrayList<Integer[]>();
+			descendiente(matrizAdyacencia, copia1, 1, solucion);
+			copia= (solucion.size() == 1) ? solucion.get(0) : solucion.get(((Arrays.equals(crom1, solucion.get(0))) ? 1 : 0));
 			
-			nuevaPob.get(sel_cruce.get(i)).setCromosoma(copia1);
-			nuevaPob.get(sel_cruce.get(i+1)).setCromosoma(copia2);
+			nuevaPob.get(sel_cruce.get(i)).setCromosoma(copia);
+			
+			solucion = new ArrayList<Integer[]>();
+			descendiente(matrizAdyacencia, copia2, 1, solucion);
+			copia= (solucion.size() == 1) ? solucion.get(0) : solucion.get(((Arrays.equals(crom2, solucion.get(0))) ? 1 : 0));		
+			
+			nuevaPob.get(sel_cruce.get(i+1)).setCromosoma(copia);
 			
 		}
 		return nuevaPob;
@@ -77,7 +97,7 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 		return pos;
 	}
 	
-	private Integer[] descendiente(Map<Integer, HashSet<Integer>> matriz, int select) {	
+	/*private Integer[] descendiente(Map<Integer, HashSet<Integer>> matriz, int select) {	
 		
 		int menorElegido=0;
 		int menor;
@@ -93,7 +113,7 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 			li=matriz.get(select);
 			
 			for (Integer entry : li) {
-				if(matriz.get(entry).size() < menor && !ocupado[entry]) { //DA NULL POINTER EN UN PUNTO
+				if(matriz.get(entry).size() <= menor && !ocupado[entry]) { //DA NULL POINTER EN UN PUNTO
 					menor=matriz.get(entry).size();
 					menorElegido=entry;
 				}
@@ -101,10 +121,51 @@ public class CruceERX extends Cruce{ //REPASAR POR SI ACASO
 			copia[k]=select;
 			ocupado[select]=true;
 			select=menorElegido;
-			li.clear();
+			//li.clear();
 		}
 		
 		return copia;
+	}*/
+	
+	private void descendiente(Map<Integer, HashSet<Integer>> matriz, Integer[] solAct, int k, List<Integer[]> solucion) {
+		if (solucion.size() < 2) {
+			for (Integer[] sol : listaPosibles(matriz, solAct, k)) {
+				if (valido(sol, k)) {
+					if (k == solAct.length - 1) solucion.add(sol);
+					else descendiente(matriz, sol, k + 1, solucion);
+				}
+			}
+		}
 	}
 
+	private List<Integer[]> listaPosibles(Map<Integer, HashSet<Integer>> matriz, Integer[] g, int k) {
+		List<Integer[]> posibles = new ArrayList<Integer[]>();
+		for (int c : matriz.get(g[k-1])) {
+			Integer[] sol = g.clone();
+			sol[k] = c;
+			posibles.add(sol);
+		}
+		posibles.sort(new Comparator<Integer[]>() { //ORDENA POR TAMAÑO DE LA TABLA PARA LA POSTERIOR SELECCION
+			@Override
+			public int compare(Integer[] arg0, Integer[] arg1) {
+				if (matriz.get(arg0[k]).size() > matriz.get(arg1[k]).size()) return 1;
+				if (matriz.get(arg0[k]).size() < matriz.get(arg1[k]).size()) return -1;
+				return 0;
+			}
+		});
+		return posibles;
+	}
+	
+	private boolean valido(Integer[] s, int k) {
+		int c = s[k];
+		s[k] = -1;
+		boolean b = esta(s, c);
+		s[k] = c;
+		return !b;
+	}
+			
+	private boolean esta(Integer[] l, int e) {
+		for (int i = 0; i < l.length; ++i) if(l[i] == e) return true;
+		return false;
+	}
 }

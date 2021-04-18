@@ -369,6 +369,7 @@ public class AlgoritmoGenetico {
 	public void setText(String text) {
 		if(!text.isEmpty())
 			cifrado=text;
+		else cifrado=_default;
 	}
 	
 	public static String getText() {
