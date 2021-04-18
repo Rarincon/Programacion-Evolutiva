@@ -19,6 +19,7 @@ import algoritmoGenetico.cruces.CruceCO;
 import algoritmoGenetico.cruces.CruceCX;
 import algoritmoGenetico.cruces.CruceERX;
 import algoritmoGenetico.cruces.CruceOX;
+import algoritmoGenetico.cruces.CruceOXOP;
 import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.individuos.Individuo;
@@ -134,8 +135,9 @@ public class AlgoritmoGenetico {
 		if(opcionC==0) crucMod= new CrucePMX(probCruce);
 		else if(opcionC==1)crucMod= new CruceOX(probCruce);
 		else if(opcionC==2)crucMod= new CruceOXPP(probCruce);
-		else if(opcionC==3)crucMod= new CruceCX(probCruce);
-		else if(opcionC==4)crucMod= new CruceERX(probCruce);
+		else if(opcionC==3)crucMod= new CruceOXOP(probCruce);
+		else if(opcionC==4)crucMod= new CruceCX(probCruce);
+		else if(opcionC==5)crucMod= new CruceERX(probCruce);
 		else crucMod= new CruceCO(probCruce);
 		
 		if(opcionM==0)mutMod= new Inversion(probMut);
