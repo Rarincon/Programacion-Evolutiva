@@ -60,12 +60,14 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private JButton run;
 	private JComboBox<String> Seleccion, Cruce,Mutacion;
 	//private JCheckBox Elitismo;
-	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce;//NGenotipos, precision;
+	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo;//NGenotipos, precision;
+	
+	private JSlider Speed;
 	
 	//private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
 	private String[] cruce= {"PMX","OX","OXPP","OXOP","CX","ERX","CO"};
-	private String[] mutac= {"Inversion","Intercambio","Insercion","Heuristica"};
+	private String[] mutac= {"Inversion","Intercambio","Insercion","Heuristica","MRaulRober"};
 	
 	private Map<String, String> datos;
 	
@@ -86,8 +88,8 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		mutacion.setPreferredSize(new Dimension(75,30));
 		elitismo = new JSpinner(new SpinnerNumberModel(0.03, 0.0, 0.5, 0.01));
 		elitismo.setPreferredSize(new Dimension(75,30));
-		//torneo = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
-		//torneo.setPreferredSize(new Dimension(65,25));
+		torneo = new JSpinner(new SpinnerNumberModel(5, 2, 14, 1));
+		torneo.setPreferredSize(new Dimension(75,30));
 		probCruce= new JSpinner(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
 		probCruce.setPreferredSize(new Dimension(75,30));
 		//precision = new JSpinner(new SpinnerListModel(Precision));
@@ -96,6 +98,22 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		Seleccion = ComboBox(seleccion);
 		Cruce= ComboBox(cruce);
 		Mutacion=ComboBox(mutac);
+		
+		Speed= new JSlider(JSlider.HORIZONTAL,0 ,10, 5);
+		Speed.setPreferredSize(new Dimension(250,45));
+		Speed.setMaximumSize(new Dimension(250, 45));
+		Speed.setMinimumSize(new Dimension(150, 45));
+		Speed.setInverted(true);
+		Speed.setToolTipText("Speed of the Simulation");
+		Hashtable<Integer,JLabel> labelTable = new Hashtable<Integer,JLabel>();
+		labelTable.put(new Integer(0), new JLabel("Fast"));
+		labelTable.put(new Integer(5), new JLabel("Medium"));
+		labelTable.put(new Integer(10), new JLabel("Slow"));
+		Speed.setLabelTable( labelTable );
+		Speed.setMajorTickSpacing(5);
+		Speed.setMinorTickSpacing(1);
+		Speed.setPaintTicks(true);
+		Speed.setPaintLabels(true);
 		
 		//Individuo= DComboBox(loadData()); //CAMBIADO
 		//loadData();
@@ -121,7 +139,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private void run_sim(int n) {
 		if (n > 0 ){
 			try {
-				Thread.sleep(50);
+				Thread.sleep(Speed.getValue()*50);
 				_ctrl.run_sim(); 
 			} catch (Exception e) {
 				System.out.print(e);
@@ -151,8 +169,10 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		add(estructura("Seleccion", Seleccion));
 		add(estructura("Cruce", Cruce));
 		add(estructura("Mutacion", Mutacion));
+		add(estructura("Tam. Torneos", torneo));
 		add(estructura("Prob. Cruce", probCruce));
 		add(estructura("Prob. Mutacion", mutacion));
+		add(Speed);
 		//add(estructura("Valor de Error", precision));	
 		//add(estructura2(estructura1("Poblacion", poblacion),estructura1("Generaciones:", maxGeneracion)));
 		//add(estructura2(estructura1("Elitismo", Elitismo), estructura1("Rango", elitismo)));
@@ -233,7 +253,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		//_ctrl.setElitism(Elitismo.isSelected());
 		_ctrl.setElitismRango((double) elitismo.getValue());
 		_ctrl.setSelection(Seleccion.getSelectedIndex());//getSelectedItem().toString());
-		//_ctrl.setTamTorneo((int) torneo.getValue());
+		_ctrl.setTamTorneo((int) torneo.getValue());
 		_ctrl.setCruce(Cruce.getSelectedIndex()); //Devolver String o entero, comprobar	
 		_ctrl.setMutac(Mutacion.getSelectedIndex());
 		_ctrl.setProbCruce((double) probCruce.getValue());

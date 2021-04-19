@@ -29,6 +29,7 @@ import algoritmoGenetico.mutacion.Heuristica;
 import algoritmoGenetico.mutacion.Insercion;
 import algoritmoGenetico.mutacion.Intercambio;
 import algoritmoGenetico.mutacion.Inversion;
+import algoritmoGenetico.mutacion.MRaulRober;
 import algoritmoGenetico.mutacion.Mutacion;
 import algoritmoGenetico.seleccion.Estocastico;
 import algoritmoGenetico.seleccion.Ranking;
@@ -118,11 +119,11 @@ public class AlgoritmoGenetico {
 		
 		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		
-		if(opcionS==2 || opcionS==3) {
+		/*if(opcionS==2 || opcionS==3) {
 			JSpinner N = new JSpinner(new SpinnerNumberModel(5, 2, 10, 1));
 			int n = JOptionPane.showConfirmDialog(null, N, "Tamaño del Torneo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			tamTorneo =  (n == JOptionPane.OK_OPTION) ? (int) N.getValue() : 5;
-		}
+		}*/
 		
 		if(opcionS==0) selMod= new Ruleta();
 		else if(opcionS==1) selMod= new Estocastico();
@@ -142,8 +143,9 @@ public class AlgoritmoGenetico {
 		
 		if(opcionM==0)mutMod= new Inversion(probMut);
 		else if(opcionM==1)mutMod= new Intercambio(probMut);
-		else if(opcionM==1)mutMod= new Insercion(probMut);
-		else mutMod= new Heuristica(probMut);
+		else if(opcionM==2)mutMod= new Insercion(probMut);
+		else if(opcionM==3) mutMod= new Heuristica(probMut);
+		else mutMod= new MRaulRober(probMut);
 		
 		/*if(opcionC==2 && opcionI == 4) crucMod= new CruceAritmetico(probCruce);
 		else if(opcionC==0) crucMod= new CruceMonopunto(probCruce);

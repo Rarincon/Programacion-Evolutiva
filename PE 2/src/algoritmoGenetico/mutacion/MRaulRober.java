@@ -24,9 +24,9 @@ public class MRaulRober extends Mutacion{
 			if(prob < probMutacion) {
 				crom= nuevaPob.get(i).getCromosoma();
 				pos1=(int) (Math.random()*tam);
-				pos2=tam-pos1;
+				pos2=tam-pos1-1;
 				
-				while(pos1>0 || pos2<=tam) {
+				while(pos1>=0 && pos2<tam) {
 					aux=crom[pos1];
 					crom[pos1]=crom[pos2];
 					crom[pos2]=aux;
