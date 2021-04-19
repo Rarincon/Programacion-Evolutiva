@@ -130,10 +130,12 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		    {
 		    	if(_ctrl.getGenAct()==0) {
 			    	reset();
+			    	setEnable(false);
 		    	}
 				_stopped=false;
 				run.setEnabled(false);
 				reset.setEnabled(false);
+				maxGeneracion.setEnabled(false);
 				int ticks= (int) maxGeneracion.getValue()-_ctrl.getGenAct();
 				run_sim(ticks);
 		    }
@@ -154,9 +156,22 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		    public void actionPerformed(ActionEvent e)
 		    {
 				reset();
+				setEnable(true);
 		    }
 			}); 
 		reset.setPreferredSize(new Dimension(75,30));
+	}
+	
+	private void setEnable(boolean b) {
+		poblacion.setEnabled(b);
+		mutacion.setEnabled(b);
+		elitismo.setEnabled(b);
+		torneo.setEnabled(b);
+		Cruce.setEnabled(b);
+		Seleccion.setEnabled(b);
+		mutacion.setEnabled(b);
+		probCruce.setEnabled(b);
+		Mutacion.setEnabled(b);
 	}
 	
 	private void reset() {
@@ -187,6 +202,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 			_stopped =false;
 			run.setEnabled(true);
 			reset.setEnabled(true);
+			maxGeneracion.setEnabled(true);
 		}
 	}
 	
