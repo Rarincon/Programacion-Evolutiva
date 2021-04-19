@@ -57,7 +57,8 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
 
 	private Controller _ctrl;
-	private JButton run;
+	private boolean _stopped;
+	private JButton run,stop,reset;
 	private JComboBox<String> Seleccion, Cruce,Mutacion;
 	//private JCheckBox Elitismo;
 	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo;//NGenotipos, precision;
@@ -73,7 +74,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	
 	public ControlPanel(Controller c) {
 		_ctrl=c;
-
+		_stopped=false;
 		InitGui();
 		createControl();
 	}
@@ -123,21 +124,50 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		//Elitismo = new JCheckBox();
 		//Elitismo.setSelected(_ctrl.getElitism());
 		run= new JButton("Run");
+		run.setToolTipText("Run/Resume");
 		run.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	carga();
-				_ctrl.reset();
-				_ctrl.run();
+		    	if(_ctrl.getGenAct()==0) {
+			    	reset();
+		    	}
+				_stopped=false;
 				run.setEnabled(false);
-				run_sim((int) maxGeneracion.getValue());
+				reset.setEnabled(false);
+				int ticks= (int) maxGeneracion.getValue()-_ctrl.getGenAct();
+				run_sim(ticks);
 		    }
 			}); 
-		run.setPreferredSize(new Dimension(75,30));		
+		run.setPreferredSize(new Dimension(75,30));
+		
+		stop= new JButton("Stop");
+		stop.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e)
+		    {
+				_stopped=true;
+		    }
+			}); 
+		stop.setPreferredSize(new Dimension(75,30));
+		
+		reset= new JButton("Reset");
+		reset.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e)
+		    {
+				reset();
+		    }
+			}); 
+		reset.setPreferredSize(new Dimension(75,30));
+	}
+	
+	private void reset() {
+		carga();
+		_ctrl.reset();
+		_ctrl.run();
+		_stopped=false;
 	}
 	
 	private void run_sim(int n) {
-		if (n > 0 ){
+		if (n > 0 && !_stopped ){
 			try {
 				Thread.sleep(Speed.getValue()*50);
 				_ctrl.run_sim(); 
@@ -153,8 +183,11 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 				}
 			});
 		}
-		else
+		else {
+			_stopped =false;
 			run.setEnabled(true);
+			reset.setEnabled(true);
+		}
 	}
 	
 	private void createControl() {
@@ -181,7 +214,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		//add(estructura2(estructura1("Cruce", Cruce), estructura1("Probabilidad", probCruce)));
 		//add(estructura2(estructura1("Mutacion", mutacion), estructura1("Valor de Error", precision)));	
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));			
-		buttons.add(run);
+		buttons.add(estructura3(run,stop,reset));
 		add(buttons);
 		this.setPreferredSize(new Dimension(280, 450));
 		setVisible(true);
@@ -216,7 +249,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	}*/
 	
 	private JPanel estructura(String a, JComponent c) { 
-		JPanel p = new JPanel(new GridLayout(1,2));
+		JPanel p = new JPanel(new GridLayout(1,2,10,10));
 		JPanel up = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel l= new JLabel(a);
 		l.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
@@ -238,13 +271,14 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		p.add(down);
 		return p;
 	}
-	
-	private JPanel estructura2(JPanel a, JPanel b) { 
-		JPanel r = new JPanel(new GridLayout(1,2));
+	*/
+	private JPanel estructura3(JComponent a, JComponent b, JComponent c) { 
+		JPanel r = new JPanel(new GridLayout(1,3));
 		r.add(a);
 		r.add(b);
+		r.add(c);
 		return r;
-	}*/
+	}
 	
 	private void carga() {
 		//_ctrl.setIndi(Individuo.getSelectedIndex());

@@ -129,6 +129,10 @@ public class Controller {
 		AlGen.setText(text);	
 	}
 	
+	public int getGenAct() {
+		return GenActual;
+	}
+	
 	/*public void setNGenos(int value) {
 		NGen=value;
 	}*/
