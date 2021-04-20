@@ -129,7 +129,10 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 		    public void actionPerformed(ActionEvent e)
 		    {
 		    	if(_ctrl.getGenAct()==0) {
-			    	reset();
+			    	//reset();
+		    		carga();
+		    		//_ctrl.reset();
+		    		_ctrl.run();
 			    	setEnable(false);
 		    	}
 				_stopped=false;
@@ -175,9 +178,9 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	}
 	
 	private void reset() {
-		carga();
+		//carga();
 		_ctrl.reset();
-		_ctrl.run();
+		//_ctrl.run();
 		_stopped=false;
 	}
 	

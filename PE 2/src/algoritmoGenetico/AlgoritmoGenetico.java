@@ -102,7 +102,7 @@ public class AlgoritmoGenetico {
 		maximizar=true;
 		
 		//conteo= new HashMap<Object, Integer>();
-		cifrado=_default;
+		cifrado="";
 		descifradoM=descifrado="";
 		gramas= new HashMap<String,Map<Object,Integer>>();
 		total= new HashMap<String,Long>();
@@ -371,9 +371,9 @@ public class AlgoritmoGenetico {
 	}
 
 	public void setText(String text) {
-		if(!text.isEmpty())
-			cifrado=text;
-		else cifrado=_default;
+		if(text.isEmpty())
+			cifrado="";
+		else cifrado=text;
 	}
 	
 	public static String getText() {
