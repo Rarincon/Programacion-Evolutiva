@@ -7,6 +7,8 @@ import algoritmoGenetico.individuos.Individuo;
 
 public class MRaulRober extends Mutacion{
 
+	private static final int n=10;
+	
 	public MRaulRober(double _probMutacion) {
 		super(_probMutacion);
 	}
@@ -23,7 +25,7 @@ public class MRaulRober extends Mutacion{
 			prob=Math.random();
 			if(prob < probMutacion) {
 				crom= nuevaPob.get(i).getCromosoma();
-				pos1=(int) (Math.random()*tam);
+				pos1=(int) (Math.random()*n);
 				pos2=tam-pos1-1;
 				
 				while(pos1>=0 && pos2<tam) {
