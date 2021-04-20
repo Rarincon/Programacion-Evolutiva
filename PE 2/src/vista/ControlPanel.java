@@ -67,7 +67,7 @@ public class ControlPanel extends JPanel {//implements ItemListener{
 	
 	//private static final Double[] Precision={ 0.1, 0.01, 0.001, 0.0001, 0.00001};
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
-	private String[] cruce= {"PMX","OX","OXPP","OXOP","CX","ERX","CO"};
+	private String[] cruce= {"PMX","OX","OXPP","OXOP","CX","ERX","CO", "CruceRaulRober"};
 	private String[] mutac= {"Inversion","Intercambio","Insercion","Heuristica","MRaulRober"};
 	
 	private Map<String, String> datos;
