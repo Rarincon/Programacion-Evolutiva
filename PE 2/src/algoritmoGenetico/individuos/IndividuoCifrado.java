@@ -67,7 +67,7 @@ public class IndividuoCifrado extends Individuo{
 				fitMon+=x;//Math.min(x,y);
 			}
 		}
-		fitMon*=0.1; //0.1
+		fitMon*=0.05; //0.1
 		b = total.get("Bigram");
 		t = BiFrec.get("total") ;
 		for(Entry<String, Integer> entry : BiFrec.entrySet()) {
@@ -79,7 +79,7 @@ public class IndividuoCifrado extends Individuo{
 				valu=entry.getValue();
 				//valu*=100;
 				valu = valu / t;
-				//y=valu*(Math.log(a)/Math.log(2));
+				//y=valu*(Math.log(a)/Math.log(2));	
 				//x=Math.pow((valu-a), 2);
 				x=Math.abs(valu*Math.log(a)/Math.log(2));
 				fitBi+=x;
