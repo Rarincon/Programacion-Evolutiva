@@ -39,15 +39,17 @@ public class CruceRaulRober extends Cruce{
 			//Metodo Inventado///
 			pos1=(int) (Math.random() *(TamC-n));
 			pos2=(int) (Math.random() *(TamC-n));
-			x=pos2;
 			
-			for(int j=pos1; j<n; j++) {
-				l1.add(copia1[j]);
-				copia1[j]=-1;
-				l2.add(copia2[x]);
-				copia2[j]=-1;
+			x=pos1;
+			y=pos2;
+			
+			for(int j=0; j<n; j++) {
+				l1.add(copia1[x]);
+				copia1[x]=-1;
+				l2.add(copia2[y]);
+				copia2[y]=-1;
 				x++;
-				
+				y++;			
 			}
 			
 			x=pos1;
