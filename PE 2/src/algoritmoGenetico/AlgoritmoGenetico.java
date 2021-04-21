@@ -25,7 +25,6 @@ import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.cruces.CruceRaulRober;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.individuos.IndividuoCifrado;
-import algoritmoGenetico.mutacion.Basica;
 import algoritmoGenetico.mutacion.Heuristica;
 import algoritmoGenetico.mutacion.Insercion;
 import algoritmoGenetico.mutacion.Intercambio;
@@ -84,10 +83,11 @@ public class AlgoritmoGenetico {
 	private static String cifrado;
 	//private static Map<Object,Integer>conteo;
 	
-	private static final String _default= "eqa ycwe aqqt aqcit v aqqtwecwb wecwb zn v aqqtwecwb wqcit wecwb aqqt?  zr aqcit wecwb vii rep aqqt revr v aqqtwecwb wqcit, zn v aqqtwecwb wqcit wecwb aqqt.";
 	private static final String[] NGRAMAS= {"Bigram","Monogram","Trigram"};
 	private static Map<String,Map<Object,Integer>>gramas;
 	private static Map<String, Long> total;
+	
+	private int NumCruces, NumMutac;
 	
 	public AlgoritmoGenetico() {
 		
@@ -179,6 +179,14 @@ public class AlgoritmoGenetico {
 		resetAct();
 		GenActual=0;
 		reinicio=0;
+		
+		NumCruces=0;
+		NumMutac=0;
+	}
+	
+	public void conteo() {
+		NumCruces+=crucMod.NumCruces();
+		NumMutac+=mutMod.NumMutaciones();
 	}
 	
 	public void resetAct() {
@@ -256,6 +264,8 @@ public class AlgoritmoGenetico {
 		//Mutacion
 		nuevaPob= mutacion(nuevaPob);
 		
+		conteo();
+		
 		nuevaPob=insertartElite(nuevaPob, fijos);
 		poblacion.clear();
 		poblacion= nuevaPob;
@@ -304,13 +314,15 @@ public class AlgoritmoGenetico {
 		return pob;
 	}
 
-	public Map<String, Object> getResults() { //CAMBIAR ATRIBUTOS DEL MAP, el OBJECT
+	public Map<String, Object> getResults() { 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Media", Media);
 		map.put("Descifrado", descifradoM);
 		map.put("Conversion", ConversionM);		
 		map.put("fitness", PeorF);	
 		map.put("Mejor Actual", PeorAF);
+		map.put("Num Cruces", NumCruces);
+		map.put("Num Mutaciones", NumMutac);
 		return map;
 	}
 	

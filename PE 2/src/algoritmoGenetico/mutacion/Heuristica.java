@@ -19,6 +19,7 @@ public class Heuristica extends Mutacion {
 	public List<Individuo> mutarInd(List<Individuo> p) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		double prob;
+		NumMutac=0;
 		int pos=0;
 		int tam=p.get(0).getTamCromosoma();
 		Integer[] crom= new Integer[tam];
@@ -28,6 +29,7 @@ public class Heuristica extends Mutacion {
 			nuevaPob.add(p.get(i).copia());
 			prob=Math.random();
 			if(prob < probMutacion) {
+				NumMutac++;
 				mapa= new HashMap<Integer,Integer>();
 				crom= nuevaPob.get(i).getCromosoma();	
 				while(!mapa.containsKey(pos))

@@ -57,18 +57,24 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
 	//private static final String[] paneles = {"Media", "Objetivo", "Objetivo Genotipos", "Mejor Actual", "Mejor Actual Genotipos"};
-	private JLabel fit,abec, descif;
+	private JLabel fit,med,abec, descif,cruc, mut;
 	static private final String abecedario="a b c d e f g h i j k l m n o p q r s t u v w x y z";
 	static private final int TAM= 26;
 	
 	private Controller _ctrl;
-	private double fitness;
+	private double fitness,media;
 	private String descifrado;
+	
+	private int cruces, mutaciones;
 	
 	public DataPanel(Controller c) {
 		_ctrl=c;
 		fitness=0;
+		media=0;
 		descifrado= "";
+		
+		cruces=0;
+		mutaciones=0;
 		//Arrays.fill(descifrado,"");
 		createData();
 		_ctrl.addObserver(this);
@@ -83,7 +89,7 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		
 		JPanel p = new JPanel();
 		//p.setLayout(new GridLayout(4,1,20,75));
-		p.setLayout(new GridLayout(5,1));
+		p.setLayout(new GridLayout(6,1));
 		p.setPreferredSize(new Dimension(50,50));
 		
 		//p.setBorder(BorderFactory.createTitledBorder(_defaultBorder, "", TitledBorder.LEFT, TitledBorder.TOP));
@@ -102,8 +108,29 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		descif= new JLabel(descifrado);
 		JPanel x3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		x3.add(descif);
+		String aux1= "Media: "+ String.valueOf(media);
+		med = new JLabel(aux1);
+		JPanel x4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		x4.add(med);
+		
+		String aux2= "Num. Cruces: "+ String.valueOf(cruces);
+		cruc = new JLabel(aux2);
+		JPanel x5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		x5.add(cruc);
+		String aux3= "Num. Mutaciones: "+ String.valueOf(mutaciones);
+		mut = new JLabel(aux3);
+		JPanel x6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		x6.add(mut);
+		
+		JPanel r = new JPanel(new GridLayout(1,2));
+		r.add(x5);
+		r.add(x6);
+		
+		//cruc.setVerticalAlignment(SwingConstants.LEFT);
+		//mut.setVerticalAlignment(SwingConstants.LEFT);
 		
 		fit.setVerticalAlignment(SwingConstants.CENTER);
+		med.setVerticalAlignment(SwingConstants.CENTER);
 		abec.setVerticalAlignment(SwingConstants.CENTER);
 		descif.setVerticalAlignment(SwingConstants.CENTER);
 		
@@ -113,6 +140,8 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		
 		//p.add(x);
 		p.add(x1);
+		p.add(x4);
+		p.add(r);	//Comentan 
 		p.add(x2);
 		p.add(sep);
 		p.add(x3);
@@ -130,19 +159,32 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
 		
+		cruces = (int) stats.get("Num Cruces");
+		mutaciones = (int) stats.get("Num Mutaciones");
+		String aux2= "Num. Cruces: "+ String.valueOf(cruces);
+		String aux3= "Num. Mutaciones: "+ String.valueOf(mutaciones);
+		cruc.setText(aux2);
+		mut.setText(aux3);
+		
 		fitness= (double) stats.get("fitness");
+		media= (double) stats.get("Media");
 		descifrado=(String) stats.get("Conversion");
 		String aux= "Fitness: "+ String.valueOf(fitness);
+		String aux1= "Media: "+ String.valueOf(media);
 		fit.setText(aux);
+		med.setText(aux1);
 		descif.setText(descifrado);
 		
 	}
 
 	@Override
-	public void reset() {
-		
+	public void reset() {		
 		fit.setText("Fitness: --");
+		med.setText("Media: --");
 		descif.setText("");
+		
+		cruc.setText("Num. Cruces: --");
+		mut.setText("Num. Mutaciones: --");
 	}
 	
 }

@@ -14,7 +14,7 @@ public class Insercion  extends Mutacion{
 	@Override
 	public List<Individuo> mutarInd(List<Individuo> p) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
-		boolean mutado;
+		NumMutac=0;
 		double prob;
 		int pos1,pos2;
 		int tam=p.get(0).getTamCromosoma();
@@ -24,6 +24,7 @@ public class Insercion  extends Mutacion{
 			
 			prob=Math.random();
 			if(prob < probMutacion) {
+				NumMutac++;
 				crom= nuevaPob.get(i).getCromosoma();
 				pos1=(int) (Math.random()*tam);
 				do {

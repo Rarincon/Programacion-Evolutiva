@@ -16,6 +16,7 @@ public class MRaulRober extends Mutacion{
 	@Override
 	public List<Individuo> mutarInd(List<Individuo> p) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
+		NumMutac=0;
 		double prob;
 		int pos1,pos2,aux;
 		int tam=p.get(0).getTamCromosoma();
@@ -24,6 +25,7 @@ public class MRaulRober extends Mutacion{
 			nuevaPob.add(p.get(i).copia());
 			prob=Math.random();
 			if(prob < probMutacion) {
+				NumMutac++;
 				crom= nuevaPob.get(i).getCromosoma();
 				pos1=(int) (Math.random()*n);
 				pos2=tam-pos1-1;

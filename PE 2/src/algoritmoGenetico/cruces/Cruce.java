@@ -33,5 +33,7 @@ public abstract class Cruce {
 		return cruce(pob);
 	}
 	public abstract List<Individuo> cruce(List<Individuo> l);
+	
+	public int NumCruces() {return sel_cruce.size();}
 }
 
