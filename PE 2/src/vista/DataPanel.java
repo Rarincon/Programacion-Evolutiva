@@ -113,11 +113,11 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		JPanel x4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		x4.add(med);
 		
-		String aux2= "Num. Cruces: "+ String.valueOf(cruces);
+		String aux2= "N. Cruces: "+ String.valueOf(cruces);
 		cruc = new JLabel(aux2);
 		JPanel x5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		x5.add(cruc);
-		String aux3= "Num. Mutaciones: "+ String.valueOf(mutaciones);
+		String aux3= "N. Mutaciones: "+ String.valueOf(mutaciones);
 		mut = new JLabel(aux3);
 		JPanel x6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		x6.add(mut);
@@ -161,8 +161,8 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		
 		cruces = (int) stats.get("Num Cruces");
 		mutaciones = (int) stats.get("Num Mutaciones");
-		String aux2= "Num. Cruces: "+ String.valueOf(cruces);
-		String aux3= "Num. Mutaciones: "+ String.valueOf(mutaciones);
+		String aux2= "N. Cruces: "+ String.valueOf(cruces);
+		String aux3= "N. Mutaciones: "+ String.valueOf(mutaciones);
 		cruc.setText(aux2);
 		mut.setText(aux3);
 		
@@ -183,8 +183,8 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		med.setText("Media: --");
 		descif.setText("");
 		
-		cruc.setText("Num. Cruces: --");
-		mut.setText("Num. Mutaciones: --");
+		cruc.setText("N. Cruces: --");
+		mut.setText("N. Mutaciones: --");
 	}
 	
 }
