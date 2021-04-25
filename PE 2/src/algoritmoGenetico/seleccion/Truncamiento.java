@@ -24,16 +24,18 @@ public class Truncamiento implements Seleccion {
 		nuevaPob = new ArrayList<Individuo>();
 		/*if(maximizar)
 			pob.sort(new Sorted(true));
-		else*/ pob.sort(new Sorted(false,true));
+		else*/ 
+		pob.sort(new Sorted(false,true));
 		
 		int p = (int) (1/trunc);
-		int Nselccionados = pob.size()/p;
+		int Nselccionados = tam/p;
 		
 		for (int i =0; i < Nselccionados; i++){
 			for (int j=0; j<p;j++){
 				nuevaPob.add(pob.get(i).copia());
 			}
 		}
+		if(tam%2==1)nuevaPob.add(pob.get(Nselccionados).copia());
 		return nuevaPob;
 	}
 
