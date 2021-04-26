@@ -362,7 +362,7 @@ public class AlgoritmoGenetico {
 				}
 				total.put(NGRAMAS[j], tot);
 				gramas.put(NGRAMAS[j],map);
-				
+				s.close();
 				/*if(gramas.containsKey(NGRAMAS[j])) {
 					map=gramas.get(NGRAMAS[j]);
 					if(map.containsKey(NGRAMAS[j]+"total"))
