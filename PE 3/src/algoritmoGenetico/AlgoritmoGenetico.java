@@ -1,0 +1,314 @@
+package algoritmoGenetico;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+
+import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceCO;
+import algoritmoGenetico.cruces.CruceCX;
+import algoritmoGenetico.cruces.CruceERX;
+import algoritmoGenetico.cruces.CruceOX;
+import algoritmoGenetico.cruces.CruceOXOP;
+import algoritmoGenetico.cruces.CruceOXPP;
+import algoritmoGenetico.cruces.CrucePMX;
+import algoritmoGenetico.cruces.CruceRaulRober;
+import algoritmoGenetico.individuos.Individuo;
+import algoritmoGenetico.individuos.IndividuoCifrado;
+import algoritmoGenetico.mutacion.Heuristica;
+import algoritmoGenetico.mutacion.Insercion;
+import algoritmoGenetico.mutacion.Intercambio;
+import algoritmoGenetico.mutacion.Inversion;
+import algoritmoGenetico.mutacion.MRaulRober;
+import algoritmoGenetico.mutacion.Mutacion;
+import algoritmoGenetico.seleccion.Estocastico;
+import algoritmoGenetico.seleccion.Ranking;
+import algoritmoGenetico.seleccion.Restos;
+import algoritmoGenetico.seleccion.Ruleta;
+import algoritmoGenetico.seleccion.Seleccion;
+import algoritmoGenetico.seleccion.TorneoDeterministico;
+import algoritmoGenetico.seleccion.TorneoProbabilistico;
+import algoritmoGenetico.seleccion.Truncamiento;
+import utils.Sorted;
+
+public class AlgoritmoGenetico {
+	
+	static private final int defaultPop = 100;
+	static private final double defaultProbCruce = 0.6;
+	static private final double defaultProbMut = 0.05;
+	static private final double defaultEliteRate = 0.03;
+	static private final int defaultTamTorn = 5;
+	static private final int maxreinicio = 7;	
+	
+	private List<Individuo> poblacion;
+	private int TamPob;
+	private Seleccion selMod;
+	private Cruce crucMod;
+	private Mutacion mutMod;
+	private double probCruce;
+	private double probMut;
+	private int tamTorneo;
+	private double eliteRango;
+	private boolean maximizar;
+	
+	private double PeorF;
+	private double PeorAF;
+	private double Media;
+	
+	private int reinicio;
+	
+	private String descifrado,descifradoM,ConversionM,Conversion;
+	private static String cifrado;
+	
+	private static final String[] NGRAMAS= {"Bigram","Monogram","Trigram"};
+	private static Map<String,Map<Object,Integer>>gramas;
+	private static Map<String, Long> total;
+	
+	private int NumCruces, NumMutac;
+	
+	public AlgoritmoGenetico() {
+		
+		poblacion= new ArrayList<Individuo>();
+		
+		TamPob=defaultPop;
+		probCruce=defaultProbCruce;
+		probMut=defaultProbMut;
+		eliteRango=defaultEliteRate;
+		tamTorneo=defaultTamTorn;
+		maximizar=true;
+		
+		cifrado="";
+		descifradoM=descifrado="";
+		gramas= new HashMap<String,Map<Object,Integer>>();
+		total= new HashMap<String,Long>();
+		reset();
+	}
+
+
+	public void init(int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
+		maximizar=false;
+		
+		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(cifrado)); 
+		
+		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		
+		if(opcionS==0) selMod= new Ruleta();
+		else if(opcionS==1) selMod= new Estocastico();
+		else if(opcionS==2 )selMod= new TorneoProbabilistico(tamTorneo);
+		else if(opcionS==3) selMod= new TorneoDeterministico(tamTorneo);
+		else if(opcionS==4) selMod= new Truncamiento(maximizar);
+		else if(opcionS==5) selMod= new Restos();
+		else selMod= new Ranking();
+		
+		if(opcionC==0) crucMod= new CrucePMX(probCruce);
+		else if(opcionC==1)crucMod= new CruceOX(probCruce);
+		else if(opcionC==2)crucMod= new CruceOXPP(probCruce);
+		else if(opcionC==3)crucMod= new CruceOXOP(probCruce);
+		else if(opcionC==4)crucMod= new CruceCX(probCruce);
+		else if(opcionC==5)crucMod= new CruceERX(probCruce);
+		else if(opcionC==6)crucMod= new CruceCO(probCruce);
+		else crucMod= new CruceRaulRober(probCruce);
+		
+		if(opcionM==0)mutMod= new Inversion(probMut);
+		else if(opcionM==1)mutMod= new Intercambio(probMut);
+		else if(opcionM==2)mutMod= new Insercion(probMut);
+		else if(opcionM==3) mutMod= new Heuristica(probMut);
+		else mutMod= new MRaulRober(probMut);
+		
+		PeorF = Double.POSITIVE_INFINITY;
+	}
+	
+	public List<Individuo> seleccion() {
+		 return selMod.selecciona(poblacion,poblacion.size());
+	}
+	
+	public List<Individuo> cruce(List<Individuo> pob) {
+		return crucMod.selecCruzados(pob);
+	}
+	
+	public List<Individuo> mutacion(List<Individuo> pob){
+		return mutMod.mutarInd(pob);
+	}
+	
+	public void reset() {
+		poblacion.clear();
+		Media=0;
+		resetAct();
+		reinicio=0;
+		
+		NumCruces=0;
+		NumMutac=0;
+	}
+	
+	public void conteo() {
+		NumCruces+=crucMod.NumCruces();
+		NumMutac+=mutMod.NumMutaciones();
+	}
+	
+	public void resetAct() {
+		PeorAF = Double.POSITIVE_INFINITY;
+	}
+	
+	public void evaluar() {
+		resetAct();
+		double punt_acu=0,TotalFitness=0;		
+
+		for(int i=0;i<poblacion.size();i++) {
+			poblacion.get(i).setFitness(poblacion.get(i).evaluar(gramas,total));
+			
+			TotalFitness+=poblacion.get(i).getFitness();
+			
+			if(poblacion.get(i).getFitness()<PeorAF) {
+				PeorAF=poblacion.get(i).getFitness();
+				descifrado=poblacion.get(i).getDescifrado();
+				Conversion=poblacion.get(i).getConversion();
+			}
+		}
+		
+		Media=TotalFitness/poblacion.size();
+		
+		for(int i=0;i<poblacion.size();i++) {
+			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
+			poblacion.get(i).setPuntAcum(poblacion.get(i).getPunt()+ punt_acu);
+			punt_acu+=poblacion.get(i).getPunt();
+		}
+		
+		if(PeorAF < PeorF) {
+			PeorF=PeorAF;
+			descifradoM=descifrado;
+			ConversionM=Conversion;
+			reinicio=0;
+		}
+		else
+			reinicio++;
+			
+	}
+	
+	public void nextElisGen() {
+		if(reinicio>=maxreinicio) reinicializar();
+		List<Individuo> nuevaPob;
+		List<Individuo> fijos;
+		fijos=escogerElite(poblacion);
+		
+		//Seleccion
+		nuevaPob=seleccion();
+		//Cruce
+		nuevaPob = cruce(nuevaPob);
+		//Mutacion
+		nuevaPob= mutacion(nuevaPob);
+		
+		conteo();
+		
+		nuevaPob=insertartElite(nuevaPob, fijos);
+		poblacion.clear();
+		poblacion= nuevaPob;
+		evaluar();
+	}
+	
+	private void reinicializar() {
+		reinicio=0;
+		List<Individuo>fijos=EliteReset(poblacion);
+		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		insertartElite(poblacion, fijos);
+		evaluar();
+	}
+	
+	private List<Individuo> escogerElite(List<Individuo> pob) {
+		pob.sort(new Sorted(false,true));
+		List<Individuo> elite = new ArrayList<Individuo>();
+		int tam= (int) Math.ceil(pob.size() * eliteRango);
+		for (int i = 0; i < tam; i++) {
+			elite.add(pob.get(i).copia());
+		}
+		return elite;
+	}
+	
+	private List<Individuo> EliteReset(List<Individuo> pob) {
+		pob.sort(new Sorted(false,true));
+		List<Individuo> elite = new ArrayList<Individuo>();
+		int tam= (int) Math.ceil(pob.size() * 0.10);
+		for (int i = 0; i < tam; i++) {
+			elite.add(pob.get(i).copia());
+		}
+		return elite;
+	}
+	
+	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
+		pob.sort(new Sorted(false,true));
+		for (int i = 0; i < elite.size(); ++i) {
+			pob.remove(pob.size() - 1 - i);
+			pob.add(elite.get(i).copia());
+		}
+		return pob;
+	}
+
+	public Map<String, Object> getResults() { 
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("Media", Media);
+		map.put("Descifrado", descifradoM);
+		map.put("Conversion", ConversionM);		
+		map.put("fitness", PeorF);	
+		map.put("Mejor Actual", PeorAF);
+		map.put("Num Cruces", NumCruces);
+		map.put("Num Mutaciones", NumMutac);
+		return map;
+	}
+	
+	public boolean getMaximizar() {return maximizar;}
+
+	public void setProbMut(double p)	{		probMut=p;	}
+	public void setProbCruc(double p)	{		probCruce=p;	}
+	public void setTamTor(int t)		{		tamTorneo=t;	}
+	public void setEliteR(double e) 	{		eliteRango=e;	}
+	public void setTamPob(int value) 	{ 		TamPob=value;	}
+	
+	public static void loadDataFile(Object[] objects) {
+		try {
+			String a;
+			int b;
+			long tot;
+			Map<Object,Integer> map;
+			for(int j=0;j<objects.length;j++) {		
+				Scanner s = new Scanner(new File(objects[j].toString()));
+				map = new HashMap<Object,Integer>();
+				tot=0;
+				while(s.hasNext()) {
+					a=s.next().toLowerCase();
+					b=s.nextInt();
+					tot+=b;
+					map.put(a,b);				
+				}
+				total.put(NGRAMAS[j], tot);
+				gramas.put(NGRAMAS[j],map);
+				
+				s.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setText(String text) {
+		if(text.isEmpty())
+			cifrado="";
+		else cifrado=text;
+	}
+	
+	public static String getText() {
+		return cifrado;
+	}
+	
+	public static Map<String, Map<Object, Integer>> getMap() {
+		return gramas;
+	}
+	
+	public static Map<String, Long> getMapTotal() {
+		return total;
+	}
+	
+}
