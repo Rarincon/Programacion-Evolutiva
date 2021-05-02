@@ -17,7 +17,7 @@ public class Ruleta implements Seleccion {
 		for(int i=0; i<tam; i++) {
 			prob=Math.random();
 			pos_super=0;
-			while((pos_super < tam) && (prob >= p.get(pos_super).getPuntAcum()))  {
+			while((pos_super < tam) && (prob >= p.get(pos_super).getPuntAcu()))  {
 				pos_super++;
 			}
 			if(pos_super>0)pos_super--;

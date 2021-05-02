@@ -91,7 +91,7 @@ public class ControlPanel extends JPanel {
 		Speed.setPaintTicks(true);
 		Speed.setPaintLabels(true);
 				
-		AlgoritmoGenetico.loadDataFile(loadData());
+		//AlgoritmoGenetico.loadDataFile(loadData());
 		
 		run= new JButton("Run");
 		run.setToolTipText("Run/Resume");

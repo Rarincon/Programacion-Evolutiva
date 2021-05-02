@@ -16,6 +16,7 @@ public class Controller {
 	private double probMutacion;
 	private int tamTorneo;
 	private int Seleccion;
+	private int Inicializacion;
 	private int cruce;
 	private int mutacion;
 	private double elitismoRango;
@@ -26,6 +27,7 @@ public class Controller {
 		this.mutacion=0;
 		this.cruce=0;
 		this.Seleccion=0;
+		this.Inicializacion=0;
 		this.tamPoblacion=100;
 		this.GenActual=0;
 		this.maxGeneraciones=100;
@@ -38,7 +40,7 @@ public class Controller {
 
 	public void run() {
 		reset();
-		AlGen.init(Seleccion, cruce,mutacion); 
+		AlGen.init(Inicializacion, Seleccion, cruce,mutacion); 
 		AlGen.evaluar();
 	}
 	
@@ -96,12 +98,11 @@ public class Controller {
 	public void setMutac(int selectedIndex) {
 		mutacion= selectedIndex;	
 	}
+	public void setInic(int selectedIndex) {
+		Inicializacion=selectedIndex;
+	}
 	public void setElitismRango(double value) {
 		elitismoRango=value;
-	}
-
-	public void setText(String text) {
-		AlGen.setText(text);	
 	}
 	
 	public int getGenAct() {

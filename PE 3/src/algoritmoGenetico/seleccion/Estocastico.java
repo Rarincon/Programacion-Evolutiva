@@ -19,7 +19,7 @@ public class Estocastico implements Seleccion {
 		int pos_super=0;
 		
 		for(int i=0; i<p.size(); i++) {
-			while(pos_super < p.size() && p.get(pos_super).getPuntAcum()<rand)
+			while(pos_super < p.size() && p.get(pos_super).getPuntAcu()<rand)
 				pos_super++;
 			sel_super[i]=pos_super;
 			rand+=dist;

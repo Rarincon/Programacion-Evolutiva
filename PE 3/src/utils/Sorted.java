@@ -17,8 +17,8 @@ public class Sorted implements Comparator<Individuo>{
 
 	@Override
 	public int compare(Individuo arg0, Individuo arg1) {
-		double v1 = (fitness) ? arg0.getFitness() : arg0.getPuntAcum();
-		double v2 = (fitness) ? arg1.getFitness() : arg1.getPuntAcum();
+		double v1 = (fitness) ? arg0.getFitness() : arg0.getPuntAcu();
+		double v2 = (fitness) ? arg1.getFitness() : arg1.getPuntAcu();
 		if (v1> v2) return (decreciente) ? -1 : 1;
 		else if (v1 < v2) return (decreciente) ? 1 : -1;
 		else return 0;

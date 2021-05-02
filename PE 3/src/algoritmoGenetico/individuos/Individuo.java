@@ -1,125 +1,80 @@
 package algoritmoGenetico.individuos;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.Map.Entry;
 
-
-public abstract class Individuo implements Comparable<Individuo> {
+public class Individuo {//implements Comparable<Individuo> {
 	
-	static private final int TAM=26;
-	static private final String[] abecedario={"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+	//public static Terminal terminales;
+	//public static Funcion funciones;
 	
-	protected Integer[] cromosoma;
-	protected Random r = new Random();
-	protected Map<String,Integer> abec;
+	public static String terminales[];
+	public static final String terminales6[] = { "AVANZA", "GIRA_DERECHA", "GIRA_IZQUIERDA"};
+	public static final String funciones[] = { "SIC", "PROGN2", "PROGN3" };
 	
-	protected double aptitud;
-	protected double puntuacion;
-	protected double punt_acum;
-	protected Map<String,Integer> MonoFrec,BiFrec,TriFrec;
+	private Arbol arbol; // estrategia de rastreo
+	private double aptitud;// función de evaluación
+	private double puntuacion;//puntuacion relativa:adaptación/sumadaptacion
+	private double punt_acu; // puntuacion acumulada
 	
-	protected String cifrado,descifrado;
+	private boolean elite; // elitismo
 	
-	public Individuo(String s) {
-		cifrado=s;
-		carga();
-		cromosoma =  new Integer[TAM];		
-	}
+	private double fitness_bruto; //Aptitud antes de transformarla
+	private String fenotipo;
 	
-	private void carga() {
-		abec = new HashMap<String,Integer>();
-		for(int i=0;i<TAM;i++) {
-			abec.put(abecedario[i], i);
+	
+	public Individuo(int profundidad, int tipoCreacion, int tipoMultiplexor) { //multiplexor sobra
+		arbol = new Arbol(profundidad);
+		switch(tipoCreacion){
+			case 0:
+				arbol.inicializacionCreciente(0,0);
+				break;
+			case 1:
+				arbol.inicializacionCompleta(0,0);
+				break;
+			case 2:
+				int ini = new Random().nextInt(2);
+				if(ini == 0) arbol.inicializacionCreciente(0,0);
+				else arbol.inicializacionCompleta(0,0);
+				break;
 		}
 	}
 	
-	public void inicializa() {
-		List<Integer> shuffle= new ArrayList<Integer>();
-		for(int i=0;i<TAM;i++)shuffle.add(i);
-		Collections.shuffle(shuffle);
-		for(int i=0;i<TAM;i++)cromosoma[i]=shuffle.get(i);
-	}
-	
-	protected String Descifrar() {
-		String a="";
-		String p="";
-		for(int i=0;i<cifrado.length();i++) {
-			if(Character.isLetter(cifrado.charAt(i))){
-				p+=cifrado.charAt(i);
-				a+=abecedario[(int) cromosoma[abec.get(p)]];
-				p="";
-			}
-			else a+=cifrado.charAt(i);
-		}
-		return a;		
-	}
-	
-	protected void NGram(String text) {
-		String trio="",mono="",bi="";
+	public Individuo() {
 		
-		MonoFrec= new HashMap<String,Integer>();
-		BiFrec= new HashMap<String,Integer>();
-		TriFrec= new HashMap<String,Integer>();
-		
-		for(int i=0;i<text.length();i++) {
-			if(!Character.isWhitespace(text.charAt(i))) {
-				mono+=text.charAt(i);
-				bi+=text.charAt(i);
-				trio+=text.charAt(i);
-				if(mono.length()==1) {
-					if(!MonoFrec.containsKey(mono)) {
-						MonoFrec.put(mono, 1);
-					}
-					else {
-						MonoFrec.put(mono, MonoFrec.get(mono)+1);
-					}
-					mono="";
-				}
-				if(bi.length()>1) {
-					if(!BiFrec.containsKey(bi)) {
-						BiFrec.put(bi, 1);
-					}
-					else {
-						BiFrec.put(bi, BiFrec.get(bi)+1);
-					}
-					bi = bi.substring(1, bi.length());
-				}
-				if(trio.length()>2) {
-					if(!TriFrec.containsKey(trio)) {
-						TriFrec.put(trio, 1);
-					}
-					else {
-						TriFrec.put(trio, TriFrec.get(trio)+1);
-					}
-					trio = trio.substring(1, trio.length());
-				}
-			}
-			else {
-				mono="";
-				bi="";
-				trio="";
-			}
+	}
+	
+	public void inicializa(int profundidad, int tipoCreacion) {
+		arbol = new Arbol(profundidad);
+		switch(tipoCreacion){
+			case 0:
+				arbol.inicializacionCompleta(0,0);
+				break;
+			case 1:
+				arbol.inicializacionCreciente(0,0);
+				break;
+			case 2:
+				int ini = new Random().nextInt(2);
+				if(ini == 0) arbol.inicializacionCreciente(0,0);
+				else arbol.inicializacionCompleta(0,0);
+				break;
 		}
-		int total=0;
-		for(Entry<String, Integer> entry : MonoFrec.entrySet()) {
-			total+= entry.getValue();
-		}
-		MonoFrec.put("total", total);
-		total=0;
-		for(Entry<String, Integer> entry : BiFrec.entrySet()) {
-			total+= entry.getValue();
-		}
-		BiFrec.put("total", total);
-		total=0;
-		for(Entry<String, Integer> entry : TriFrec.entrySet()) {
-			total+= entry.getValue();
-		}
-		TriFrec.put("total", total);
+	}
+	
+	public double evaluar() {
+		return aptitud;
+	}
+	
+	public Individuo copia() {
+		Individuo n= new Individuo();
+		n.setArbol(getArbol());
+		n.setFitness(getFitness());
+		n.setPunt(getPunt());
+		n.setPuntAcu(getPuntAcu());
+		return n;		
+	}
+	
+	public void setArbol(Arbol a) {
+		arbol= a;
 	}
 	
 	public void setFitness(double f) {
@@ -130,16 +85,20 @@ public abstract class Individuo implements Comparable<Individuo> {
 		puntuacion=f;
 	}
 	
-	public void setPuntAcum(double f) {
-		punt_acum=f;
+	public void setPuntAcu(double f) {
+		punt_acu=f;
+	}
+	
+	public Arbol getArbol() {
+		return arbol;
 	}
 	
 	public double getPunt() {
 		return puntuacion;
 	}
 	
-	public double getPuntAcum() {
-		return punt_acum;
+	public double getPuntAcu() {
+		return punt_acu;
 	}
 	
 	public double getFitness() {
@@ -147,40 +106,24 @@ public abstract class Individuo implements Comparable<Individuo> {
 	}
 	
 	public int getTamCromosoma() {
-		return cromosoma.length;
+		return 0;
 	}
 
 	public Integer[] getCromosoma() {
-		return cromosoma;
-	}
-	
-	public String getDescifrado() {
-		return descifrado;
-	}
-	
-	public String getConversion() {
-		String s="";
-		for(int i=0;i<TAM;i++)
-			s+= abecedario[cromosoma[i]]+" ";
-		return s;
+		return null;
 	}
 		
 	public void setCromosoma(Integer[] crom) {
-		for(int i=0; i<cromosoma.length;i++) {
-			this.cromosoma[i]=(Integer) crom[i];
-		}
+		
 	}
 	
 	public void setPosCromosoma(int pos, int valor) {
-		this.cromosoma[pos]=valor;
+		
 	}
 	
-	public abstract double evaluar(Map<String,Map<Object,Integer>> map, Map<String, Long> total);
-	public abstract Individuo copia();
-	
-	public int compareTo(Individuo arg0) {
+	/*public int compareTo(Individuo arg0) {
 		if(this.getFitness() < arg0.getFitness()) return 1;
 		else if(this.getFitness()==arg0.getFitness()) return 0;
 		else return -1;
-	}
+	}*/
 }

@@ -45,7 +45,7 @@ public class WritePanel extends JPanel implements AlgoritmoGenObserver {
 
 	@Override
 	public void reset() {
-		_ctrl.setText(text.getText().toLowerCase());
+		//_ctrl.setText(text.getText().toLowerCase());
 	}
 
 }

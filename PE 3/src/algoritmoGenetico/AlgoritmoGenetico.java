@@ -19,7 +19,6 @@ import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.cruces.CruceRaulRober;
 import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.individuos.IndividuoCifrado;
 import algoritmoGenetico.mutacion.Heuristica;
 import algoritmoGenetico.mutacion.Insercion;
 import algoritmoGenetico.mutacion.Intercambio;
@@ -44,6 +43,7 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	static private final int defaultTamTorn = 5;
 	static private final int maxreinicio = 7;	
+	static private final int defaultprof = 4;	
 	
 	private List<Individuo> poblacion;
 	private int TamPob;
@@ -55,19 +55,13 @@ public class AlgoritmoGenetico {
 	private int tamTorneo;
 	private double eliteRango;
 	private boolean maximizar;
+	private int profundidad;
 	
 	private double PeorF;
 	private double PeorAF;
 	private double Media;
 	
 	private int reinicio;
-	
-	private String descifrado,descifradoM,ConversionM,Conversion;
-	private static String cifrado;
-	
-	private static final String[] NGRAMAS= {"Bigram","Monogram","Trigram"};
-	private static Map<String,Map<Object,Integer>>gramas;
-	private static Map<String, Long> total;
 	
 	private int NumCruces, NumMutac;
 	
@@ -81,21 +75,33 @@ public class AlgoritmoGenetico {
 		eliteRango=defaultEliteRate;
 		tamTorneo=defaultTamTorn;
 		maximizar=true;
+		profundidad=defaultprof;
 		
-		cifrado="";
-		descifradoM=descifrado="";
-		gramas= new HashMap<String,Map<Object,Integer>>();
-		total= new HashMap<String,Long>();
 		reset();
 	}
 
 
-	public void init(int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
+	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
 		maximizar=false;
 		
-		for(int i=0;i<TamPob;i++) poblacion.add(new IndividuoCifrado(cifrado)); 
+		for(int i=0;i<TamPob;i++) poblacion.add(new Individuo()); 
 		
-		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		if(opcionI==0) for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,0);
+		else if(opcionI==1)for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,1); 
+		else {
+			int c=profundidad-1;
+			int N= TamPob/c;
+			int x=0;
+			int tipo=0;
+			while(x<c) {
+				tipo=0;
+				for(int i=0;i<N;i++) {
+					poblacion.get(i).inicializa(profundidad-x,tipo);
+					tipo=(tipo+1)%2;
+				}
+				x++;
+			}
+		}
 		
 		if(opcionS==0) selMod= new Ruleta();
 		else if(opcionS==1) selMod= new Estocastico();
@@ -159,14 +165,14 @@ public class AlgoritmoGenetico {
 		double punt_acu=0,TotalFitness=0;		
 
 		for(int i=0;i<poblacion.size();i++) {
-			poblacion.get(i).setFitness(poblacion.get(i).evaluar(gramas,total));
+			poblacion.get(i).setFitness(poblacion.get(i).evaluar());
 			
 			TotalFitness+=poblacion.get(i).getFitness();
 			
 			if(poblacion.get(i).getFitness()<PeorAF) {
 				PeorAF=poblacion.get(i).getFitness();
-				descifrado=poblacion.get(i).getDescifrado();
-				Conversion=poblacion.get(i).getConversion();
+				//descifrado=poblacion.get(i).getDescifrado();
+				//Conversion=poblacion.get(i).getConversion();
 			}
 		}
 		
@@ -174,14 +180,12 @@ public class AlgoritmoGenetico {
 		
 		for(int i=0;i<poblacion.size();i++) {
 			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
-			poblacion.get(i).setPuntAcum(poblacion.get(i).getPunt()+ punt_acu);
+			poblacion.get(i).setPuntAcu(poblacion.get(i).getPunt()+ punt_acu);
 			punt_acu+=poblacion.get(i).getPunt();
 		}
 		
 		if(PeorAF < PeorF) {
 			PeorF=PeorAF;
-			descifradoM=descifrado;
-			ConversionM=Conversion;
 			reinicio=0;
 		}
 		else
@@ -213,7 +217,7 @@ public class AlgoritmoGenetico {
 	private void reinicializar() {
 		reinicio=0;
 		List<Individuo>fijos=EliteReset(poblacion);
-		for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		//for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
 		insertartElite(poblacion, fijos);
 		evaluar();
 	}
@@ -250,8 +254,8 @@ public class AlgoritmoGenetico {
 	public Map<String, Object> getResults() { 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Media", Media);
-		map.put("Descifrado", descifradoM);
-		map.put("Conversion", ConversionM);		
+		//map.put("Descifrado", descifradoM);
+		//map.put("Conversion", ConversionM);		
 		map.put("fitness", PeorF);	
 		map.put("Mejor Actual", PeorAF);
 		map.put("Num Cruces", NumCruces);
@@ -266,49 +270,5 @@ public class AlgoritmoGenetico {
 	public void setTamTor(int t)		{		tamTorneo=t;	}
 	public void setEliteR(double e) 	{		eliteRango=e;	}
 	public void setTamPob(int value) 	{ 		TamPob=value;	}
-	
-	public static void loadDataFile(Object[] objects) {
-		try {
-			String a;
-			int b;
-			long tot;
-			Map<Object,Integer> map;
-			for(int j=0;j<objects.length;j++) {		
-				Scanner s = new Scanner(new File(objects[j].toString()));
-				map = new HashMap<Object,Integer>();
-				tot=0;
-				while(s.hasNext()) {
-					a=s.next().toLowerCase();
-					b=s.nextInt();
-					tot+=b;
-					map.put(a,b);				
-				}
-				total.put(NGRAMAS[j], tot);
-				gramas.put(NGRAMAS[j],map);
-				
-				s.close();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void setText(String text) {
-		if(text.isEmpty())
-			cifrado="";
-		else cifrado=text;
-	}
-	
-	public static String getText() {
-		return cifrado;
-	}
-	
-	public static Map<String, Map<Object, Integer>> getMap() {
-		return gramas;
-	}
-	
-	public static Map<String, Long> getMapTotal() {
-		return total;
-	}
 	
 }

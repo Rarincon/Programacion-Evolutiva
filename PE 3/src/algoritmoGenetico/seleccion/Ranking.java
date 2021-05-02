@@ -23,7 +23,7 @@ public class Ranking implements Seleccion{
 			probOfIth *= 2*(_beta-1);
 			probOfIth = _beta - probOfIth;
 			probOfIth = (double)probOfIth * ((double)1/pop.size());
-			pop.get(i).setPuntAcum(accPunc);
+			pop.get(i).setPuntAcu(accPunc);
 			pop.get(i).setPunt(probOfIth);
 			accPunc += probOfIth;
 		}
