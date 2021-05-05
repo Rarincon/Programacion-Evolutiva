@@ -136,9 +136,9 @@ public class Arbol {
 			func = rnd.nextInt(Individuo.funciones.length);
 			this.valor = Individuo.funciones[func];
 			this.setEsRaiz(true);
-			//if(valor.equals("IF"))
-			nHijos = 3;
-			//if(valor.equals("NOT")) nHijos = 1;
+			if(valor.equals("SIC"))nHijos = 2;
+			else if(valor.equals("PROGN2")) nHijos = 2;
+			else if(valor.equals("PROGN3")) nHijos = 3;
 			for(int i = 0; i < nHijos; i++){
 				Arbol hijo = new Arbol(max_prof);
 				//hijo.setPadre(this);
@@ -180,9 +180,10 @@ public class Arbol {
 				this.valor = Individuo.funciones[func];
 			}
 			this.setEsRaiz(true);
-			//if(valor.equals("IF"))
-			nHijos = 3;
-			//if(valor.equals("NOT")) nHijos = 1;
+			if(valor.equals("SIC"))nHijos = 2;
+			else if(valor.equals("PROGN2")) nHijos = 2;
+			else if(valor.equals("PROGN3")) nHijos = 3;
+			else nHijos = 0;
 			for(int i = 0; i < nHijos; i++){
 				Arbol hijo = new Arbol(max_prof);
 				//hijo.setPadre(this);
@@ -336,6 +337,10 @@ public class Arbol {
 
 	public ArrayList<Arbol> getHijos() {
 		return hijos;
+	}
+	
+	public Arbol getHijoAt(int index) {
+		return hijos.get(index);
 	}
 
 	public void setHijos(ArrayList<Arbol> hijos) {

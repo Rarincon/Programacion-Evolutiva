@@ -1,5 +1,6 @@
 package algoritmoGenetico.individuos;
 
+import java.util.Map;
 import java.util.Random;
 
 public class Individuo {//implements Comparable<Individuo> {
@@ -20,6 +21,10 @@ public class Individuo {//implements Comparable<Individuo> {
 	
 	private double fitness_bruto; //Aptitud antes de transformarla
 	private String fenotipo;
+	
+	private int pasos,bocados;
+	private Map mapa;
+	private Hormiga hormiga;
 	
 	
 	public Individuo(int profundidad, int tipoCreacion, int tipoMultiplexor) { //multiplexor sobra
@@ -59,6 +64,67 @@ public class Individuo {//implements Comparable<Individuo> {
 				break;
 		}
 	}
+	
+	
+	public void fitness(int maxPasos) {
+		//log.finest("Evaluando nuevo cromosoma");
+		bocados = 0;
+		pasos = 0;
+		mapa = (Mapa) Controlador.getInstance().getMapa().clone();
+		hormiga = new Hormiga();
+		while (pasos < maxPasos && bocados<=mapa.getNumComida()) {
+			//log.finest("Nueva ejecución del programa");
+			try {
+				ejecutarArbol(arbol,maxPasos);
+			} catch (Exception e) {
+				//this.log.severe("Cromosoma erróneo: \n"
+					//	+ c.getCadena().toString());
+				pasos++;
+			}
+		}
+
+		setFitness(bocados);
+		//log.finest("FIN Evaluando nuevo cromosoma. APTITUD=" + bocados);
+	}
+
+	protected void ejecutarArbol(Arbol arb, int maxPasos) { //
+		//log.finest("Instrucción: " + nodo.getDato().toString());
+		// mientras no se haya acabado el tiempo ni la comida
+		if ((pasos < maxPasos)&&(aptitud<mapa.getNumComida())) {
+			// si estamos encima de comida comemos
+			if (mapa.getCasilla(hormiga.getX(), hormiga.getY())) {
+				mapa.comer(hormiga.getX(), hormiga.getY());
+				bocados++;
+			}
+			if (arb.getValor().equals(Tipo.PROGN3)) {
+				ejecutarArbol(arb.at(0),maxPasos);
+				ejecutarArbol(arb.at(1),maxPasos);
+				ejecutarArbol(arb.at(2),maxPasos);
+			} else if (arb.getValor().equals(Tipo.PROGN2)) {
+				ejecutarArbol(arb.at(0),maxPasos);
+				ejecutarArbol(arb.at(1),maxPasos);
+			} else if (arb.getValor().equals(Tipo.SIC)) {
+				int[] sigPos = hormiga.getSigPos();
+				if (mapa.getCasilla(sigPos[0], sigPos[1])) {
+					// Hay comida delante
+					ejecutarArbol(arb.at(0),maxPasos);
+				} else {
+					// No hay comida delante
+					ejecutarArbol(arb.at(1),maxPasos);
+				}
+			} else if (arb.getValor().equals(Tipo.AVANZA)) {
+				hormiga.avanzar();
+				pasos++;
+			} else if (arb.getValor().equals(Tipo.GIRA_DERECHA)) {
+				hormiga.girarDer();
+				pasos++;
+			} else if (arb.getValor().equals(Tipo.GIRA_IZQUIERDA)) {
+				hormiga.girarIzq();
+				pasos++;
+			}
+		}
+	}
+
 	
 	public double evaluar() {
 		return aptitud;
