@@ -17,11 +17,13 @@ public class Arbol {
 	
 	public Arbol(String v) {
 		valor=v;
+		hijos=new ArrayList<Arbol>();
 	}
 
 	public Arbol(int max_prof2) {
 		//profundidad=0;
 		max_prof=max_prof2;
+		hijos=new ArrayList<Arbol>();
 		//useIF=useIF2;
 	}
 

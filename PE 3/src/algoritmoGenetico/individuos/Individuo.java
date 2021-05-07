@@ -1,10 +1,13 @@
 package algoritmoGenetico.individuos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import algoritmoGenetico.tablero.Hormiga;
 import algoritmoGenetico.tablero.Tablero;
 import controller.Controller;
+import utils.Pair;
 
 public class Individuo {//implements Comparable<Individuo> {
 	
@@ -30,7 +33,7 @@ public class Individuo {//implements Comparable<Individuo> {
 	private Hormiga hormiga;
 	
 	
-	public Individuo(int profundidad, int tipoCreacion, int tipoMultiplexor) { //multiplexor sobra
+	/*public Individuo(int profundidad, int tipoCreacion, int tipoMultiplexor) { //multiplexor sobra
 		arbol = new Arbol(profundidad);
 		switch(tipoCreacion){
 			case 0:
@@ -45,20 +48,23 @@ public class Individuo {//implements Comparable<Individuo> {
 				else arbol.inicializacionCompleta(0,0);
 				break;
 		}
-	}
+	}*/
 	
 	public Individuo() {
 		
 	}
 	
 	public void inicializa(int profundidad, int tipoCreacion) {
-		arbol = new Arbol(profundidad);
+		arbol = new Arbol(3);
+		List<String> a;
 		switch(tipoCreacion){
 			case 0:
 				arbol.inicializacionCompleta(0,0);
+				a=arbol.toArray();
 				break;
 			case 1:
 				arbol.inicializacionCreciente(0,0);
+				a=arbol.toArray();
 				break;
 			case 2:
 				int ini = new Random().nextInt(2);
@@ -93,41 +99,41 @@ public class Individuo {//implements Comparable<Individuo> {
 	private void recorreArbol(Arbol arb, int maxPasos) { //
 		//log.finest("Instrucción: " + nodo.getDato().toString());
 		// mientras no se haya acabado el tiempo ni la comida
-		if ((pasos < maxPasos)&&(aptitud<tab.getNumComida())) {
+		if ((pasos < maxPasos)&&(bocados<tab.getNumComida())) {
 			// si estamos encima de comida comemos
 			if (tab.getCasilla(hormiga.getX(), hormiga.getY())) {
 				tab.comer(hormiga.getX(), hormiga.getY());
 				bocados++;
 			}
-			if (arb.getValor().equals(Tipo.PROGN3)) {
-				recorreArbol(arb.at(0),maxPasos);
-				recorreArbol(arb.at(1),maxPasos);
-				recorreArbol(arb.at(2),maxPasos);
-			} else if (arb.getValor().equals(Tipo.PROGN2)) {
-				recorreArbol(arb.at(0),maxPasos);
-				recorreArbol(arb.at(1),maxPasos);
-			} else if (arb.getValor().equals(Tipo.SIC)) {
-				int[] sigPos = hormiga.getSigPos();
-				if (tab.getCasilla(sigPos[0], sigPos[1])) {
+			if (arb.getValor().equals("PROGN3")) {
+				recorreArbol(arb.getHijoAt(0),maxPasos);
+				recorreArbol(arb.getHijoAt(1),maxPasos);
+				recorreArbol(arb.getHijoAt(2),maxPasos);
+			} else if (arb.getValor().equals("PROGN2")) {
+				recorreArbol(arb.getHijoAt(0),maxPasos);
+				recorreArbol(arb.getHijoAt(1),maxPasos);
+			} else if (arb.getValor().equals("SIC")) {
+				Pair<Integer,Integer> sigPos = hormiga.getSigPos();
+				if (tab.getCasilla(sigPos.getFirst(), sigPos.getSecond())) {
 					// Hay comida delante
-					recorreArbol(arb.at(0),maxPasos);
+					recorreArbol(arb.getHijoAt(0),maxPasos);
 				} else {
 					// No hay comida delante
-					recorreArbol(arb.at(1),maxPasos);
+					recorreArbol(arb.getHijoAt(1),maxPasos);
 				}
-			} else if (arb.getValor().equals(Tipo.AVANZA)) {
+			} else if (arb.getValor().equals("AVANZA")) {
 				hormiga.avanza();
 				pasos++;
-			} else if (arb.getValor().equals(Tipo.GIRA_DERECHA)) {
+			} else if (arb.getValor().equals("GIRA_DERECHA")) {
 				hormiga.giraDer();
 				pasos++;
-			} else if (arb.getValor().equals(Tipo.GIRA_IZQUIERDA)) {
+			} else if (arb.getValor().equals("GIRA_IZQUIERDA")) {
 				hormiga.giraIzq();
 				pasos++;
 			}
 		}
 	}
-
+	
 	
 	public double evaluar() {
 		return aptitud;

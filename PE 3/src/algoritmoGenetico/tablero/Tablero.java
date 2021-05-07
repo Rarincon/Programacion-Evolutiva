@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import algoritmoGenetico.individuos.Tipo;
 import utils.Pair;
 
 public class Tablero {
@@ -54,7 +55,7 @@ public class Tablero {
 	}
 	
 	private boolean comida(String a) {
-		if(a=="#")return true;
+		if(a.equals("#"))return true;
 		else return  false;
 	}
 	

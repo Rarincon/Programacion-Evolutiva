@@ -5,7 +5,7 @@ import utils.Pair;
 public class Hormiga { //REPASAR Y ADAPTAR
 	private static int tamX,tamY;
 	public enum Direccion {
-		Norte, Sur, Este, Oeste
+		Norte, Este, Sur, Oeste
 	};
 
 	private int posX, posY;
@@ -13,7 +13,7 @@ public class Hormiga { //REPASAR Y ADAPTAR
 	private Direccion direccion;
 
 	public Hormiga() {
-		
+		tamX=tamY=32;
 		direccion = Direccion.Este;
 	}
 	
@@ -26,25 +26,32 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		switch (direccion) {
 		case Norte:
 			posX--;
-			posX=toroideX(posX);
+			posX=check(posX);//toroideX(posX);
 			break;
 		case Este:
 			posY++;
-			posY=toroideY(posY);
+			posY=check(posY);//toroideY(posY);
 			break;
 		case Sur:
 			posX++;
-			posX=toroideX(posX);
+			posX=check(posX);//toroideX(posX);
 			break;
 		case Oeste:
 			posY--;
-			posY=toroideY(posY);
+			posY=check(posY);//toroideY(posY);
 			break;
 		}
 		
 	}
 	
-	private int toroideX(int pos){	
+	private int check(int pos) {
+		if(pos==-1)
+			return tamX-1;
+		else return pos%tamX;
+		
+	}
+	
+	/*private int toroideX(int pos){	
 		int res=pos;
 		if(pos==-1){
 			res=tamX-1;
@@ -61,54 +68,56 @@ public class Hormiga { //REPASAR Y ADAPTAR
 			res=0;
 		}
 		return res;
-	}
+	}*/
 	
 	public Direccion getDir(){
 		return direccion;
 	}
 
-	public int[] getSigPos() {
+	public Pair<Integer,Integer> getSigPos() {
 		int x = posX;
 		int y = posY;
 		switch (direccion) {
 		case Norte:
 			x--;	
-			x=toroideX(x);
+			x=check(x);//toroideX(x);
 			break;
 		case Este:
 			y++;
-			y=toroideY(y);
+			y=check(y);//toroideY(y);
 			break;
 		case Sur:
 			x++;
-			x=toroideX(x);
+			x=check(x);//toroideX(x);
 			break;
 		case Oeste:
 			y--;
-			y=toroideY(y);
+			y=check(y);//toroideY(y);
 			break;
 		}
-		return new int[] { x, y };
+		return new Pair<Integer,Integer>(x,y);
 	}
 
 	public void giraIzq() {
-		int aux = direccion.ordinal();
-		if(aux==0){
-			aux=3;
+		int d = direccion.ordinal();
+		if(d==0){
+			d=3;
 		}else{
-			aux--;
+			d--;
 		}
-		direccion = Direccion.values()[aux];
+		direccion = Direccion.values()[d];
+		avanza();
 	}
 
 	public void giraDer() {
-		int aux = direccion.ordinal();
-		if(aux==3){
-			aux=0;
+		int d = direccion.ordinal();
+		if(d==3){
+			d=0;
 		}else{
-			aux++;
+			d++;
 		}
-		direccion = Direccion.values()[aux];
+		direccion = Direccion.values()[d];
+		avanza();
 	}
 
 	public int getX() {

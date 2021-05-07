@@ -38,7 +38,6 @@ public class Controller {
 		this.elitismoRango=0.03;
 		this.probCruce=0.6;
 		this.probMutacion=0.05;
-		tab.cargarMapa("resources/ngrams/SantaFe.txt");
 		observers = new ArrayList<AlgoritmoGenObserver>();
 	}
 
@@ -63,6 +62,8 @@ public class Controller {
 	}
 	
 	public void reset(){
+		tab= new Tablero();
+		tab.cargarMapa("resources/SantaFe.txt");
 		GenActual = 0;
 		AlGen.reset();
 		load();

@@ -38,13 +38,14 @@ public class ControlPanel extends JPanel {
 	private Controller _ctrl;
 	private boolean _stopped;
 	private JButton run,stop,reset;
-	private JComboBox<String> Seleccion,Mutacion;
+	private JComboBox<String> Seleccion,Inicializacion, Mutacion;
 	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo;
 	
 	private JSlider Speed;
 	
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
 	private String[] mutac= {"Terminal Simple","Arbol","Permutacion","Funcion Simple","Contraccion","Expansion","Hoist"};
+	private String[] inicial= { "Completa","Creciente","Ramped&Half"};
 	
 	private Map<String, String> datos;
 	
@@ -72,6 +73,7 @@ public class ControlPanel extends JPanel {
 
 		Seleccion = ComboBox(seleccion);
 		Mutacion=ComboBox(mutac);
+		Inicializacion=ComboBox(inicial);
 		
 		Speed= new JSlider(JSlider.HORIZONTAL,0 ,10, 5);
 		Speed.setPreferredSize(new Dimension(250,45));
@@ -178,6 +180,7 @@ public class ControlPanel extends JPanel {
 		
 		add(estructura("Poblacion", poblacion));
 		add(estructura("Generaciones", maxGeneracion));
+		add(estructura("Inicializacion", Inicializacion));
 		add(estructura("Elitismo", elitismo));
 		add(estructura("Seleccion", Seleccion));
 		add(estructura("Mutacion", Mutacion));
@@ -222,7 +225,8 @@ public class ControlPanel extends JPanel {
 	
 	private void carga() {
 		_ctrl.setPob((int) poblacion.getValue());
-		_ctrl.setMaxGen((int) maxGeneracion.getValue());		
+		_ctrl.setMaxGen((int) maxGeneracion.getValue());	
+		_ctrl.setInic(Inicializacion.getSelectedIndex());
 		_ctrl.setElitismRango((double) elitismo.getValue());
 		_ctrl.setSelection(Seleccion.getSelectedIndex());
 		_ctrl.setTamTorneo((int) torneo.getValue());

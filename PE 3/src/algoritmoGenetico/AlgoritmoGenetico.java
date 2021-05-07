@@ -151,8 +151,8 @@ public class AlgoritmoGenetico {
 		double punt_acu=0,TotalFitness=0;		
 
 		for(int i=0;i<poblacion.size();i++) {
-			poblacion.get(i).setFitness(poblacion.get(i).evaluar());
-			
+			//poblacion.get(i).setFitness(poblacion.get(i).evaluar());
+			poblacion.get(i).evalua(100);
 			TotalFitness+=poblacion.get(i).getFitness();
 			
 			if(poblacion.get(i).getFitness()<PeorAF) {

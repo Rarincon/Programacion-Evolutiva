@@ -9,7 +9,7 @@ import algoritmoGenetico.individuos.Individuo;
 public abstract class Cruce {
 	protected double probCruce;
 	protected List<Integer> sel_cruce;
-	protected int Altura;
+	//protected int Altura;
 	
 	public Cruce(double p) {
 		probCruce=p;
