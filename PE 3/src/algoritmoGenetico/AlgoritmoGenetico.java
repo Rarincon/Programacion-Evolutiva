@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 
 import algoritmoGenetico.cruces.Cruce;
+import algoritmoGenetico.cruces.CruceArbol;
 import algoritmoGenetico.cruces.CruceCO;
 import algoritmoGenetico.cruces.CruceCX;
 import algoritmoGenetico.cruces.CruceERX;
@@ -19,12 +20,14 @@ import algoritmoGenetico.cruces.CruceOXPP;
 import algoritmoGenetico.cruces.CrucePMX;
 import algoritmoGenetico.cruces.CruceRaulRober;
 import algoritmoGenetico.individuos.Individuo;
-import algoritmoGenetico.mutacion.Heuristica;
-import algoritmoGenetico.mutacion.Insercion;
-import algoritmoGenetico.mutacion.Intercambio;
-import algoritmoGenetico.mutacion.Inversion;
-import algoritmoGenetico.mutacion.MRaulRober;
+import algoritmoGenetico.mutacion.Contraccion;
+import algoritmoGenetico.mutacion.Expansion;
+import algoritmoGenetico.mutacion.FuncionSimple;
+import algoritmoGenetico.mutacion.Hoist;
+import algoritmoGenetico.mutacion.MutArbol;
 import algoritmoGenetico.mutacion.Mutacion;
+import algoritmoGenetico.mutacion.Permutacion;
+import algoritmoGenetico.mutacion.TerminalSimple;
 import algoritmoGenetico.seleccion.Estocastico;
 import algoritmoGenetico.seleccion.Ranking;
 import algoritmoGenetico.seleccion.Restos;
@@ -111,20 +114,24 @@ public class AlgoritmoGenetico {
 		else if(opcionS==5) selMod= new Restos();
 		else selMod= new Ranking();
 		
-		if(opcionC==0) crucMod= new CrucePMX(probCruce);
+		
+		crucMod= new CruceArbol(probCruce);
+		/*if(opcionC==0) crucMod= new CrucePMX(probCruce);
 		else if(opcionC==1)crucMod= new CruceOX(probCruce);
 		else if(opcionC==2)crucMod= new CruceOXPP(probCruce);
 		else if(opcionC==3)crucMod= new CruceOXOP(probCruce);
 		else if(opcionC==4)crucMod= new CruceCX(probCruce);
 		else if(opcionC==5)crucMod= new CruceERX(probCruce);
 		else if(opcionC==6)crucMod= new CruceCO(probCruce);
-		else crucMod= new CruceRaulRober(probCruce);
+		else crucMod= new CruceRaulRober(probCruce);*/
 		
-		if(opcionM==0)mutMod= new Inversion(probMut);
-		else if(opcionM==1)mutMod= new Intercambio(probMut);
-		else if(opcionM==2)mutMod= new Insercion(probMut);
-		else if(opcionM==3) mutMod= new Heuristica(probMut);
-		else mutMod= new MRaulRober(probMut);
+		if(opcionM==0)mutMod= new TerminalSimple(probMut);
+		else if(opcionM==1)mutMod= new MutArbol(probMut);
+		else if(opcionM==2)mutMod= new Permutacion(probMut);
+		else if(opcionM==3) mutMod= new FuncionSimple(probMut);
+		else if(opcionM==4)mutMod= new Contraccion(probMut);
+		else if(opcionM==5)mutMod= new Expansion(probMut);
+		else mutMod= new Hoist(probMut);
 		
 		PeorF = Double.POSITIVE_INFINITY;
 	}
@@ -152,7 +159,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	public void conteo() {
-		NumCruces+=crucMod.NumCruces();
+		//NumCruces+=crucMod.NumCruces();
 		NumMutac+=mutMod.NumMutaciones();
 	}
 	

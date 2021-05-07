@@ -5,6 +5,7 @@ import java.util.List;
 
 import algoritmoGenetico.AlgoritmoGenObserver;
 import algoritmoGenetico.AlgoritmoGenetico;
+import algoritmoGenetico.tablero.Tablero;
 
 public class Controller {
 
@@ -20,6 +21,9 @@ public class Controller {
 	private int cruce;
 	private int mutacion;
 	private double elitismoRango;
+	
+	private static Tablero tab;
+	
 	private List<AlgoritmoGenObserver> observers;
 	
 	public Controller() {
@@ -34,7 +38,7 @@ public class Controller {
 		this.elitismoRango=0.03;
 		this.probCruce=0.6;
 		this.probMutacion=0.05;
-		
+		tab.cargarMapa("resources/ngrams/SantaFe.txt");
 		observers = new ArrayList<AlgoritmoGenObserver>();
 	}
 
@@ -107,6 +111,9 @@ public class Controller {
 	
 	public int getGenAct() {
 		return GenActual;
+	}
+	public static Tablero getTablero() {
+		return tab;
 	}
 	
 }

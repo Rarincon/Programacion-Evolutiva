@@ -3,6 +3,9 @@ package algoritmoGenetico.individuos;
 import java.util.Map;
 import java.util.Random;
 
+import algoritmoGenetico.tablero.Tablero;
+import controller.Controller;
+
 public class Individuo {//implements Comparable<Individuo> {
 	
 	//public static Terminal terminales;
@@ -23,7 +26,7 @@ public class Individuo {//implements Comparable<Individuo> {
 	private String fenotipo;
 	
 	private int pasos,bocados;
-	private Map mapa;
+	private Tablero tab;
 	private Hormiga hormiga;
 	
 	
@@ -66,60 +69,60 @@ public class Individuo {//implements Comparable<Individuo> {
 	}
 	
 	
-	public void fitness(int maxPasos) {
+	public void evalua(int maxPasos) {
 		//log.finest("Evaluando nuevo cromosoma");
 		bocados = 0;
 		pasos = 0;
-		mapa = (Mapa) Controlador.getInstance().getMapa().clone();
+		tab = (Tablero) Controller.getTablero().clone();
 		hormiga = new Hormiga();
-		while (pasos < maxPasos && bocados<=mapa.getNumComida()) {
+		while(pasos < maxPasos && bocados<=tab.getNumComida()) {
 			//log.finest("Nueva ejecución del programa");
-			try {
-				ejecutarArbol(arbol,maxPasos);
-			} catch (Exception e) {
+			//try {
+			recorreArbol(arbol,maxPasos);
+			/*} catch (Exception e) {
 				//this.log.severe("Cromosoma erróneo: \n"
 					//	+ c.getCadena().toString());
 				pasos++;
-			}
+			}*/
 		}
 
 		setFitness(bocados);
 		//log.finest("FIN Evaluando nuevo cromosoma. APTITUD=" + bocados);
 	}
 
-	protected void ejecutarArbol(Arbol arb, int maxPasos) { //
+	private void recorreArbol(Arbol arb, int maxPasos) { //
 		//log.finest("Instrucción: " + nodo.getDato().toString());
 		// mientras no se haya acabado el tiempo ni la comida
-		if ((pasos < maxPasos)&&(aptitud<mapa.getNumComida())) {
+		if ((pasos < maxPasos)&&(aptitud<tab.getNumComida())) {
 			// si estamos encima de comida comemos
-			if (mapa.getCasilla(hormiga.getX(), hormiga.getY())) {
-				mapa.comer(hormiga.getX(), hormiga.getY());
+			if (tab.getCasilla(hormiga.getX(), hormiga.getY())) {
+				tab.comer(hormiga.getX(), hormiga.getY());
 				bocados++;
 			}
 			if (arb.getValor().equals(Tipo.PROGN3)) {
-				ejecutarArbol(arb.at(0),maxPasos);
-				ejecutarArbol(arb.at(1),maxPasos);
-				ejecutarArbol(arb.at(2),maxPasos);
+				recorreArbol(arb.at(0),maxPasos);
+				recorreArbol(arb.at(1),maxPasos);
+				recorreArbol(arb.at(2),maxPasos);
 			} else if (arb.getValor().equals(Tipo.PROGN2)) {
-				ejecutarArbol(arb.at(0),maxPasos);
-				ejecutarArbol(arb.at(1),maxPasos);
+				recorreArbol(arb.at(0),maxPasos);
+				recorreArbol(arb.at(1),maxPasos);
 			} else if (arb.getValor().equals(Tipo.SIC)) {
 				int[] sigPos = hormiga.getSigPos();
-				if (mapa.getCasilla(sigPos[0], sigPos[1])) {
+				if (tab.getCasilla(sigPos[0], sigPos[1])) {
 					// Hay comida delante
-					ejecutarArbol(arb.at(0),maxPasos);
+					recorreArbol(arb.at(0),maxPasos);
 				} else {
 					// No hay comida delante
-					ejecutarArbol(arb.at(1),maxPasos);
+					recorreArbol(arb.at(1),maxPasos);
 				}
 			} else if (arb.getValor().equals(Tipo.AVANZA)) {
-				hormiga.avanzar();
+				hormiga.avanza();
 				pasos++;
 			} else if (arb.getValor().equals(Tipo.GIRA_DERECHA)) {
-				hormiga.girarDer();
+				hormiga.giraDer();
 				pasos++;
 			} else if (arb.getValor().equals(Tipo.GIRA_IZQUIERDA)) {
-				hormiga.girarIzq();
+				hormiga.giraIzq();
 				pasos++;
 			}
 		}

@@ -11,14 +11,12 @@ import utils.Pair;
 
 public class Tablero {
 	
-	private int Xini,Yini;
 	private boolean casillas[][];
-	private int filas, cols;
+	private int fil, cols;
 	private int numComida;
 	
 	public Tablero() {
-		cols=filas=32;
-		Xini=Yini=0;
+		cols=fil=32;
 	}
 	
 	public void cargarMapa(String ruta){
@@ -30,15 +28,15 @@ public class Tablero {
 			//Columnas
 			linea=lector.readLine();
 			cols=Integer.parseInt(linea);*/
-			File f = new File("resources/ngrams/SantaFe.txt");
+			File f = new File(ruta);
 			String a = f.getAbsolutePath();
 			Scanner s = new Scanner(new File(a));
 			String b;
 			//Mapa
 			numComida=0;
-			casillas=new boolean[filas][cols];	
-			String []lineaPartida;
-			for(int i=0;i<filas;i++){
+			casillas=new boolean[fil][cols];	
+			//String []lineaPartida;
+			for(int i=0;i<fil;i++){
 				//linea=lector.readLine();
 				//lineaPartida=linea.split(" ");
 				for(int j=0;j<cols;j++){
@@ -52,8 +50,6 @@ public class Tablero {
 			
 		} catch (FileNotFoundException e) {
 			//Logger.getLogger("CP").severe("Problema al abrir el archivo del mapa.");			
-		} catch (IOException e) {
-			//Logger.getLogger("CP").severe("Problema al leer el archivo del mapa.");			
 		}
 	}
 	
@@ -62,9 +58,9 @@ public class Tablero {
 		else return  false;
 	}
 	
-	public Pair<Integer, Integer> posIni(){
+	/*public Pair<Integer, Integer> posIni(){
 		return new Pair<Integer,Integer>(Xini,Yini);
-	}
+	}*/
 	
 	public boolean getCasilla(int x, int y){
 		return casillas[x][y];
@@ -76,6 +72,18 @@ public class Tablero {
 	
 	public void comer(int x, int y){
 		casillas[x][y]=false;
+	}
+	
+	public Tablero clone(){
+		Tablero t= new Tablero();
+		t.numComida=this.numComida;
+		t.casillas=new boolean[fil][cols];
+		for(int i=0;i<fil;i++){			
+			for(int j=0;j<cols;j++){
+				t.casillas[i][j]=casillas[i][j];
+			}
+		}	
+		return t;
 	}
 
 }

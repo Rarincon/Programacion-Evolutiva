@@ -1,9 +1,11 @@
 package algoritmoGenetico.individuos;
 
+import utils.Pair;
+
 public class Hormiga { //REPASAR Y ADAPTAR
 	private static int tamX,tamY;
 	public enum Direccion {
-		Norte, Este, Sur, Oeste
+		Norte, Sur, Este, Oeste
 	};
 
 	private int posX, posY;
@@ -11,16 +13,16 @@ public class Hormiga { //REPASAR Y ADAPTAR
 	private Direccion direccion;
 
 	public Hormiga() {
-		posX = posY = 0;
-		direccion = Direccion.Oeste;
+		
+		direccion = Direccion.Este;
 	}
 	
-	public static void setTamTablero(int x,int y){
+	/*public static void setTamTablero(int x,int y){
 		tamX=x;
 		tamY=y;
-	}
+	}*/
 
-	public void avanzar() {
+	public void avanza() {
 		switch (direccion) {
 		case Norte:
 			posX--;
@@ -89,7 +91,7 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		return new int[] { x, y };
 	}
 
-	public void girarIzq() {
+	public void giraIzq() {
 		int aux = direccion.ordinal();
 		if(aux==0){
 			aux=3;
@@ -99,7 +101,7 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		direccion = Direccion.values()[aux];
 	}
 
-	public void girarDer() {
+	public void giraDer() {
 		int aux = direccion.ordinal();
 		if(aux==3){
 			aux=0;
@@ -117,8 +119,8 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		return posY;
 	}
 
-	public int[] getPos() {
-		return new int[] { posX, posY };
+	public Pair<Integer,Integer> getPos() {
+		return new Pair<Integer,Integer>(posX, posY);
 	}
 
 }
