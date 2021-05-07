@@ -167,7 +167,7 @@ public class Arbol {
 	
 	public int inicializacionCreciente(int p, int nodos) {
 		int n = nodos;
-		int nHijos = 2;
+		int nHijos=0;
 		if(p < max_prof){
 			setProfundidad(p);
 			Random rnd = new Random();
@@ -176,16 +176,18 @@ public class Arbol {
 			if(ini == 0) {
 				func = rnd.nextInt(Individuo.terminales6.length);
 				this.valor = Individuo.terminales6[func];
+				this.setEsHoja(true);
+				numHijos = 0;
 			}
 			else {
 				func = rnd.nextInt(Individuo.funciones.length);
 				this.valor = Individuo.funciones[func];
-			}
-			this.setEsRaiz(true);
+				this.setEsRaiz(true);
+			}	
 			if(valor.equals("SIC"))nHijos = 2;
 			else if(valor.equals("PROGN2")) nHijos = 2;
 			else if(valor.equals("PROGN3")) nHijos = 3;
-			else nHijos = 0;
+			//else nHijos = 0;
 			for(int i = 0; i < nHijos; i++){
 				Arbol hijo = new Arbol(max_prof);
 				//hijo.setPadre(this);
