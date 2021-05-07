@@ -1,8 +1,8 @@
 package algoritmoGenetico.individuos;
 
-import java.util.Map;
 import java.util.Random;
 
+import algoritmoGenetico.tablero.Hormiga;
 import algoritmoGenetico.tablero.Tablero;
 import controller.Controller;
 
@@ -172,22 +172,6 @@ public class Individuo {//implements Comparable<Individuo> {
 	
 	public double getFitness() {
 		return aptitud;
-	}
-	
-	public int getTamCromosoma() {
-		return 0;
-	}
-
-	public Integer[] getCromosoma() {
-		return null;
-	}
-		
-	public void setCromosoma(Integer[] crom) {
-		
-	}
-	
-	public void setPosCromosoma(int pos, int valor) {
-		
 	}
 	
 	/*public int compareTo(Individuo arg0) {

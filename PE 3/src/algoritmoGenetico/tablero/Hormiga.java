@@ -1,4 +1,4 @@
-package algoritmoGenetico.individuos;
+package algoritmoGenetico.tablero;
 
 import utils.Pair;
 

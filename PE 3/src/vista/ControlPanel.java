@@ -38,14 +38,13 @@ public class ControlPanel extends JPanel {
 	private Controller _ctrl;
 	private boolean _stopped;
 	private JButton run,stop,reset;
-	private JComboBox<String> Seleccion, Cruce,Mutacion;
+	private JComboBox<String> Seleccion,Mutacion;
 	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo;
 	
 	private JSlider Speed;
 	
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
-	private String[] cruce= {"PMX","OX","OXPP","OXOP","CX","ERX","CO", "CruceRaulRober"};
-	private String[] mutac= {"Inversion","Intercambio","Insercion","Heuristica","MRaulRober"};
+	private String[] mutac= {"Terminal Simple","Arbol","Permutacion","Funcion Simple","Contraccion","Expansion","Hoist"};
 	
 	private Map<String, String> datos;
 	
@@ -72,7 +71,6 @@ public class ControlPanel extends JPanel {
 		probCruce.setPreferredSize(new Dimension(75,30));
 
 		Seleccion = ComboBox(seleccion);
-		Cruce= ComboBox(cruce);
 		Mutacion=ComboBox(mutac);
 		
 		Speed= new JSlider(JSlider.HORIZONTAL,0 ,10, 5);
@@ -138,7 +136,6 @@ public class ControlPanel extends JPanel {
 		mutacion.setEnabled(b);
 		elitismo.setEnabled(b);
 		torneo.setEnabled(b);
-		Cruce.setEnabled(b);
 		Seleccion.setEnabled(b);
 		mutacion.setEnabled(b);
 		probCruce.setEnabled(b);
@@ -183,7 +180,6 @@ public class ControlPanel extends JPanel {
 		add(estructura("Generaciones", maxGeneracion));
 		add(estructura("Elitismo", elitismo));
 		add(estructura("Seleccion", Seleccion));
-		add(estructura("Cruce", Cruce));
 		add(estructura("Mutacion", Mutacion));
 		add(estructura("Tam. Torneos", torneo));
 		add(estructura("Prob. Cruce", probCruce));
@@ -230,13 +226,12 @@ public class ControlPanel extends JPanel {
 		_ctrl.setElitismRango((double) elitismo.getValue());
 		_ctrl.setSelection(Seleccion.getSelectedIndex());
 		_ctrl.setTamTorneo((int) torneo.getValue());
-		_ctrl.setCruce(Cruce.getSelectedIndex()); 
 		_ctrl.setMutac(Mutacion.getSelectedIndex());
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
 	}
 	
-	private Object[] loadData() {
+	/*private Object[] loadData() {
 		File f = new File("resources/ngrams/");
 		datos = new HashMap<String, String>();
 		for (File fil : f.listFiles()) {
@@ -247,6 +242,6 @@ public class ControlPanel extends JPanel {
 		Object[] list = datos.values().toArray();
 		Arrays.sort(list);
 		return list;
-	}
+	}*/
 
 }

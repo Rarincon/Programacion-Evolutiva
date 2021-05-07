@@ -1,24 +1,12 @@
 package algoritmoGenetico;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-
 
 import algoritmoGenetico.cruces.Cruce;
 import algoritmoGenetico.cruces.CruceArbol;
-import algoritmoGenetico.cruces.CruceCO;
-import algoritmoGenetico.cruces.CruceCX;
-import algoritmoGenetico.cruces.CruceERX;
-import algoritmoGenetico.cruces.CruceOX;
-import algoritmoGenetico.cruces.CruceOXOP;
-import algoritmoGenetico.cruces.CruceOXPP;
-import algoritmoGenetico.cruces.CrucePMX;
-import algoritmoGenetico.cruces.CruceRaulRober;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.mutacion.Contraccion;
 import algoritmoGenetico.mutacion.Expansion;
@@ -113,17 +101,8 @@ public class AlgoritmoGenetico {
 		else if(opcionS==4) selMod= new Truncamiento(maximizar);
 		else if(opcionS==5) selMod= new Restos();
 		else selMod= new Ranking();
-		
-		
+				
 		crucMod= new CruceArbol(probCruce);
-		/*if(opcionC==0) crucMod= new CrucePMX(probCruce);
-		else if(opcionC==1)crucMod= new CruceOX(probCruce);
-		else if(opcionC==2)crucMod= new CruceOXPP(probCruce);
-		else if(opcionC==3)crucMod= new CruceOXOP(probCruce);
-		else if(opcionC==4)crucMod= new CruceCX(probCruce);
-		else if(opcionC==5)crucMod= new CruceERX(probCruce);
-		else if(opcionC==6)crucMod= new CruceCO(probCruce);
-		else crucMod= new CruceRaulRober(probCruce);*/
 		
 		if(opcionM==0)mutMod= new TerminalSimple(probMut);
 		else if(opcionM==1)mutMod= new MutArbol(probMut);
