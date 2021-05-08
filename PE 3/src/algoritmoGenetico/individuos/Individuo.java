@@ -55,15 +55,15 @@ public class Individuo {//implements Comparable<Individuo> {
 	}
 	
 	public void inicializa(int profundidad, int tipoCreacion) {
-		arbol = new Arbol(3);
+		arbol = new Arbol(profundidad);
 		List<String> a;
 		switch(tipoCreacion){
 			case 0:
-				arbol.inicializacionCompleta(0,0);
+				arbol.inicializacionCompleta(0,1);
 				a=arbol.toArray();
 				break;
 			case 1:
-				arbol.inicializacionCreciente(0,0);
+				arbol.inicializacionCreciente(0,1);
 				a=arbol.toArray();
 				break;
 			case 2:

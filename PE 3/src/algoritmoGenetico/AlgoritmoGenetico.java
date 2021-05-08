@@ -34,7 +34,7 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	static private final int defaultTamTorn = 5;
 	static private final int maxreinicio = 7;	
-	static private final int defaultprof = 4;	
+	static private final int defaultprof = 3;	
 	
 	private List<Individuo> poblacion;
 	private int TamPob;
@@ -83,12 +83,14 @@ public class AlgoritmoGenetico {
 			int c=profundidad-1;
 			int N= TamPob/c;
 			int x=0;
+			int pos=0;
 			int tipo=0;
 			while(x<c) {
 				tipo=0;
 				for(int i=0;i<N;i++) {
-					poblacion.get(i).inicializa(profundidad-x,tipo);
+					poblacion.get(pos).inicializa(profundidad-x,tipo);
 					tipo=(tipo+1)%2;
+					pos++;
 				}
 				x++;
 			}

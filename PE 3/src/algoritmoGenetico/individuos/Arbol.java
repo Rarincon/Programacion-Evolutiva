@@ -173,7 +173,7 @@ public class Arbol {
 			Random rnd = new Random();
 			int func = 0;
 			int ini = new Random().nextInt(2);
-			if(ini == 0) {
+			if(ini == 0 && p>0) {
 				func = rnd.nextInt(Individuo.terminales6.length);
 				this.valor = Individuo.terminales6[func];
 				this.setEsHoja(true);
