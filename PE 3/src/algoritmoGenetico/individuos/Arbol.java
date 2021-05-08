@@ -77,56 +77,6 @@ public class Arbol {
 		}
 	}
 	
-	/*private void completeInitialization(int size, int maxDepth, boolean usingIF) {
-		for (int i = 0; i < size; ++i) {
-			ChromosomeTree c = new Chromosome4Inputs();
-			c.initialize(maxDepth, true, usingIF);
-			_pop.add(c);
-		}
-	}
-	
-	private void growingInitialization(int size, int maxDepth, boolean usingIF) {
-		for (int i = 0; i < size; ++i) {
-			ChromosomeTree c = new Chromosome4Inputs();
-			c.initialize(maxDepth, false, usingIF);
-			_pop.add(c);
-		}
-	}
-	
-	private void rampedHalfInitialization(int size, int maxDepth, boolean usingIF) {
-		int groupSize = size / (maxDepth-1);
-		for (int depth = maxDepth; depth > 1; --depth) {
-			if (depth == 2) groupSize += size % (maxDepth-1);
-			int nComplete = groupSize / 2 + groupSize % 2;
-			for (int i = 0; i < nComplete; ++i) {
-				ChromosomeTree c = new Chromosome4Inputs();
-				c.initialize(depth, true, usingIF);
-				_pop.add(c);
-			}
-			int nGrowing = groupSize / 2;
-			for (int i = 0; i < nGrowing; ++i) {
-				ChromosomeTree c = new Chromosome4Inputs();
-				c.initialize(depth, false, usingIF);
-				_pop.add(c);
-			}
-		}
-	}
-	
-		boolean leaf;
-		if (complete) leaf = false;
-		else leaf = RandomUtility.getRandomBoolean();
-		if (leaf || maxDepth == 0) {
-			_value = String.valueOf(getTerminals()[RandomUtility.getRandomInteger(getTerminals().length)]);
-			_children = null;
-		} else {
-			_value = String.valueOf(_functions[RandomUtility.getRandomInteger((usingIF ? _functions.length : _functions.length - 1))]);
-			int N = numberOfArgs(_value);
-			_children = new Tree[N];
-			for (int i = 0; i < N; ++i) _children[i] = newInstance(maxDepth - 1, complete, usingIF);
-		}
-		_depth = depthOf(this);
-		_numberOfNodes = numberOfNodesOf(this);
-	*/
 	
 	public int inicializacionCompleta(int p, int nodos){
 		int n = nodos;
