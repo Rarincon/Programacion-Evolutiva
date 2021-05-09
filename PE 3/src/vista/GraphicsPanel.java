@@ -51,7 +51,7 @@ public class GraphicsPanel extends JPanel implements AlgoritmoGenObserver{
 		
 		add(plot);
 		
-		setPreferredSize(new Dimension(800, 500));
+		setPreferredSize(new Dimension(600, 500));
 	}
 	
 	public void paint() {

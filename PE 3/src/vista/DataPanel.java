@@ -11,7 +11,9 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -23,23 +25,20 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	
 	private static final long serialVersionUID = 1L;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);	
-	private JLabel fit,med,abec, descif,cruc, mut;
-	static private final String abecedario="a b c d e f g h i j k l m n o p q r s t u v w x y z";
+	private JLabel fit,med;
+	private JTextArea text;
 	
 	private Controller _ctrl;
 	private double fitness,media;
-	private String descifrado;
+	private String cromosoma;
 	
-	private int cruces, mutaciones;
 	
 	public DataPanel(Controller c) {
 		_ctrl=c;
 		fitness=0;
 		media=0;
-		descifrado= "";
+		cromosoma= "";
 		
-		cruces=0;
-		mutaciones=0;
 		createData();
 		_ctrl.addObserver(this);
 	}
@@ -50,8 +49,11 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Solucion", TitledBorder.LEFT, TitledBorder.TOP));
 		
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(6,1));
-		p.setPreferredSize(new Dimension(50,50));
+		p.setLayout(new GridLayout(2,1));
+		p.setPreferredSize(new Dimension(50, 50));
+		JPanel s = new JPanel();
+		s.setLayout(new GridLayout(2,1));
+		s.setPreferredSize(new Dimension(50,100));
 		
 		JLabel x= new JLabel("Cromosoma");
 		x.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
@@ -62,75 +64,44 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		fit = new JLabel(aux);
 		JPanel x1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		x1.add(fit);
-		abec = new JLabel(abecedario);
-		JPanel x2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		x2.add(abec);
-		descif= new JLabel(descifrado);
-		JPanel x3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		x3.add(descif);
 		String aux1= "Media: "+ String.valueOf(media);
 		med = new JLabel(aux1);
 		JPanel x4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		x4.add(med);
 		
-		String aux2= "N. Cruces: "+ String.valueOf(cruces);
-		cruc = new JLabel(aux2);
-		JPanel x5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		x5.add(cruc);
-		String aux3= "N. Mutaciones: "+ String.valueOf(mutaciones);
-		mut = new JLabel(aux3);
-		JPanel x6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		x6.add(mut);
-		
-		JPanel r = new JPanel(new GridLayout(1,2));
-		r.add(x5);
-		r.add(x6);
-		
+		text = new JTextArea();
+		text.setEditable(false);
+		text.setWrapStyleWord(true);
+		text.setLineWrap(true);
+		JScrollPane area = new JScrollPane(text,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		area.setPreferredSize(new Dimension(400, 400));
 		
 		fit.setVerticalAlignment(SwingConstants.CENTER);
 		med.setVerticalAlignment(SwingConstants.CENTER);
-		abec.setVerticalAlignment(SwingConstants.CENTER);
-		descif.setVerticalAlignment(SwingConstants.CENTER);
-		
-		JSeparator sep= new JSeparator(SwingConstants.HORIZONTAL);
-		sep.setPreferredSize(new Dimension(10,50));
-		sep.setForeground(Color.black);
 		
 		p.add(x1);
 		p.add(x4);
-		p.add(r);
-		p.add(x2);
-		p.add(sep);
-		p.add(x3);
+		s.add(p);
+		s.add(area);
 		
-		//Chapucilla
 		add(x0, BorderLayout.NORTH);
-		add(new JLabel("                 "), BorderLayout.WEST);
-		add(p, BorderLayout.CENTER);
-		add(new JLabel("                 "), BorderLayout.EAST);
-		add(new JLabel(" "), BorderLayout.SOUTH);
-		setPreferredSize(new Dimension(200, 130));
+		add(s, BorderLayout.CENTER);
+		setPreferredSize(new Dimension(200, 200));
 	}
 
 
 	@Override
 	public void update(int generation, Map<String, Object> stats) {
 		
-		cruces = (int) stats.get("Num Cruces");
-		mutaciones = (int) stats.get("Num Mutaciones");
-		String aux2= "N. Cruces: "+ String.valueOf(cruces);
-		String aux3= "N. Mutaciones: "+ String.valueOf(mutaciones);
-		cruc.setText(aux2);
-		mut.setText(aux3);
-		
 		fitness= (double) stats.get("fitness");
 		media= (double) stats.get("Media");
-		descifrado=(String) stats.get("Conversion");
+		
 		String aux= "Fitness: "+ String.valueOf(fitness);
 		String aux1= "Media: "+ String.valueOf(media);
+		String s =  (String) stats.get("Cromosoma");
 		fit.setText(aux);
-		med.setText(aux1);
-		descif.setText(descifrado);
+		med.setText(aux1);	
+		text.setText(s);
 		
 	}
 
@@ -138,10 +109,7 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	public void reset() {		
 		fit.setText("Fitness: --");
 		med.setText("Media: --");
-		descif.setText("");
-		
-		cruc.setText("N. Cruces: --");
-		mut.setText("N. Mutaciones: --");
+		text.setText("");
 	}
 	
 }

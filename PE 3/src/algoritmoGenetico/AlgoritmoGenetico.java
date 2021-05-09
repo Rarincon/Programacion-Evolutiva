@@ -48,8 +48,8 @@ public class AlgoritmoGenetico {
 	private boolean maximizar;
 	private int profundidad;
 	
-	private double PeorF;
-	private double PeorAF;
+	private double MejorF;
+	private double MejorAF;
 	private double Media;
 	
 	private int reinicio;
@@ -73,7 +73,7 @@ public class AlgoritmoGenetico {
 
 
 	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
-		maximizar=false;
+		maximizar=true;
 		
 		for(int i=0;i<TamPob;i++) poblacion.add(new Individuo()); 
 		
@@ -114,7 +114,7 @@ public class AlgoritmoGenetico {
 		else if(opcionM==5)mutMod= new Expansion(probMut);
 		else mutMod= new Hoist(probMut);
 		
-		PeorF = Double.POSITIVE_INFINITY;
+		MejorF = Double.NEGATIVE_INFINITY;
 	}
 	
 	public List<Individuo> seleccion() {
@@ -145,7 +145,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	public void resetAct() {
-		PeorAF = Double.POSITIVE_INFINITY;
+		MejorAF = Double.NEGATIVE_INFINITY;
 	}
 	
 	public void evaluar() {
@@ -157,8 +157,8 @@ public class AlgoritmoGenetico {
 			poblacion.get(i).evalua(100);
 			TotalFitness+=poblacion.get(i).getFitness();
 			
-			if(poblacion.get(i).getFitness()<PeorAF) {
-				PeorAF=poblacion.get(i).getFitness();
+			if(poblacion.get(i).getFitness()>MejorAF) {
+				MejorAF=poblacion.get(i).getFitness();
 				//descifrado=poblacion.get(i).getDescifrado();
 				//Conversion=poblacion.get(i).getConversion();
 			}
@@ -172,8 +172,8 @@ public class AlgoritmoGenetico {
 			punt_acu+=poblacion.get(i).getPunt();
 		}
 		
-		if(PeorAF < PeorF) {
-			PeorF=PeorAF;
+		if(MejorAF > MejorF) {
+			MejorF=MejorAF;
 			reinicio=0;
 		}
 		else
@@ -211,7 +211,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	private List<Individuo> escogerElite(List<Individuo> pob) {
-		pob.sort(new Sorted(false,true));
+		pob.sort(new Sorted(true,true));
 		List<Individuo> elite = new ArrayList<Individuo>();
 		int tam= (int) Math.ceil(pob.size() * eliteRango);
 		for (int i = 0; i < tam; i++) {
@@ -221,7 +221,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	private List<Individuo> EliteReset(List<Individuo> pob) {
-		pob.sort(new Sorted(false,true));
+		pob.sort(new Sorted(true,true));
 		List<Individuo> elite = new ArrayList<Individuo>();
 		int tam= (int) Math.ceil(pob.size() * 0.10);
 		for (int i = 0; i < tam; i++) {
@@ -231,7 +231,7 @@ public class AlgoritmoGenetico {
 	}
 	
 	private List<Individuo> insertartElite(List<Individuo> pob, List<Individuo> elite){
-		pob.sort(new Sorted(false,true));
+		pob.sort(new Sorted(true,true));
 		for (int i = 0; i < elite.size(); ++i) {
 			pob.remove(pob.size() - 1 - i);
 			pob.add(elite.get(i).copia());
@@ -244,8 +244,8 @@ public class AlgoritmoGenetico {
 		map.put("Media", Media);
 		//map.put("Descifrado", descifradoM);
 		//map.put("Conversion", ConversionM);		
-		map.put("fitness", PeorF);	
-		map.put("Mejor Actual", PeorAF);
+		map.put("fitness", MejorF);	
+		map.put("Mejor Actual", MejorAF);
 		map.put("Num Cruces", NumCruces);
 		map.put("Num Mutaciones", NumMutac);
 		return map;

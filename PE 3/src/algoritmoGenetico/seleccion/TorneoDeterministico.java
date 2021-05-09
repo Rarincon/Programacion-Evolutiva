@@ -27,7 +27,7 @@ public class TorneoDeterministico implements Seleccion{
 			for (int j = 0; j < tamTorneo; j++)
 				rivales.add(poblacion.get((int) (Math.random()*poblacion.size())).copia());
 			
-			rivales.sort(new Sorted(false,true));
+			rivales.sort(new Sorted(true,true));
 			nuevaPob.add(rivales.get(0));
 		}
 		return nuevaPob;

@@ -28,7 +28,7 @@ public class TorneoProbabilistico implements Seleccion{
 			for (int j = 0; j < tamTorneo; j++)
 				rivales.add(pob.get((int) (Math.random()*pob.size())).copia());
 			
-			rivales.sort(new Sorted(false,true));
+			rivales.sort(new Sorted(true,true));
 			
 			if(Math.random() > 0.5)
 				nuevaPob.add(rivales.get(0));

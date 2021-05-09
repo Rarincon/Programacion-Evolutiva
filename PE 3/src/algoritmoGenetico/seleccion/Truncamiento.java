@@ -18,7 +18,7 @@ public class Truncamiento implements Seleccion {
 
 		List<Individuo> nuevaPob;
 		nuevaPob = new ArrayList<Individuo>();
-		pob.sort(new Sorted(false,true));
+		pob.sort(new Sorted(true,true));
 		
 		int p = (int) (1/trunc);
 		int Nselccionados = tam/p;
