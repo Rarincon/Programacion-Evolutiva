@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -16,6 +17,7 @@ import org.math.plot.Plot2DPanel;
 import algoritmoGenetico.AlgoritmoGenObserver;
 import algoritmoGenetico.tablero.Tablero;
 import controller.Controller;
+import utils.Pair;
 
 public class BoardPanel extends JPanel  implements AlgoritmoGenObserver{
 
@@ -27,6 +29,7 @@ public class BoardPanel extends JPanel  implements AlgoritmoGenObserver{
 	private Tablero tablero;
 	private Casilla[][] casillas;
 	private JPanel tab;
+	private List<Pair<Integer,Integer>>camino;
 	
 	public BoardPanel(Controller c) {
 		_ctrl=c;
@@ -38,31 +41,25 @@ public class BoardPanel extends JPanel  implements AlgoritmoGenObserver{
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Tablero", TitledBorder.LEFT, TitledBorder.TOP));
 		
-		JPanel panel = new JPanel(); 
-		/*plot = new Plot2DPanel();
-		plot.setAxisLabel(0, " Generaciones");
-		plot.setAxisLabel(1, " Fitness");
-		plot.addLegend("SOUTH");
-		
-		Generaciones= new ArrayList<Double>();
-		MejorActual= new ArrayList<Double>();
-		Media= new ArrayList<Double>();
-		Objetivo= new ArrayList<Double>();*/
-		
-		add(panel);
+		camino = new ArrayList<Pair<Integer,Integer>>();
+		tab = new JPanel();
+	
+		add(tab);
+		loadTablero();
+		paintTablero();
+
 		
 		setPreferredSize(new Dimension(600, 500));
 	}
 	
-	public void loadTablero(Tablero tab) {
+	public void loadTablero() {
 		this.tablero = Controller.getTablero();
-		casillas = new Casilla[mapa.getNumFilas()][mapa.getNumCols()];
-		for (int i = 0; i < mapa.getNumFilas(); i++) {
-			for (int j = 0; j < mapa.getNumCols(); j++) {
-				casillas[i][j] = new Casilla(mapa.getCasilla(i, j));
+		casillas = new Casilla[TAM][TAM];
+		for (int i = 0; i < TAM; i++) {
+			for (int j = 0; j < TAM; j++) {
+				casillas[i][j] = new Casilla(tablero.getCasilla(i, j));
 			}
 		}
-
 	}
 	
 	public void paintTablero() {
@@ -73,19 +70,21 @@ public class BoardPanel extends JPanel  implements AlgoritmoGenObserver{
 				tab.add(casillas[i][j]);
 			}
 		}
-
 	}
 
 	@Override
-	public void update(int generation, Map<String, Object> stats) {
-		// TODO Auto-generated method stub
-		
+	public void update(int generation, Map<String, Object> stats) {				
+		loadTablero();	
+		camino= (List<Pair<Integer, Integer>>) stats.get("Recorrido");
+		for(int i=0;i<camino.size();i++)
+			casillas[camino.get(i).getFirst()][camino.get(i).getSecond()].pasaLaHormiga();		
+		paintTablero();		
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		loadTablero();
+		paintTablero();				
 	}
 
 }
