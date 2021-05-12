@@ -71,9 +71,9 @@ public class CruceArbol extends Cruce{
 		
 		//Obtenemos una probabilidad al azar
 		if(seleccionaFunciones()){//Si devuelve true, el corte se har� en una funci�narbol.getFunciones(arbol.getHijos(), nodos);
-			if(nodos.size() == 0){//Si no existen funciones, se seleccionan los terminales
-				arbol.getTerminales(arbol.getHijos(), nodos);
-			}
+			//if(nodos.size() == 0){//Si no existen funciones, se seleccionan los terminales
+				arbol.getFunciones(arbol.getHijos(), nodos);//getTerminales(arbol.getHijos(), nodos);
+			//}
 		}
 		else{//Si devuelve false, el corte se har� por un terminal
 			arbol.getTerminales(arbol.getHijos(), nodos);

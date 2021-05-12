@@ -34,13 +34,13 @@ public class Casilla extends JTextArea {
 	private void cargarFondo() {
 		if (comida) {
 			if (pisada) {
-				cambiarColor(Color.DARK_GRAY);
+				cambiarColor(Color.YELLOW);
 			} else {
 				cambiarColor(Color.BLACK);
 			}
 		} else {
 			if (pisada) {
-				cambiarColor(Color.GRAY);
+				cambiarColor(Color.LIGHT_GRAY);
 			} else {
 				cambiarColor(Color.WHITE);
 			}

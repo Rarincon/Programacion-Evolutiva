@@ -24,6 +24,7 @@ import algoritmoGenetico.seleccion.Seleccion;
 import algoritmoGenetico.seleccion.TorneoDeterministico;
 import algoritmoGenetico.seleccion.TorneoProbabilistico;
 import algoritmoGenetico.seleccion.Truncamiento;
+import utils.Pair;
 import utils.Sorted;
 
 public class AlgoritmoGenetico {
@@ -34,7 +35,7 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	static private final int defaultTamTorn = 5;
 	static private final int maxreinicio = 7;	
-	static private final int defaultprof = 3;	
+	static private final int defaultprof = 2;	
 	
 	private List<Individuo> poblacion;
 	private int TamPob;
@@ -51,6 +52,9 @@ public class AlgoritmoGenetico {
 	private double MejorF;
 	private double MejorAF;
 	private double Media;
+	private List<Pair<Integer,Integer>>recorrido;
+	private String arbol;
+	private int OpcionI;
 	
 	private int reinicio;
 	
@@ -67,20 +71,16 @@ public class AlgoritmoGenetico {
 		tamTorneo=defaultTamTorn;
 		maximizar=true;
 		profundidad=defaultprof;
-		
+		recorrido = new ArrayList<Pair<Integer,Integer>>();
 		reset();
 	}
 
 
-	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
-		maximizar=true;
-		
-		for(int i=0;i<TamPob;i++) poblacion.add(new Individuo()); 
-		
-		if(opcionI==0) for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,0);
-		else if(opcionI==1)for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,1); 
+	private void inicializa() {
+		if(OpcionI==0) for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,0);
+		else if(OpcionI==1)for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,1); 
 		else {
-			int c=profundidad-1;
+			int c=profundidad;
 			int N= TamPob/c;
 			int x=0;
 			int pos=0;
@@ -95,6 +95,15 @@ public class AlgoritmoGenetico {
 				x++;
 			}
 		}
+	}
+	
+	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
+		maximizar=true;
+		OpcionI=opcionI;
+		
+		for(int i=0;i<TamPob;i++) poblacion.add(new Individuo()); 
+		
+		inicializa();
 		
 		if(opcionS==0) selMod= new Ruleta();
 		else if(opcionS==1) selMod= new Estocastico();
@@ -134,15 +143,15 @@ public class AlgoritmoGenetico {
 		Media=0;
 		resetAct();
 		reinicio=0;
-		
+		arbol="";
 		NumCruces=0;
 		NumMutac=0;
 	}
 	
-	public void conteo() {
+	/*public void conteo() {
 		//NumCruces+=crucMod.NumCruces();
 		NumMutac+=mutMod.NumMutaciones();
-	}
+	}*/
 	
 	public void resetAct() {
 		MejorAF = Double.NEGATIVE_INFINITY;
@@ -154,11 +163,13 @@ public class AlgoritmoGenetico {
 
 		for(int i=0;i<poblacion.size();i++) {
 			//poblacion.get(i).setFitness(poblacion.get(i).evaluar());
-			poblacion.get(i).evalua(100);
+			poblacion.get(i).evalua(150);
 			TotalFitness+=poblacion.get(i).getFitness();
 			
 			if(poblacion.get(i).getFitness()>MejorAF) {
 				MejorAF=poblacion.get(i).getFitness();
+				recorrido=poblacion.get(i).getRecorrido();
+				arbol=poblacion.get(i).getArbolText();
 				//descifrado=poblacion.get(i).getDescifrado();
 				//Conversion=poblacion.get(i).getConversion();
 			}
@@ -194,10 +205,10 @@ public class AlgoritmoGenetico {
 		//Mutacion
 		nuevaPob= mutacion(nuevaPob);
 		
-		conteo();
+		//conteo();
 		
 		nuevaPob=insertartElite(nuevaPob, fijos);
-		poblacion.clear();
+		//poblacion.clear();
 		poblacion= nuevaPob;
 		evaluar();
 	}
@@ -205,7 +216,7 @@ public class AlgoritmoGenetico {
 	private void reinicializar() {
 		reinicio=0;
 		List<Individuo>fijos=EliteReset(poblacion);
-		//for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa();
+		inicializa();
 		insertartElite(poblacion, fijos);
 		evaluar();
 	}
@@ -246,8 +257,10 @@ public class AlgoritmoGenetico {
 		//map.put("Conversion", ConversionM);		
 		map.put("fitness", MejorF);	
 		map.put("Mejor Actual", MejorAF);
-		map.put("Num Cruces", NumCruces);
-		map.put("Num Mutaciones", NumMutac);
+		map.put("Recorrido", recorrido);
+		map.put("Arbol", arbol);
+		//map.put("Num Cruces", NumCruces);
+		//map.put("Num Mutaciones", NumMutac);
 		return map;
 	}
 	

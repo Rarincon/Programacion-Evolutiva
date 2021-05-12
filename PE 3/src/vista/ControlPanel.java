@@ -142,6 +142,7 @@ public class ControlPanel extends JPanel {
 		mutacion.setEnabled(b);
 		probCruce.setEnabled(b);
 		Mutacion.setEnabled(b);
+		Inicializacion.setEnabled(b);
 	}
 	
 	private void reset() {

@@ -30,14 +30,13 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 	
 	private Controller _ctrl;
 	private double fitness,media;
-	private String cromosoma;
+
 	
 	
 	public DataPanel(Controller c) {
 		_ctrl=c;
 		fitness=0;
 		media=0;
-		cromosoma= "";
 		
 		createData();
 		_ctrl.addObserver(this);
@@ -98,7 +97,7 @@ public class DataPanel extends JPanel implements AlgoritmoGenObserver{
 		
 		String aux= "Fitness: "+ String.valueOf(fitness);
 		String aux1= "Media: "+ String.valueOf(media);
-		String s =  (String) stats.get("Cromosoma");
+		String s =  (String) stats.get("Arbol");
 		fit.setText(aux);
 		med.setText(aux1);	
 		text.setText(s);

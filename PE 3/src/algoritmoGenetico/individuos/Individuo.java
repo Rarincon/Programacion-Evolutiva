@@ -9,7 +9,7 @@ import algoritmoGenetico.tablero.Tablero;
 import controller.Controller;
 import utils.Pair;
 
-public class Individuo {//implements Comparable<Individuo> {
+public class Individuo implements Comparable<Individuo> {
 	
 	//public static Terminal terminales;
 	//public static Funcion funciones;
@@ -31,25 +31,8 @@ public class Individuo {//implements Comparable<Individuo> {
 	private int pasos,bocados;
 	private Tablero tab;
 	private Hormiga hormiga;
-	
-	
-	/*public Individuo(int profundidad, int tipoCreacion, int tipoMultiplexor) { //multiplexor sobra
-		arbol = new Arbol(profundidad);
-		switch(tipoCreacion){
-			case 0:
-				arbol.inicializacionCreciente(0,0);
-				break;
-			case 1:
-				arbol.inicializacionCompleta(0,0);
-				break;
-			case 2:
-				int ini = new Random().nextInt(2);
-				if(ini == 0) arbol.inicializacionCreciente(0,0);
-				else arbol.inicializacionCompleta(0,0);
-				break;
-		}
-	}*/
-	
+	private List<Pair<Integer,Integer>>recorrido;
+
 	public Individuo() {
 		
 	}
@@ -76,31 +59,19 @@ public class Individuo {//implements Comparable<Individuo> {
 	
 	
 	public void evalua(int maxPasos) {
-		//log.finest("Evaluando nuevo cromosoma");
 		bocados = 0;
 		pasos = 0;
 		tab = (Tablero) Controller.getTablero().clone();
 		hormiga = new Hormiga();
+		recorrido = new ArrayList<Pair<Integer,Integer>>();
 		while(pasos < maxPasos && bocados<=tab.getNumComida()) {
-			//log.finest("Nueva ejecución del programa");
-			//try {
 			recorreArbol(arbol,maxPasos);
-			/*} catch (Exception e) {
-				//this.log.severe("Cromosoma erróneo: \n"
-					//	+ c.getCadena().toString());
-				pasos++;
-			}*/
 		}
-
 		setFitness(bocados);
-		//log.finest("FIN Evaluando nuevo cromosoma. APTITUD=" + bocados);
 	}
 
 	private void recorreArbol(Arbol arb, int maxPasos) { //
-		//log.finest("Instrucción: " + nodo.getDato().toString());
-		// mientras no se haya acabado el tiempo ni la comida
 		if ((pasos < maxPasos)&&(bocados<tab.getNumComida())) {
-			// si estamos encima de comida comemos
 			if (tab.getCasilla(hormiga.getX(), hormiga.getY())) {
 				tab.comer(hormiga.getX(), hormiga.getY());
 				bocados++;
@@ -114,21 +85,22 @@ public class Individuo {//implements Comparable<Individuo> {
 				recorreArbol(arb.getHijoAt(1),maxPasos);
 			} else if (arb.getValor().equals("SIC")) {
 				Pair<Integer,Integer> sigPos = hormiga.getSigPos();
-				if (tab.getCasilla(sigPos.getFirst(), sigPos.getSecond())) {
-					// Hay comida delante
+				if (tab.getCasilla(sigPos.getFirst(), sigPos.getSecond())) {//hay comida
 					recorreArbol(arb.getHijoAt(0),maxPasos);
 				} else {
-					// No hay comida delante
 					recorreArbol(arb.getHijoAt(1),maxPasos);
 				}
 			} else if (arb.getValor().equals("AVANZA")) {
 				hormiga.avanza();
+				recorrido.add(hormiga.getPos());
 				pasos++;
 			} else if (arb.getValor().equals("GIRA_DERECHA")) {
 				hormiga.giraDer();
+				recorrido.add(hormiga.getPos());
 				pasos++;
 			} else if (arb.getValor().equals("GIRA_IZQUIERDA")) {
 				hormiga.giraIzq();
+				recorrido.add(hormiga.getPos());
 				pasos++;
 			}
 		}
@@ -141,7 +113,7 @@ public class Individuo {//implements Comparable<Individuo> {
 	
 	public Individuo copia() {
 		Individuo n= new Individuo();
-		n.setArbol(getArbol());
+		n.setArbol(getArbol().copia());
 		n.setFitness(getFitness());
 		n.setPunt(getPunt());
 		n.setPuntAcu(getPuntAcu());
@@ -180,9 +152,18 @@ public class Individuo {//implements Comparable<Individuo> {
 		return aptitud;
 	}
 	
-	/*public int compareTo(Individuo arg0) {
+	public List<Pair<Integer,Integer>> getRecorrido(){
+		return recorrido;
+	}
+	
+	public String getArbolText() {
+		return arbol.toArray().toString();
+	}
+	
+	public int compareTo(Individuo arg0) {
 		if(this.getFitness() < arg0.getFitness()) return 1;
 		else if(this.getFitness()==arg0.getFitness()) return 0;
 		else return -1;
-	}*/
+	}
+
 }
