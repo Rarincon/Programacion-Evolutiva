@@ -283,11 +283,11 @@ public class Arbol {
 		if(nodo.esHoja)
 			return n;
 		
-		if(nodo.valor.equals("IF")){
+		if(nodo.valor.equals("PROGN3")){
 			n = obtieneNodos(nodo.hijos.get(0), n+1);
 			n = obtieneNodos(nodo.hijos.get(1), n+1);
 			n = obtieneNodos(nodo.hijos.get(2), n+1);
-		}else if(nodo.valor.equals("AND") || nodo.valor.equals("OR")){
+		}else if(nodo.valor.equals("PROGN2") || nodo.valor.equals("SIC")){
 			n = obtieneNodos(nodo.hijos.get(0), n+1);
 			n = obtieneNodos(nodo.hijos.get(1), n+1);
 		}else{
