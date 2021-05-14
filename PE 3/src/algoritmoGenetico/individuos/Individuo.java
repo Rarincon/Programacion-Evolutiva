@@ -153,7 +153,10 @@ public class Individuo implements Comparable<Individuo> {
 	}
 	
 	public List<Pair<Integer,Integer>> getRecorrido(){
-		return recorrido;
+		List<Pair<Integer,Integer>> a = new ArrayList<Pair<Integer,Integer>>();
+		for(Pair<Integer,Integer> e : recorrido)
+			a.add(new Pair<Integer,Integer>(e.getFirst(),e.getSecond()));
+		return a;
 	}
 	
 	public String getArbolText() {

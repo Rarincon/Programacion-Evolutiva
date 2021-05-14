@@ -37,7 +37,7 @@ public class Arbol {
 	}
 	
 	public String toString(){
-		arrayArbol="";
+		arrayArbol="Mejor("+String.valueOf(getNumNodos())+"):";
 		toStringAux(this);
 		return arrayArbol;
 	}
