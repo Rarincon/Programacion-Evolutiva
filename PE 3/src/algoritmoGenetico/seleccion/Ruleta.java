@@ -13,7 +13,7 @@ public class Ruleta implements Seleccion {
 		nuevaPob = new ArrayList<Individuo>();
 		double prob;
 		int pos_super;
-		p.sort(new Sorted(true,false));
+		p.sort(new Sorted(false,false));
 		for(int i=0; i<tam; i++) {
 			prob=Math.random();
 			pos_super=0;
