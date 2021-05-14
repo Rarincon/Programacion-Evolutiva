@@ -39,15 +39,15 @@ public class Individuo implements Comparable<Individuo> {
 	
 	public void inicializa(int profundidad, int tipoCreacion) {
 		arbol = new Arbol(profundidad);
-		List<String> a;
+		//List<String> a;
 		switch(tipoCreacion){
 			case 0:
 				arbol.inicializacionCompleta(0,1);
-				a=arbol.toArray();
+				//a=arbol.toArray();
 				break;
 			case 1:
 				arbol.inicializacionCreciente(0,1);
-				a=arbol.toArray();
+				//a=arbol.toArray();
 				break;
 			case 2:
 				int ini = new Random().nextInt(2);
@@ -157,7 +157,15 @@ public class Individuo implements Comparable<Individuo> {
 	}
 	
 	public String getArbolText() {
-		return arbol.toArray().toString();
+		return arbol.toString();
+	}
+	
+	public static boolean esFuncion(String a) {
+		return a.equals("PROGN3") || a.equals("PROGN2") || a.equals("SIC");
+	}
+	
+	public static boolean esTerminal(String a) {
+		return a.equals("GIRA_DERECHA") || a.equals("GIRA_IZQUIERDA") || a.equals("AVANZA");
 	}
 	
 	public int compareTo(Individuo arg0) {

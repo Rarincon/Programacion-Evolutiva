@@ -23,7 +23,7 @@ public class CruceArbol extends Cruce{
 	
 		//0.9 se cruzar� en una funci�n
 		//resto se cruzar� en un terminal
-		nodos_selec1 = obtieneNodos(padre1.getArbol().copia());
+		nodos_selec1 = obtieneNodos(padre1.getArbol().copia()); //no le da los nodos como deberia
 		nodos_selec2 = obtieneNodos(padre2.getArbol().copia());
 	
 		//obtenemos los puntos de cruce a partir de los nodos seleccionados
@@ -35,7 +35,7 @@ public class CruceArbol extends Cruce{
 		hijo2 = padre2.copia();
 	
 		//Cogemos los nodos de cruce seleccionados
-		Arbol temp1 = nodos_selec1.get(puntoCruce1).copia();
+		Arbol temp1 = nodos_selec1.get(puntoCruce1).copia(); //es aqui el out of bounds
 		Arbol temp2 = nodos_selec2.get(puntoCruce2).copia();
 	
 		//realizamos el corte sobre los arboles de los hijos
@@ -71,8 +71,13 @@ public class CruceArbol extends Cruce{
 		
 		//Obtenemos una probabilidad al azar
 		if(seleccionaFunciones()){//Si devuelve true, el corte se har� en una funci�narbol.getFunciones(arbol.getHijos(), nodos);
-			//if(nodos.size() == 0){//Si no existen funciones, se seleccionan los terminales
-				arbol.getFunciones(arbol.getHijos(), nodos);//getTerminales(arbol.getHijos(), nodos);
+			//try{//if(nodos.size() == 0){//Si no existen funciones, se seleccionan los terminales
+				arbol.getFunciones(arbol.getHijos(), nodos);
+				if(nodos.size() == 0)
+					arbol.getTerminales(arbol.getHijos(), nodos);
+				//arbol.getTerminales(arbol.getHijos(), nodos);
+			//}catch(IndexOutOfBoundsException e){
+				//System.out.print("es aqui");
 			//}
 		}
 		else{//Si devuelve false, el corte se har� por un terminal
@@ -98,7 +103,7 @@ public class CruceArbol extends Cruce{
 			nuevaPob.add(pob.get(i).copia());
 			
 		for(int i=0; i<sel_cruce.size(); i+=2) {
-			Individuo[] a = cruzar(nuevaPob.get(sel_cruce.get(i)),nuevaPob.get(sel_cruce.get(i+1)));
+			Individuo[] a = cruzar(nuevaPob.get(sel_cruce.get(i)),nuevaPob.get(sel_cruce.get(i+1))); //SALta aqui
 			nuevaPob.set(sel_cruce.get(i), a[0]);
 			nuevaPob.set(sel_cruce.get(i+1), a[1]);
 		}

@@ -36,6 +36,7 @@ public class AlgoritmoGenetico {
 	static private final int defaultTamTorn = 5;
 	static private final int maxreinicio = 7;	
 	static private final int defaultprof = 2;	
+	static private final int defaultpasos = 400;
 	
 	private List<Individuo> poblacion;
 	private int TamPob;
@@ -80,7 +81,7 @@ public class AlgoritmoGenetico {
 		if(OpcionI==0) for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,0);
 		else if(OpcionI==1)for(int i=0;i<TamPob;i++) poblacion.get(i).inicializa(profundidad,1); 
 		else {
-			int c=profundidad;
+			int c=profundidad-1;
 			int N= TamPob/c;
 			int x=0;
 			int pos=0;
@@ -163,7 +164,7 @@ public class AlgoritmoGenetico {
 
 		for(int i=0;i<poblacion.size();i++) {
 			//poblacion.get(i).setFitness(poblacion.get(i).evaluar());
-			poblacion.get(i).evalua(150);
+			poblacion.get(i).evalua(defaultpasos);
 			TotalFitness+=poblacion.get(i).getFitness();
 			
 			if(poblacion.get(i).getFitness()>MejorAF) {
@@ -197,7 +198,7 @@ public class AlgoritmoGenetico {
 		List<Individuo> nuevaPob;
 		List<Individuo> fijos;
 		fijos=escogerElite(poblacion);
-		
+		try {
 		//Seleccion
 		nuevaPob=seleccion();
 		//Cruce
@@ -208,8 +209,12 @@ public class AlgoritmoGenetico {
 		//conteo();
 		
 		nuevaPob=insertartElite(nuevaPob, fijos);
+		
 		//poblacion.clear();
 		poblacion= nuevaPob;
+		}catch(IndexOutOfBoundsException e){
+			System.out.print("es nextGEn");
+		}
 		evaluar();
 	}
 	

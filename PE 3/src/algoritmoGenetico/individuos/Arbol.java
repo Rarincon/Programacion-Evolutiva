@@ -14,6 +14,7 @@ public class Arbol {
 	private boolean useIF;
 	private boolean esHoja;
 	private boolean esRaiz;
+	private String arrayArbol;
 	
 	public Arbol(String v) {
 		valor=v;
@@ -27,11 +28,28 @@ public class Arbol {
 		//useIF=useIF2;
 	}
 
-	// Devuelve el arbol en forma de array
+	
+	
 	public ArrayList<String> toArray(){
 		ArrayList<String> array = new ArrayList<String>();
 		toArrayAux(array, this);
 		return array;
+	}
+	
+	public String toString(){
+		arrayArbol="";
+		toStringAux(this);
+		return arrayArbol;
+	}
+	
+	private void toStringAux(Arbol a){
+		arrayArbol+=a.valor;
+		if(Individuo.esFuncion(a.valor)) arrayArbol+="(";
+		else arrayArbol+=",";
+		for(int i = 0; i < a.hijos.size(); i++){
+			toStringAux(a.hijos.get(i));
+		}
+		if(Individuo.esFuncion(a.valor)) arrayArbol+=")";
 	}
 	
 	// Insertar un valor en el arbol (nodo simple)
