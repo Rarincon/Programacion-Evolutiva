@@ -25,17 +25,40 @@ public class Permutacion extends Mutacion{
 				Random rnd = new Random();
 				ArrayList<Arbol> nodos= new ArrayList<Arbol>();
 				ArrayList<Arbol> nodosPerm= new ArrayList<Arbol>();
+				ArrayList<Arbol> hijos = new ArrayList<Arbol>();
 				Arbol a = nuevaPob.get(i).getArbol().copia();
+				
 				a.getFunciones(a.getHijos(), nodos);
-				for(int j=nodos.size()-1; j>0; j--) {
-					nodosPerm.add(nodos.get(j));
+				if(nodos.size()==0) {
+					a.getTerminales(a.getHijos(), nodos);
+					
+					for(int j=nodos.size()-1; j>=0; j--) {
+						nodosPerm.add(nodos.get(j));
+					}
+					a.setHijos(nodosPerm);
+					
+				}
+				else {
+					int s = (int) (Math.random()*nodos.size());
+					
+					hijos = nodos.get(s).getHijos();
+					
+					for(int j=hijos.size()-1; j>=0; j--) {
+						nodosPerm.add(hijos.get(j));
+					}
+					
+					nodos.get(s).setHijos(nodosPerm);
+					a.insertFuncion(a.getHijos(), nodos.get(s), s, 0);							
 				}
 				
-				int s = (int) (Math.random()*nodosPerm.size());			
-				Arbol b = nodosPerm.get(s).copia();
-				a.insertFuncion(a.getHijos(), b, s, 0);
-				
 				nuevaPob.get(i).setArbol(a);
+				
+				
+				
+				//Arbol b = nodosPerm.get(s).copia();
+				//a.insertFuncion(a.getHijos(), b, s, 0);
+				
+				
 			}
 		}
 		return nuevaPob;
