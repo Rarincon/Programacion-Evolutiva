@@ -24,17 +24,24 @@ public class MutArbol extends Mutacion{
 			if(prob < probMutacion) {
 				Random rnd = new Random();
 				Arbol a = nuevaPob.get(i).getArbol().copia();
-				List<String> l=a.toArray();
-				int s = (int) (Math.random()*3);
+				
+				int total=a.getNumNodos();
+				
+				//List<String> l=a.toArray();
+				int s = (int) (Math.random()*total);
 				if(s==0)s++;
-				int prof= (int) (Math.random()*3);
+				int prof= (int) (Math.random()*a.getMax_prof());
+				prof++;
 				Arbol b=new Arbol(prof);
-				b.inicializacionCompleta(0,1);
+				
+				b.inicializacionCreciente(0,1);
 				
 				//Aqui hay que borrar ese trozo del arbol antes de insertar b
 				
-				a.insertFuncion(a.getHijos(), b, s, 0);
+				a.insert(a.getHijos(), b, s, 0);
 				//a.insert(b,s);
+				int nodos = a.obtieneNodos(a, 0);
+				a.setNumNodos(nodos);
 				
 				nuevaPob.get(i).setArbol(a);
 			}

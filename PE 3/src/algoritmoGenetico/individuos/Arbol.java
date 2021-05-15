@@ -241,6 +241,21 @@ public class Arbol {
 		}
 		return p;
 	}
+	
+	public int insert(ArrayList<Arbol> list_hijos, Arbol terminal, int index, int pos){
+		int p = pos;
+		for(int i = 0; i < list_hijos.size() && p != -1; i++){
+			if(p == index){
+				//terminal.padre = list_hijos.get(i).padre;
+				list_hijos.set(i, terminal.copia());
+				p = -1;
+			}else if(p != index){
+				p++;
+				p = insertFuncion(list_hijos.get(i).hijos, terminal, index, p);
+			}
+		}
+		return p;
+	}
 
 	/**
 	* Devuelve los nodos internos del árbol
