@@ -311,6 +311,18 @@ public class Arbol {
 		return n;
 	}
 	
+	public int profundidad(ArrayList<Arbol> hijoS, int p, int nodos) {
+		int n= nodos;
+		for(int i = 0; i < hijoS.size(); i++){
+			hijoS.get(i).setProfundidad(p);
+			n++;
+			n= profundidad(hijoS.get(i).getHijos(),p+1, n);
+			hijoS.get(i).setNumNodos(n);
+		}
+		
+		return n;
+	}
+	
 	
 	//Setters y Getters//
 	

@@ -2,7 +2,6 @@ package algoritmoGenetico.mutacion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import algoritmoGenetico.individuos.Arbol;
 import algoritmoGenetico.individuos.Individuo;
@@ -22,12 +21,9 @@ public class MutArbol extends Mutacion{
 			
 			prob=Math.random();
 			if(prob < probMutacion) {
-				Random rnd = new Random();
 				Arbol a = nuevaPob.get(i).getArbol().copia();
-				
 				int total=a.getNumNodos();
 				
-				//List<String> l=a.toArray();
 				int s = (int) (Math.random()*total);
 				if(s==0)s++;
 				int prof= (int) (Math.random()*a.getMax_prof());
@@ -35,8 +31,6 @@ public class MutArbol extends Mutacion{
 				Arbol b=new Arbol(prof);
 				
 				b.inicializacionCreciente(0,1);
-				
-				//Aqui hay que borrar ese trozo del arbol antes de insertar b
 				
 				a.insert(a.getHijos(), b, s, 0);
 				//a.insert(b,s);
