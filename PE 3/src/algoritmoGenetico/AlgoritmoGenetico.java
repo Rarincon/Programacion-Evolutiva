@@ -10,7 +10,7 @@ import algoritmoGenetico.cruces.CruceArbol;
 import algoritmoGenetico.individuos.Individuo;
 import algoritmoGenetico.mutacion.Contraccion;
 import algoritmoGenetico.mutacion.Expansion;
-import algoritmoGenetico.mutacion.FuncionSimple;
+import algoritmoGenetico.mutacion.FuncionalSimple;
 import algoritmoGenetico.mutacion.Hoist;
 import algoritmoGenetico.mutacion.MutArbol;
 import algoritmoGenetico.mutacion.Mutacion;
@@ -119,7 +119,7 @@ public class AlgoritmoGenetico {
 		if(opcionM==0)mutMod= new TerminalSimple(probMut);
 		else if(opcionM==1)mutMod= new MutArbol(probMut);
 		else if(opcionM==2)mutMod= new Permutacion(probMut);
-		else if(opcionM==3) mutMod= new FuncionSimple(probMut);
+		else if(opcionM==3) mutMod= new FuncionalSimple(probMut);
 		else if(opcionM==4)mutMod= new Contraccion(probMut);
 		else if(opcionM==5)mutMod= new Expansion(probMut);
 		else mutMod= new Hoist(probMut);

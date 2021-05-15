@@ -44,7 +44,7 @@ public class ControlPanel extends JPanel {
 	private JSlider Speed;
 	
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
-	private String[] mutac= {"Terminal Simple","Arbol","Permutacion","Funcion Simple","Contraccion","Expansion","Hoist"};
+	private String[] mutac= {"Terminal Simple","Arbol","Permutacion","Funcional Simple","Contraccion","Expansion","Hoist"};
 	private String[] inicial= { "Completa","Creciente","Ramped&Half"};
 	
 	private Map<String, String> datos;

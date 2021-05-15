@@ -2,7 +2,6 @@ package algoritmoGenetico.mutacion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import algoritmoGenetico.individuos.Arbol;
 import algoritmoGenetico.individuos.Individuo;
@@ -22,7 +21,6 @@ public class Permutacion extends Mutacion{
 			
 			prob=Math.random();
 			if(prob < probMutacion) {
-				Random rnd = new Random();
 				ArrayList<Arbol> nodos= new ArrayList<Arbol>();
 				ArrayList<Arbol> nodosPerm= new ArrayList<Arbol>();
 				ArrayList<Arbol> hijos = new ArrayList<Arbol>();
@@ -35,12 +33,10 @@ public class Permutacion extends Mutacion{
 					for(int j=nodos.size()-1; j>=0; j--) {
 						nodosPerm.add(nodos.get(j));
 					}
-					a.setHijos(nodosPerm);
-					
+					a.setHijos(nodosPerm);					
 				}
 				else {
-					int s = (int) (Math.random()*nodos.size());
-					
+					int s = (int) (Math.random()*nodos.size());					
 					hijos = nodos.get(s).getHijos();
 					
 					for(int j=hijos.size()-1; j>=0; j--) {
@@ -49,16 +45,8 @@ public class Permutacion extends Mutacion{
 					
 					nodos.get(s).setHijos(nodosPerm);
 					a.insertFuncion(a.getHijos(), nodos.get(s), s, 0);							
-				}
-				
-				nuevaPob.get(i).setArbol(a);
-				
-				
-				
-				//Arbol b = nodosPerm.get(s).copia();
-				//a.insertFuncion(a.getHijos(), b, s, 0);
-				
-				
+				}			
+				nuevaPob.get(i).setArbol(a);		
 			}
 		}
 		return nuevaPob;
