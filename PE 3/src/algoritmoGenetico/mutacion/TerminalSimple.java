@@ -35,6 +35,7 @@ public class TerminalSimple extends Mutacion{
 				b.setValor(Individuo.terminales6[func]);//= new Arbol(Individuo.terminales6[func]);
 				a.insertTerminal(a.getHijos(), b, s, 0);
 				
+				a.profundidad(a.getHijos(),1,0);
 				nuevaPob.get(i).setArbol(a);
 			}
 		}

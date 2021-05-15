@@ -42,11 +42,11 @@ public class Individuo implements Comparable<Individuo> {
 		//List<String> a;
 		switch(tipoCreacion){
 			case 0:
-				arbol.inicializacionCompleta(0,1);
+				arbol.inicializacionCompleta(0,0);
 				//a=arbol.toArray();
 				break;
 			case 1:
-				arbol.inicializacionCreciente(0,1);
+				arbol.inicializacionCreciente(0,0);
 				//a=arbol.toArray();
 				break;
 			case 2:

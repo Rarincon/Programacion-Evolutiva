@@ -37,6 +37,7 @@ public class MutArbol extends Mutacion{
 				int nodos = a.obtieneNodos(a, 0);
 				a.setNumNodos(nodos);
 				
+				a.profundidad(a.getHijos(),1,0);
 				nuevaPob.get(i).setArbol(a);
 			}
 		}

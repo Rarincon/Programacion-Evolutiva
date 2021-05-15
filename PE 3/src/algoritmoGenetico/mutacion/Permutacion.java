@@ -44,7 +44,8 @@ public class Permutacion extends Mutacion{
 					}
 					
 					nodos.get(s).setHijos(nodosPerm);
-					a.insertFuncion(a.getHijos(), nodos.get(s), s, 0);							
+					a.insertFuncion(a.getHijos(), nodos.get(s), s, 0);
+					a.profundidad(a.getHijos(),1,0);
 				}			
 				nuevaPob.get(i).setArbol(a);		
 			}
