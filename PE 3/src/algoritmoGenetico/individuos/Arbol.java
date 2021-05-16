@@ -95,6 +95,15 @@ public class Arbol {
 		}
 	}
 	
+	public int getAltura(ArrayList<Arbol> hijoS, int n) {
+		int alt = n;
+		int aux;
+		for(int i=0;i<hijoS.size();i++) {
+			aux=getAltura(hijoS.get(i).getHijos(),n+1);
+			if(aux>alt)alt=aux;
+		}
+		return alt;
+	}
 	
 	public int inicializacionCompleta(int p, int nodos){
 		int n = nodos;

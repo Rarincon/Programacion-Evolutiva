@@ -37,6 +37,7 @@ public class AlgoritmoGenetico {
 	static private final int maxreinicio = 7;	
 	static private final int defaultprof = 2;	
 	static private final int defaultpasos = 400;
+	static private final double very_low_fitness = 0.01;
 	
 	private List<Individuo> poblacion;
 	private int TamPob;
@@ -158,6 +159,58 @@ public class AlgoritmoGenetico {
 		MejorAF = Double.NEGATIVE_INFINITY;
 	}
 	
+	private double ProfundidadMedia(){
+		double averagePopSize = 0.0;
+		for (Individuo c : poblacion) {
+			averagePopSize += c.getProfundidad();
+		}
+		return averagePopSize/poblacion.size();
+	}
+	
+	/*private double covarianza(){
+		double covariance = 0.0;
+		double p = ProfundidadMedia();
+		for (Individuo c : poblacion){
+			covariance += (c.getProfundidad()-p)* (c.getFitness()-Media);
+		}
+		
+		return covariance/poblacion.size();
+	}
+	private double varianza(){
+		double variance = 0.0;
+		double p = ProfundidadMedia();
+		for (Individuo c : poblacion){
+			variance += Math.pow(c.getProfundidad()-p, 2);
+		}
+		
+		return variance/poblacion.size();
+	}
+	
+	private void Bloating() {
+		double var=varianza();
+		if(var!=0) {
+			double coeficiente = covarianza()/var;
+			for (Individuo c : poblacion)
+				c.setFitness(c.getFitness()+(coeficiente*(c.getArbol().getNumNodos()+1)));
+		}
+	}*/
+	
+	private void Bloating() {
+		List<Individuo> nuevaPob = new ArrayList<Individuo>();
+		double p;
+		double a=ProfundidadMedia();
+		for(int i=0;i<poblacion.size();i++) {
+			nuevaPob.add(poblacion.get(i).copia());
+			p = Math.random();
+			if(nuevaPob.get(i).getProfundidad()>a && p > 0.5 )
+				nuevaPob.get(i).setFitness(very_low_fitness);
+		}
+		
+		poblacion.clear();
+		poblacion=nuevaPob;
+		
+	}
+	
 	public void evaluar() {
 		resetAct();
 		String arb="";
@@ -165,10 +218,22 @@ public class AlgoritmoGenetico {
 		double punt_acu=0,TotalFitness=0;		
 
 		for(int i=0;i<poblacion.size();i++) {
-			//poblacion.get(i).setFitness(poblacion.get(i).evaluar());
 			poblacion.get(i).evalua(defaultpasos);
-			TotalFitness+=poblacion.get(i).getFitness();
+			TotalFitness+=poblacion.get(i).getFitness();	
 			
+			if(poblacion.get(i).getFitness()>MejorAF) {
+				MejorAF=poblacion.get(i).getFitness();
+				rec=poblacion.get(i).getRecorrido();
+				arb=poblacion.get(i).getArbolText();
+			}
+		}
+		
+		//Media=TotalFitness/poblacion.size();
+		
+		/*TotalFitness=0;
+		Bloating();
+		for(int i=0;i<poblacion.size();i++) {
+			TotalFitness+=poblacion.get(i).getFitness();
 			if(poblacion.get(i).getFitness()>MejorAF) {
 				MejorAF=poblacion.get(i).getFitness();
 				rec=poblacion.get(i).getRecorrido();
@@ -176,11 +241,11 @@ public class AlgoritmoGenetico {
 				//descifrado=poblacion.get(i).getDescifrado();
 				//Conversion=poblacion.get(i).getConversion();
 			}
-		}
+		}*/
 		
 		Media=TotalFitness/poblacion.size();
 		
-		for(int i=0;i<poblacion.size();i++) {
+		for(int i=0;i<poblacion.size();i++) {		
 			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
 			poblacion.get(i).setPuntAcu(poblacion.get(i).getPunt()+ punt_acu);
 			punt_acu+=poblacion.get(i).getPunt();
@@ -198,28 +263,32 @@ public class AlgoritmoGenetico {
 	}
 	
 	public void nextElisGen() {
-		if(reinicio>=maxreinicio) reinicializar();
-		List<Individuo> nuevaPob;
-		List<Individuo> fijos;
-		fijos=escogerElite(poblacion);
 		try {
-		//Seleccion
-		nuevaPob=seleccion();
-		//Cruce
-		nuevaPob = cruce(nuevaPob);
-		//Mutacion
-		nuevaPob= mutacion(nuevaPob);
-		
-		//conteo();
-		
-		nuevaPob=insertartElite(nuevaPob, fijos);
-		
-		//poblacion.clear();
-		poblacion= nuevaPob;
+			//if(reinicio>=maxreinicio) reinicializar();
+			List<Individuo> nuevaPob;
+			List<Individuo> fijos;
+			fijos=escogerElite(poblacion);
+			
+			Bloating();
+			//Seleccion
+			nuevaPob=seleccion();
+			//Cruce
+			nuevaPob = cruce(nuevaPob);
+			//Mutacion
+			nuevaPob= mutacion(nuevaPob);
+			
+			//conteo();
+			
+			nuevaPob=insertartElite(nuevaPob, fijos);
+			
+			//poblacion.clear();
+			poblacion= nuevaPob;
+			
+			evaluar();
 		}catch(IndexOutOfBoundsException e){
-			System.out.print("es nextGEn");
+			System.out.print("Hubo un fallo en un arbol");
 		}
-		evaluar();
+		
 	}
 	
 	private void reinicializar() {

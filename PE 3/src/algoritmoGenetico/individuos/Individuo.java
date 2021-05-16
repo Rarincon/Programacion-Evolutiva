@@ -23,18 +23,19 @@ public class Individuo implements Comparable<Individuo> {
 	private double puntuacion;//puntuacion relativa:adaptación/sumadaptacion
 	private double punt_acu; // puntuacion acumulada
 	
-	private boolean elite; // elitismo
+	//private boolean elite; // elitismo
 	
-	private double fitness_bruto; //Aptitud antes de transformarla
-	private String fenotipo;
+	//private double fitness_bruto; //Aptitud antes de transformarla
+	//private String fenotipo;
 	
 	private int pasos,bocados;
 	private Tablero tab;
 	private Hormiga hormiga;
 	private List<Pair<Integer,Integer>>recorrido;
+	private int Profundidad;
 
 	public Individuo() {
-		
+		Profundidad=0;
 	}
 	
 	public void inicializa(int profundidad, int tipoCreacion) {
@@ -70,11 +71,14 @@ public class Individuo implements Comparable<Individuo> {
 		setFitness(bocados);
 		
 		
-		/*int prof=c.getCadena().getNumeroNodos(); max=300, min=2, ancho es la diferencia, k=0.2
-		double bocadosEscalados=(100/comida)*bocados;
-		double profundidadEscalada=(100/anchoProfundidad)*(prof-minProf);
-		double aptitud=bocadosEscalados*(1-k)+(100-profundidadEscalada)*k;
-		c.setAptitud(aptitud);*/
+		Profundidad= arbol.getAltura(arbol.getHijos(), 1);
+		
+		/*int anchoProfundidad = 120-2;
+		int prof=arbol.getNumNodos(); //max=300, nosotros 120, min=2, ancho es la diferencia, k=0.2
+		double bocadosEscalados=(100/tab.getNumComida())*bocados;
+		double profundidadEscalada=(100/anchoProfundidad)*(prof-2);
+		double aptitud=bocadosEscalados*(1-0.2)+(100-profundidadEscalada)*0.2;
+		setFitness(aptitud);*/
 	}
 
 	private void recorreArbol(Arbol arb, int maxPasos) { //
@@ -124,9 +128,30 @@ public class Individuo implements Comparable<Individuo> {
 		n.setFitness(getFitness());
 		n.setPunt(getPunt());
 		n.setPuntAcu(getPuntAcu());
+		n.setProfundidad(getProfundidad());
+		n.setRecorrido(getRecorrido());
+		n.setBocados(getBocados());
 		return n;		
 	}
 	
+	public void setBocados(int bocados2) {
+		bocados=bocados2;		
+	}
+
+	private int getBocados() {
+		return bocados;
+	}
+
+	public void setRecorrido(List<Pair<Integer, Integer>> recorrido2) {
+		recorrido=new ArrayList<Pair<Integer, Integer>>();
+		for(Pair<Integer,Integer> e : recorrido2)
+			recorrido.add(new Pair<Integer,Integer>(e.getFirst(),e.getSecond()));		
+	}
+
+	public void setProfundidad(int profundidad2) {
+		Profundidad=profundidad2;
+	}
+
 	public void setArbol(Arbol a) {
 		arbol= a;
 	}
@@ -157,6 +182,10 @@ public class Individuo implements Comparable<Individuo> {
 	
 	public double getFitness() {
 		return aptitud;
+	}
+	
+	public int getProfundidad() {
+		return Profundidad;
 	}
 	
 	public List<Pair<Integer,Integer>> getRecorrido(){
