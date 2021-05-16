@@ -59,7 +59,7 @@ public class AlgoritmoGenetico {
 	
 	private int reinicio;
 	
-	private int NumCruces, NumMutac;
+	//private int NumCruces, NumMutac;
 	
 	public AlgoritmoGenetico() {
 		
@@ -145,8 +145,8 @@ public class AlgoritmoGenetico {
 		resetAct();
 		reinicio=0;
 		arbol="";
-		NumCruces=0;
-		NumMutac=0;
+		//NumCruces=0;
+		//NumMutac=0;
 	}
 	
 	/*public void conteo() {
@@ -160,6 +160,8 @@ public class AlgoritmoGenetico {
 	
 	public void evaluar() {
 		resetAct();
+		String arb="";
+		List<Pair<Integer,Integer>> rec = new ArrayList<Pair<Integer,Integer>>();
 		double punt_acu=0,TotalFitness=0;		
 
 		for(int i=0;i<poblacion.size();i++) {
@@ -169,8 +171,8 @@ public class AlgoritmoGenetico {
 			
 			if(poblacion.get(i).getFitness()>MejorAF) {
 				MejorAF=poblacion.get(i).getFitness();
-				recorrido=poblacion.get(i).getRecorrido();
-				arbol=poblacion.get(i).getArbolText();
+				rec=poblacion.get(i).getRecorrido();
+				arb=poblacion.get(i).getArbolText();
 				//descifrado=poblacion.get(i).getDescifrado();
 				//Conversion=poblacion.get(i).getConversion();
 			}
@@ -187,6 +189,8 @@ public class AlgoritmoGenetico {
 		if(MejorAF > MejorF) {
 			MejorF=MejorAF;
 			reinicio=0;
+			recorrido = rec; 
+			arbol = arb;
 		}
 		else
 			reinicio++;

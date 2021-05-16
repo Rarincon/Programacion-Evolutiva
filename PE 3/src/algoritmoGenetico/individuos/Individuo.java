@@ -68,6 +68,13 @@ public class Individuo implements Comparable<Individuo> {
 			recorreArbol(arbol,maxPasos);
 		}
 		setFitness(bocados);
+		
+		
+		/*int prof=c.getCadena().getNumeroNodos(); max=300, min=2, ancho es la diferencia, k=0.2
+		double bocadosEscalados=(100/comida)*bocados;
+		double profundidadEscalada=(100/anchoProfundidad)*(prof-minProf);
+		double aptitud=bocadosEscalados*(1-k)+(100-profundidadEscalada)*k;
+		c.setAptitud(aptitud);*/
 	}
 
 	private void recorreArbol(Arbol arb, int maxPasos) { //
