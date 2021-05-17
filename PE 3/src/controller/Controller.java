@@ -21,6 +21,7 @@ public class Controller {
 	private int cruce;
 	private int mutacion;
 	private double elitismoRango;
+	private boolean apocal;
 	
 	private static Tablero tab;
 	
@@ -38,6 +39,7 @@ public class Controller {
 		this.elitismoRango=0.03;
 		this.probCruce=0.6;
 		this.probMutacion=0.05;
+		this.apocal=false;
 		
 		tab= new Tablero();
 		tab.cargarMapa("resources/SantaFe.txt");
@@ -78,6 +80,7 @@ public class Controller {
 		AlGen.setTamTor(tamTorneo);
 		AlGen.setEliteR(elitismoRango);
 		AlGen.setTamPob(tamPoblacion);
+		AlGen.setApoc(apocal);
 	}
 
 	
@@ -111,6 +114,9 @@ public class Controller {
 	public void setElitismRango(double value) {
 		elitismoRango=value;
 	}
+	public void setApocal(boolean selected) {
+		apocal=selected;	
+	}
 	
 	public int getGenAct() {
 		return GenActual;
@@ -118,5 +124,7 @@ public class Controller {
 	public static Tablero getTablero() {
 		return tab;
 	}
+
+
 	
 }

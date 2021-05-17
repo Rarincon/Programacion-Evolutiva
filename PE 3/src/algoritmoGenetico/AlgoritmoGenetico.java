@@ -34,7 +34,7 @@ public class AlgoritmoGenetico {
 	static private final double defaultProbMut = 0.05;
 	static private final double defaultEliteRate = 0.03;
 	static private final int defaultTamTorn = 5;
-	static private final int maxreinicio = 7;	
+	static private final int maxreinicio = 10;	
 	static private final int defaultprof = 2;	
 	static private final int defaultpasos = 400;
 	static private final double very_low_fitness = 0.01;
@@ -50,6 +50,7 @@ public class AlgoritmoGenetico {
 	private double eliteRango;
 	private boolean maximizar;
 	private int profundidad;
+	private boolean apocalipsis;
 	
 	private double MejorF;
 	private double MejorAF;
@@ -74,6 +75,7 @@ public class AlgoritmoGenetico {
 		maximizar=true;
 		profundidad=defaultprof;
 		recorrido = new ArrayList<Pair<Integer,Integer>>();
+		apocalipsis=false;
 		reset();
 	}
 
@@ -301,7 +303,7 @@ public class AlgoritmoGenetico {
 	
 	public void nextElisGen() {
 		try {
-			//if(reinicio>=maxreinicio) reinicializar();
+			if(apocalipsis && reinicio>=maxreinicio) reinicializar();
 			List<Individuo> nuevaPob;
 			List<Individuo> fijos;
 			fijos=escogerElite(poblacion);
@@ -390,5 +392,6 @@ public class AlgoritmoGenetico {
 	public void setTamTor(int t)		{		tamTorneo=t;	}
 	public void setEliteR(double e) 	{		eliteRango=e;	}
 	public void setTamPob(int value) 	{ 		TamPob=value;	}
+	public void setApoc(boolean value) 	{ 		apocalipsis=value;}
 	
 }

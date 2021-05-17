@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -40,7 +41,7 @@ public class ControlPanel extends JPanel {
 	private JButton run,stop,reset;
 	private JComboBox<String> Seleccion,Inicializacion, Mutacion;
 	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo;
-	
+	private JCheckBox apocal;
 	private JSlider Speed;
 	
 	private String[] seleccion= { "Ruleta","Estocastico","Torneo Probabilistico", "Torneo Deterministico", "Truncamiento", "Restos","Ranking"};
@@ -75,6 +76,7 @@ public class ControlPanel extends JPanel {
 		Mutacion=ComboBox(mutac);
 		Inicializacion=ComboBox(inicial);
 		
+		apocal = new JCheckBox("Apocalipsis");
 		Speed= new JSlider(JSlider.HORIZONTAL,0 ,10, 5);
 		Speed.setPreferredSize(new Dimension(250,45));
 		Speed.setMaximumSize(new Dimension(250, 45));
@@ -143,6 +145,7 @@ public class ControlPanel extends JPanel {
 		probCruce.setEnabled(b);
 		Mutacion.setEnabled(b);
 		Inicializacion.setEnabled(b);
+		apocal.setEnabled(b);
 	}
 	
 	private void reset() {
@@ -188,6 +191,7 @@ public class ControlPanel extends JPanel {
 		add(estructura("Tam. Torneos", torneo));
 		add(estructura("Prob. Cruce", probCruce));
 		add(estructura("Prob. Mutacion", mutacion));
+		add(estructura("", apocal));
 		add(Speed);
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));			
 		buttons.add(estructura3(run,stop,reset));
@@ -234,6 +238,7 @@ public class ControlPanel extends JPanel {
 		_ctrl.setMutac(Mutacion.getSelectedIndex());
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
+		_ctrl.setApocal(apocal.isSelected());
 	}
 	
 	/*private Object[] loadData() {
