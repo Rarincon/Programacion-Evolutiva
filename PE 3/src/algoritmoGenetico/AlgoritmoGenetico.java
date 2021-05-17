@@ -202,13 +202,50 @@ public class AlgoritmoGenetico {
 		for(int i=0;i<poblacion.size();i++) {
 			nuevaPob.add(poblacion.get(i).copia());
 			p = Math.random();
-			if(nuevaPob.get(i).getProfundidad()>a && p > 0.5 )
+			if(nuevaPob.get(i).getProfundidad()>a && p > 0.5 && nuevaPob.get(i).getFitness()!=MejorF)
 				nuevaPob.get(i).setFitness(very_low_fitness);
 		}
 		
 		poblacion.clear();
 		poblacion=nuevaPob;
 		
+	}
+	
+	public void evalua(List<Individuo>pob) {
+		for(int i=0;i<pob.size();i++) 
+			pob.get(i).evalua(defaultpasos);
+		/*resetAct();
+		String arb="";
+		List<Pair<Integer,Integer>> rec = new ArrayList<Pair<Integer,Integer>>();
+		double punt_acu=0,TotalFitness=0;	
+		for(int i=0;i<pob.size();i++) {
+			TotalFitness+=poblacion.get(i).getFitness();
+			if(poblacion.get(i).getFitness()>MejorAF) {
+				MejorAF=poblacion.get(i).getFitness();
+				rec=poblacion.get(i).getRecorrido();
+				arb=poblacion.get(i).getArbolText();
+				//descifrado=poblacion.get(i).getDescifrado();
+				//Conversion=poblacion.get(i).getConversion();
+			}
+		}
+		Media=TotalFitness/poblacion.size();
+		
+		for(int i=0;i<poblacion.size();i++) {		
+			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
+			poblacion.get(i).setPuntAcu(poblacion.get(i).getPunt()+ punt_acu);
+			punt_acu+=poblacion.get(i).getPunt();
+		}
+		
+		if(MejorAF > MejorF) {
+			MejorF=MejorAF;
+			reinicio=0;
+			recorrido = rec; 
+			arbol = arb;
+		}
+		else
+			reinicio++;*/
+
+
 	}
 	
 	public void evaluar() {
@@ -221,16 +258,16 @@ public class AlgoritmoGenetico {
 			poblacion.get(i).evalua(defaultpasos);
 			TotalFitness+=poblacion.get(i).getFitness();	
 			
-			if(poblacion.get(i).getFitness()>MejorAF) {
+			/*if(poblacion.get(i).getFitness()>MejorAF) {
 				MejorAF=poblacion.get(i).getFitness();
 				rec=poblacion.get(i).getRecorrido();
 				arb=poblacion.get(i).getArbolText();
-			}
+			}*/
 		}
 		
 		//Media=TotalFitness/poblacion.size();
 		
-		/*TotalFitness=0;
+		TotalFitness=0;
 		Bloating();
 		for(int i=0;i<poblacion.size();i++) {
 			TotalFitness+=poblacion.get(i).getFitness();
@@ -241,7 +278,7 @@ public class AlgoritmoGenetico {
 				//descifrado=poblacion.get(i).getDescifrado();
 				//Conversion=poblacion.get(i).getConversion();
 			}
-		}*/
+		}
 		
 		Media=TotalFitness/poblacion.size();
 		
@@ -269,7 +306,7 @@ public class AlgoritmoGenetico {
 			List<Individuo> fijos;
 			fijos=escogerElite(poblacion);
 			
-			Bloating();
+			
 			//Seleccion
 			nuevaPob=seleccion();
 			//Cruce
@@ -278,13 +315,13 @@ public class AlgoritmoGenetico {
 			nuevaPob= mutacion(nuevaPob);
 			
 			//conteo();
-			
 			nuevaPob=insertartElite(nuevaPob, fijos);
-			
 			//poblacion.clear();
 			poblacion= nuevaPob;
 			
 			evaluar();
+			//nuevaPob=insertartElite(poblacion, fijos);
+			//poblacion=nuevaPob;
 		}catch(IndexOutOfBoundsException e){
 			System.out.print("Hubo un fallo en un arbol");
 		}
@@ -303,7 +340,10 @@ public class AlgoritmoGenetico {
 		pob.sort(new Sorted(true,true));
 		List<Individuo> elite = new ArrayList<Individuo>();
 		int tam= (int) Math.ceil(pob.size() * eliteRango);
-		for (int i = 0; i < tam; i++) {
+		//int i=0;
+		///double a=ProfundidadMedia();
+		//while(elite.size()<tam) {
+		for (int i = 0; i < tam; i++) {		
 			elite.add(pob.get(i).copia());
 		}
 		return elite;
@@ -325,6 +365,7 @@ public class AlgoritmoGenetico {
 			pob.remove(pob.size() - 1 - i);
 			pob.add(elite.get(i).copia());
 		}
+		evalua(pob);
 		return pob;
 	}
 
