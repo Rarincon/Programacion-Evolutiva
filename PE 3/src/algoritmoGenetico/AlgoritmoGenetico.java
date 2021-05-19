@@ -35,8 +35,9 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	static private final int defaultTamTorn = 5;
 	static private final int maxreinicio = 10;	
-	static private final int defaultprof = 2;	
-	static private final int defaultpasos = 400;
+	static private final int maxaltura = 4;
+	static private final int defaultprof = 3; //la altura es siempre una mas, ya que empieza en 0	
+	static private final int defaultpasos = 300;
 	static private final double very_low_fitness = 0.01;
 	
 	private List<Individuo> poblacion;
@@ -58,6 +59,7 @@ public class AlgoritmoGenetico {
 	private List<Pair<Integer,Integer>>recorrido;
 	private String arbol;
 	private int OpcionI;
+	private int pasos;
 	
 	private int reinicio;
 	
@@ -76,6 +78,7 @@ public class AlgoritmoGenetico {
 		profundidad=defaultprof;
 		recorrido = new ArrayList<Pair<Integer,Integer>>();
 		apocalipsis=false;
+		pasos=defaultpasos;
 		reset();
 	}
 
@@ -97,6 +100,11 @@ public class AlgoritmoGenetico {
 					pos++;
 				}
 				x++;
+			}
+			while(pos<poblacion.size()) {
+				poblacion.get(pos).inicializa(profundidad,tipo);
+				tipo=(tipo+1)%2;
+				pos++;
 			}
 		}
 	}
@@ -120,7 +128,7 @@ public class AlgoritmoGenetico {
 		crucMod= new CruceArbol(probCruce);
 		
 		if(opcionM==0)mutMod= new TerminalSimple(probMut);
-		else if(opcionM==1)mutMod= new MutArbol(probMut);
+		else if(opcionM==1)mutMod= new MutArbol(probMut,opcionI,profundidad);
 		else if(opcionM==2)mutMod= new Permutacion(probMut);
 		else if(opcionM==3) mutMod= new FuncionalSimple(probMut);
 		else if(opcionM==4)mutMod= new Contraccion(probMut);
@@ -204,7 +212,7 @@ public class AlgoritmoGenetico {
 		for(int i=0;i<poblacion.size();i++) {
 			nuevaPob.add(poblacion.get(i).copia());
 			p = Math.random();
-			if(nuevaPob.get(i).getProfundidad()>a && p > 0.5 && nuevaPob.get(i).getFitness()!=MejorF)
+			if(nuevaPob.get(i).getProfundidad()> maxaltura  /*&& p < 0.5 && nuevaPob.get(i).getFitness()!=MejorF*/)
 				nuevaPob.get(i).setFitness(very_low_fitness);
 		}
 		
@@ -215,7 +223,7 @@ public class AlgoritmoGenetico {
 	
 	public void evalua(List<Individuo>pob) {
 		for(int i=0;i<pob.size();i++) 
-			pob.get(i).evalua(defaultpasos);
+			pob.get(i).evalua(pasos);
 		/*resetAct();
 		String arb="";
 		List<Pair<Integer,Integer>> rec = new ArrayList<Pair<Integer,Integer>>();
@@ -257,7 +265,7 @@ public class AlgoritmoGenetico {
 		double punt_acu=0,TotalFitness=0;		
 
 		for(int i=0;i<poblacion.size();i++) {
-			poblacion.get(i).evalua(defaultpasos);
+			poblacion.get(i).evalua(pasos);
 			TotalFitness+=poblacion.get(i).getFitness();	
 			
 			/*if(poblacion.get(i).getFitness()>MejorAF) {
@@ -367,7 +375,7 @@ public class AlgoritmoGenetico {
 			pob.remove(pob.size() - 1 - i);
 			pob.add(elite.get(i).copia());
 		}
-		evalua(pob);
+		//evalua(pob);
 		return pob;
 	}
 
@@ -393,5 +401,6 @@ public class AlgoritmoGenetico {
 	public void setEliteR(double e) 	{		eliteRango=e;	}
 	public void setTamPob(int value) 	{ 		TamPob=value;	}
 	public void setApoc(boolean value) 	{ 		apocalipsis=value;}
+	public void setPasos(int value) 	{ 		pasos=value;	}
 	
 }

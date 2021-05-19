@@ -20,6 +20,7 @@ public class Controller {
 	private int Inicializacion;
 	private int cruce;
 	private int mutacion;
+	private int pasos;
 	private double elitismoRango;
 	private boolean apocal;
 	
@@ -40,6 +41,7 @@ public class Controller {
 		this.probCruce=0.6;
 		this.probMutacion=0.05;
 		this.apocal=false;
+		this.pasos=400;
 		
 		tab= new Tablero();
 		tab.cargarMapa("resources/SantaFe.txt");
@@ -81,6 +83,7 @@ public class Controller {
 		AlGen.setEliteR(elitismoRango);
 		AlGen.setTamPob(tamPoblacion);
 		AlGen.setApoc(apocal);
+		AlGen.setPasos(pasos);
 	}
 
 	
@@ -125,6 +128,7 @@ public class Controller {
 		return tab;
 	}
 
-
-	
+	public void setPasos(int value) {
+		pasos=value;
+	}	
 }

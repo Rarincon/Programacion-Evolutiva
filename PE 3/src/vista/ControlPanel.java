@@ -40,7 +40,7 @@ public class ControlPanel extends JPanel {
 	private boolean _stopped;
 	private JButton run,stop,reset;
 	private JComboBox<String> Seleccion,Inicializacion, Mutacion;
-	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo;
+	private JSpinner poblacion, maxGeneracion, mutacion,elitismo,probCruce,torneo,pasos;
 	private JCheckBox apocal;
 	private JSlider Speed;
 	
@@ -71,7 +71,9 @@ public class ControlPanel extends JPanel {
 		torneo.setPreferredSize(new Dimension(75,30));
 		probCruce= new JSpinner(new SpinnerNumberModel(0.6, 0.0, 1.0, 0.05));
 		probCruce.setPreferredSize(new Dimension(75,30));
-
+		pasos = new JSpinner(new SpinnerNumberModel(400,10,600,2));
+		pasos.setPreferredSize(new Dimension(75,30));
+		
 		Seleccion = ComboBox(seleccion);
 		Mutacion=ComboBox(mutac);
 		Inicializacion=ComboBox(inicial);
@@ -146,6 +148,7 @@ public class ControlPanel extends JPanel {
 		Mutacion.setEnabled(b);
 		Inicializacion.setEnabled(b);
 		apocal.setEnabled(b);
+		pasos.setEnabled(b);
 	}
 	
 	private void reset() {
@@ -185,6 +188,7 @@ public class ControlPanel extends JPanel {
 		add(estructura("Poblacion", poblacion));
 		add(estructura("Generaciones", maxGeneracion));
 		add(estructura("Inicializacion", Inicializacion));
+		add(estructura("Pasos", pasos));
 		add(estructura("Elitismo", elitismo));
 		add(estructura("Seleccion", Seleccion));
 		add(estructura("Mutacion", Mutacion));
@@ -239,6 +243,7 @@ public class ControlPanel extends JPanel {
 		_ctrl.setProbCruce((double) probCruce.getValue());
 		_ctrl.setProbMut((double) mutacion.getValue());
 		_ctrl.setApocal(apocal.isSelected());
+		_ctrl.setPasos((int) pasos.getValue());
 	}
 	
 	/*private Object[] loadData() {

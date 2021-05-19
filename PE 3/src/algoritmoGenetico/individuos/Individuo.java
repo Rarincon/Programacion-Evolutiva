@@ -52,7 +52,7 @@ public class Individuo implements Comparable<Individuo> {
 				break;
 			case 2:
 				int ini = new Random().nextInt(2);
-				if(ini == 0) arbol.inicializacionCreciente(0,0);
+				if(ini == 0) arbol.inicializacionCreciente(10,0);
 				else arbol.inicializacionCompleta(0,0);
 				break;
 		}
@@ -65,7 +65,7 @@ public class Individuo implements Comparable<Individuo> {
 		tab = (Tablero) Controller.getTablero().clone();
 		hormiga = new Hormiga();
 		recorrido = new ArrayList<Pair<Integer,Integer>>();
-		while(pasos < maxPasos && bocados<=tab.getNumComida()) {
+		while(pasos < maxPasos && bocados<tab.getNumComida()) {
 			recorreArbol(arbol,maxPasos);
 		}
 		setFitness(bocados);
@@ -118,9 +118,9 @@ public class Individuo implements Comparable<Individuo> {
 	}
 	
 	
-	public double evaluar() {
+	/*public double evaluar() {
 		return aptitud;
-	}
+	}*/
 	
 	public Individuo copia() {
 		Individuo n= new Individuo();

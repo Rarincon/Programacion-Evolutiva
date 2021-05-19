@@ -2,14 +2,19 @@ package algoritmoGenetico.mutacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import algoritmoGenetico.individuos.Arbol;
 import algoritmoGenetico.individuos.Individuo;
 
 public class MutArbol extends Mutacion{
+	
+	private int opcion, prof;
 
-	public MutArbol(double _probMutacion) {
+	public MutArbol(double _probMutacion, int opc, int profundidad) {
 		super(_probMutacion);
+		opcion= opc;
+		prof= profundidad;
 	}
 
 	@Override
@@ -21,7 +26,15 @@ public class MutArbol extends Mutacion{
 			
 			prob=Math.random();
 			if(prob < probMutacion) {
-				Arbol a = nuevaPob.get(i).getArbol().copia();
+				Arbol a= new Arbol(prof);
+				if(opcion==0) a.inicializacionCompleta(0, 0);
+				else if(opcion==1) a.inicializacionCompleta(0, 0);
+				else {
+					int ini = new Random().nextInt(2);
+					if(ini == 0) a.inicializacionCreciente(0,0);
+					else a.inicializacionCompleta(0,0);
+				}
+				/*Arbol a = nuevaPob.get(i).getArbol().copia();
 				int total=a.getNumNodos();
 				
 				int s = (int) (Math.random()*total);
@@ -37,7 +50,7 @@ public class MutArbol extends Mutacion{
 				int nodos = a.obtieneNodos(a, 0);
 				a.setNumNodos(nodos);
 				
-				a.profundidad(a.getHijos(),1,0);
+				a.profundidad(a.getHijos(),1,0);*/
 				nuevaPob.get(i).setArbol(a);
 			}
 		}
