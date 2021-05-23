@@ -127,6 +127,8 @@ public class Arbol {
 				hijos.add(hijo);
 				numHijos++;
 			}
+			checkSIC(p);
+			itrones();
 		}
 		else{
 			setProfundidad(p);
@@ -170,10 +172,20 @@ public class Arbol {
 				//hijo.setPadre(this);
 				esRaiz = true;
 				n++;
-				n = hijo.inicializacionCreciente(p+1, n);
+				if(valor.equals("SIC") && i== 0) {
+					hijo.setValor("AVANZA");
+					hijo.setNumHijos(0);
+					hijo.setEsHoja(true);
+				}
+				else {					
+					n = hijo.inicializacionCreciente(p+1, n);				
+				}
 				hijos.add(hijo);
 				numHijos++;
 			}
+			
+			checkSIC(p);
+			itrones();
 		}
 		else{
 			setProfundidad(p);
@@ -188,14 +200,56 @@ public class Arbol {
 		setNumNodos(n);
 		return n;
 	}
+	
+	public void checkSIC(int p) {
+		/*if(valor.equals("SIC") && (p+1== max_prof)) {
+			hijos.get(0).setValor("AVANZA");
+			if(hijos.get(1).getValor().equals("AVANZA")) {
+				int aux = new Random().nextInt(2);
+				if(aux==0)
+					hijos.get(1).setValor("GIRA_DERECHA");
+				else hijos.get(1).setValor("GIRA_IZQUIERDA");
+			}
+		}*/
+		if(valor.equals("SIC") && hijos.get(1).getValor().equals("SIC") ) {
+			hijos.get(1).setValor("PROGN2");
+		}
+		else if(valor.equals("SIC") && Individuo.esTerminal(hijos.get(1).getValor())) {
+			if(hijos.get(1).getValor().equals("AVANZA")) {
+				int aux = new Random().nextInt(2);
+				if(aux==0)
+					hijos.get(1).setValor("GIRA_DERECHA");
+				else hijos.get(1).setValor("GIRA_IZQUIERDA");
+			}
+		}
+		if(valor.equals("SIC") && hijos.get(0).getValor().equals("SIC") ) {
+			hijos.get(0).setValor("PROGN2");
+		}	
+		else if(valor.equals("SIC") && Individuo.esTerminal(hijos.get(0).getValor())) {
+			hijos.get(0).setValor("AVANZA");
+		}
+		
+	}
+	
+	public void itrones() {
+		if(valor.equals("PROGN2")) {
+			if((hijos.get(0).getValor().equals("GIRA_DERECHA") && hijos.get(0).getValor().equals("GIRA_IZQUIERDA"))
+					|| hijos.get(0).getValor().equals("GIRA_IZQUIERDA") && hijos.get(0).getValor().equals("GIRA_DERECHA")) {
+				int aux = new Random().nextInt(2);
+				if(aux==0)
+					hijos.get(0).setValor("AVANZA");
+				else hijos.get(1).setValor("AVANZA");
+			}
+		}
+	}
 
-	private int creaHijos(int p, int nodos) { //ADAPTAR
+	/*private int creaHijos(int p, int nodos) { //ADAPTAR
 		int n = nodos;
 		int nHijos = 2;
 		if(valor.equals("IF")) nHijos = 3;
 		if(valor.equals("NOT")) nHijos = 1;
 		for(int i = 0; i < nHijos; i++){
-			Arbol hijo = new Arbol(max_prof/*, useIF*/);
+			Arbol hijo = new Arbol(max_prof);
 			//hijo.setPadre(this);
 			n++;
 			//n = hijo.inicializacionCrecienteAux(p+1, n);
@@ -203,7 +257,7 @@ public class Arbol {
 			numHijos++;
 		}
 		return n;
-	}
+	}*/
 
 	/**
 	* Devuelve los nodos hoja del árbol

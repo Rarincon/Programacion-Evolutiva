@@ -65,6 +65,7 @@ public class Individuo implements Comparable<Individuo> {
 		tab = (Tablero) Controller.getTablero().clone();
 		hormiga = new Hormiga();
 		recorrido = new ArrayList<Pair<Integer,Integer>>();
+		recorrido.add(new Pair<Integer,Integer>(0,0));
 		while(pasos < maxPasos && bocados<tab.getNumComida()) {
 			recorreArbol(arbol,maxPasos);
 		}

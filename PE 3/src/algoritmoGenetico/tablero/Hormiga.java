@@ -2,7 +2,7 @@ package algoritmoGenetico.tablero;
 
 import utils.Pair;
 
-public class Hormiga { //REPASAR Y ADAPTAR
+public class Hormiga { 
 	private static int tamX,tamY;
 	public enum Direccion {
 		Norte, Este, Sur, Oeste
@@ -16,29 +16,24 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		tamX=tamY=32;
 		direccion = Direccion.Este;
 	}
-	
-	/*public static void setTamTablero(int x,int y){
-		tamX=x;
-		tamY=y;
-	}*/
 
 	public void avanza() {
 		switch (direccion) {
 		case Norte:
 			posX--;
-			posX=check(posX);//toroideX(posX);
+			posX=check(posX);;
 			break;
 		case Este:
 			posY++;
-			posY=check(posY);//toroideY(posY);
+			posY=check(posY);
 			break;
 		case Sur:
 			posX++;
-			posX=check(posX);//toroideX(posX);
+			posX=check(posX);
 			break;
 		case Oeste:
 			posY--;
-			posY=check(posY);//toroideY(posY);
+			posY=check(posY);
 			break;
 		}
 		
@@ -51,24 +46,6 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		
 	}
 	
-	/*private int toroideX(int pos){	
-		int res=pos;
-		if(pos==-1){
-			res=tamX-1;
-		}else if (pos==tamX){
-			res=0;
-		}
-		return res;
-	}
-	private int toroideY(int pos){	
-		int res=pos;
-		if(pos==-1){
-			res=tamY-1;
-		}else if (pos==tamY){
-			res=0;
-		}
-		return res;
-	}*/
 	
 	public Direccion getDir(){
 		return direccion;
@@ -80,19 +57,19 @@ public class Hormiga { //REPASAR Y ADAPTAR
 		switch (direccion) {
 		case Norte:
 			x--;	
-			x=check(x);//toroideX(x);
+			x=check(x);
 			break;
 		case Este:
 			y++;
-			y=check(y);//toroideY(y);
+			y=check(y);
 			break;
 		case Sur:
 			x++;
-			x=check(x);//toroideX(x);
+			x=check(x);
 			break;
 		case Oeste:
 			y--;
-			y=check(y);//toroideY(y);
+			y=check(y);
 			break;
 		}
 		return new Pair<Integer,Integer>(x,y);
