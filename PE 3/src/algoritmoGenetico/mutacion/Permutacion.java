@@ -13,7 +13,7 @@ public class Permutacion extends Mutacion{
 	}
 
 	@Override
-	public List<Individuo> mutarInd(List<Individuo> pob) { //Mirar si lo hace bn
+	public List<Individuo> mutarInd(List<Individuo> pob) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		double prob;
 		for(int i=0; i<pob.size(); i++) {

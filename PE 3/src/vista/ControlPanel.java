@@ -7,9 +7,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -28,7 +25,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import algoritmoGenetico.AlgoritmoGenetico;
 import controller.Controller;
 
 public class ControlPanel extends JPanel {
@@ -94,8 +90,6 @@ public class ControlPanel extends JPanel {
 		Speed.setMinorTickSpacing(1);
 		Speed.setPaintTicks(true);
 		Speed.setPaintLabels(true);
-				
-		//AlgoritmoGenetico.loadDataFile(loadData());
 		
 		run= new JButton("Run");
 		run.setToolTipText("Run/Resume");
@@ -245,18 +239,5 @@ public class ControlPanel extends JPanel {
 		_ctrl.setApocal(apocal.isSelected());
 		_ctrl.setPasos((int) pasos.getValue());
 	}
-	
-	/*private Object[] loadData() {
-		File f = new File("resources/ngrams/");
-		datos = new HashMap<String, String>();
-		for (File fil : f.listFiles()) {
-			if (fil.getName().substring(fil.getName().lastIndexOf('.'), fil.getName().length()).equalsIgnoreCase(".txt")) {
-				datos.put(fil.getName(), fil.getAbsolutePath());
-			}
-		}
-		Object[] list = datos.values().toArray();
-		Arrays.sort(list);
-		return list;
-	}*/
 
 }

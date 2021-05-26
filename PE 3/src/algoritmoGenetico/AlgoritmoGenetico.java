@@ -63,7 +63,6 @@ public class AlgoritmoGenetico {
 	
 	private int reinicio;
 	
-	//private int NumCruces, NumMutac;
 	
 	public AlgoritmoGenetico() {
 		
@@ -109,7 +108,7 @@ public class AlgoritmoGenetico {
 		}
 	}
 	
-	public void init(int opcionI,int opcionS, int opcionC, int opcionM) { //ESTO SERA PRIVADO
+	public void init(int opcionI,int opcionS, int opcionC, int opcionM) {
 		maximizar=true;
 		OpcionI=opcionI;
 		
@@ -156,14 +155,7 @@ public class AlgoritmoGenetico {
 		resetAct();
 		reinicio=0;
 		arbol="";
-		//NumCruces=0;
-		//NumMutac=0;
 	}
-	
-	/*public void conteo() {
-		//NumCruces+=crucMod.NumCruces();
-		NumMutac+=mutMod.NumMutaciones();
-	}*/
 	
 	public void resetAct() {
 		MejorAF = Double.NEGATIVE_INFINITY;
@@ -212,50 +204,13 @@ public class AlgoritmoGenetico {
 		for(int i=0;i<poblacion.size();i++) {
 			nuevaPob.add(poblacion.get(i).copia());
 			p = Math.random();
-			if(nuevaPob.get(i).getProfundidad()> maxaltura  /*&& p < 0.5 && nuevaPob.get(i).getFitness()!=MejorF*/)
+			if(nuevaPob.get(i).getProfundidad()> maxaltura  /*&& p < 0.5 && nuevaPob.get(i).getFitness()!=MejorF*/) //Conflicto con elitismo
 				nuevaPob.get(i).setFitness(very_low_fitness);
 		}
 		
 		poblacion.clear();
 		poblacion=nuevaPob;
 		
-	}
-	
-	public void evalua(List<Individuo>pob) {
-		for(int i=0;i<pob.size();i++) 
-			pob.get(i).evalua(pasos);
-		/*resetAct();
-		String arb="";
-		List<Pair<Integer,Integer>> rec = new ArrayList<Pair<Integer,Integer>>();
-		double punt_acu=0,TotalFitness=0;	
-		for(int i=0;i<pob.size();i++) {
-			TotalFitness+=poblacion.get(i).getFitness();
-			if(poblacion.get(i).getFitness()>MejorAF) {
-				MejorAF=poblacion.get(i).getFitness();
-				rec=poblacion.get(i).getRecorrido();
-				arb=poblacion.get(i).getArbolText();
-				//descifrado=poblacion.get(i).getDescifrado();
-				//Conversion=poblacion.get(i).getConversion();
-			}
-		}
-		Media=TotalFitness/poblacion.size();
-		
-		for(int i=0;i<poblacion.size();i++) {		
-			poblacion.get(i).setPunt(poblacion.get(i).getFitness()/TotalFitness);
-			poblacion.get(i).setPuntAcu(poblacion.get(i).getPunt()+ punt_acu);
-			punt_acu+=poblacion.get(i).getPunt();
-		}
-		
-		if(MejorAF > MejorF) {
-			MejorF=MejorAF;
-			reinicio=0;
-			recorrido = rec; 
-			arbol = arb;
-		}
-		else
-			reinicio++;*/
-
-
 	}
 	
 	public void evaluar() {
@@ -267,15 +222,7 @@ public class AlgoritmoGenetico {
 		for(int i=0;i<poblacion.size();i++) {
 			poblacion.get(i).evalua(pasos);
 			TotalFitness+=poblacion.get(i).getFitness();	
-			
-			/*if(poblacion.get(i).getFitness()>MejorAF) {
-				MejorAF=poblacion.get(i).getFitness();
-				rec=poblacion.get(i).getRecorrido();
-				arb=poblacion.get(i).getArbolText();
-			}*/
 		}
-		
-		//Media=TotalFitness/poblacion.size();
 		
 		TotalFitness=0;
 		Bloating();
@@ -285,8 +232,6 @@ public class AlgoritmoGenetico {
 				MejorAF=poblacion.get(i).getFitness();
 				rec=poblacion.get(i).getRecorrido();
 				arb=poblacion.get(i).getArbolText();
-				//descifrado=poblacion.get(i).getDescifrado();
-				//Conversion=poblacion.get(i).getConversion();
 			}
 		}
 		
@@ -324,16 +269,13 @@ public class AlgoritmoGenetico {
 			//Mutacion
 			nuevaPob= mutacion(nuevaPob);
 			
-			//conteo();
 			nuevaPob=insertartElite(nuevaPob, fijos);
-			//poblacion.clear();
 			poblacion= nuevaPob;
 			
 			evaluar();
-			//nuevaPob=insertartElite(poblacion, fijos);
-			//poblacion=nuevaPob;
+
 		}catch(IndexOutOfBoundsException e){
-			System.out.print("Hubo un fallo en un arbol");
+			System.out.print("Hubo un fallo con un arbol");
 		}
 		
 	}
@@ -350,9 +292,6 @@ public class AlgoritmoGenetico {
 		pob.sort(new Sorted(true,true));
 		List<Individuo> elite = new ArrayList<Individuo>();
 		int tam= (int) Math.ceil(pob.size() * eliteRango);
-		//int i=0;
-		///double a=ProfundidadMedia();
-		//while(elite.size()<tam) {
 		for (int i = 0; i < tam; i++) {		
 			elite.add(pob.get(i).copia());
 		}
@@ -375,21 +314,16 @@ public class AlgoritmoGenetico {
 			pob.remove(pob.size() - 1 - i);
 			pob.add(elite.get(i).copia());
 		}
-		//evalua(pob);
 		return pob;
 	}
 
 	public Map<String, Object> getResults() { 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("Media", Media);
-		//map.put("Descifrado", descifradoM);
-		//map.put("Conversion", ConversionM);		
+		map.put("Media", Media);		
 		map.put("fitness", MejorF);	
 		map.put("Mejor Actual", MejorAF);
 		map.put("Recorrido", recorrido);
 		map.put("Arbol", arbol);
-		//map.put("Num Cruces", NumCruces);
-		//map.put("Num Mutaciones", NumMutac);
 		return map;
 	}
 	

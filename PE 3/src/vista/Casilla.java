@@ -6,9 +6,6 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 
-import algoritmoGenetico.tablero.Hormiga;
-import algoritmoGenetico.tablero.Hormiga.Direccion;
-
 public class Casilla extends JTextArea {
 	
 	private static final long serialVersionUID = 1L;
@@ -48,26 +45,8 @@ public class Casilla extends JTextArea {
 	}
 
 	public void pasaLaHormiga() {
-		pisada = true;	
-		//cargarTexto(hormiga.getDir());			
+		pisada = true;				
 		cargarFondo();
 	}
-
-	/*private void cargarTexto(Direccion dir) {
-		switch(dir){
-		case Norte:
-			setText("\u2191");
-			break;
-		case Sur:
-			setText("\u2193");
-			break;
-		case Este:
-			setText("\u2192");
-			break;
-		case Oeste:				
-			setText("\u2190");
-			break;
-		}
-	}*/
 
 }

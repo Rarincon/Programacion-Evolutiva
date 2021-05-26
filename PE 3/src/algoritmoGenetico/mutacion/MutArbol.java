@@ -18,7 +18,7 @@ public class MutArbol extends Mutacion{
 	}
 
 	@Override
-	public List<Individuo> mutarInd(List<Individuo> pob) { //Mirar si lo hace bn
+	public List<Individuo> mutarInd(List<Individuo> pob) {
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		double prob;
 		for(int i=0; i<pob.size(); i++) {
@@ -34,23 +34,6 @@ public class MutArbol extends Mutacion{
 					if(ini == 0) a.inicializacionCreciente(0,0);
 					else a.inicializacionCompleta(0,0);
 				}
-				/*Arbol a = nuevaPob.get(i).getArbol().copia();
-				int total=a.getNumNodos();
-				
-				int s = (int) (Math.random()*total);
-				if(s==0)s++;
-				int prof= (int) (Math.random()*a.getMax_prof());
-				prof++;
-				Arbol b=new Arbol(prof);
-				
-				b.inicializacionCreciente(0,1);
-				
-				a.insert(a.getHijos(), b, s, 0);
-				//a.insert(b,s);
-				int nodos = a.obtieneNodos(a, 0);
-				a.setNumNodos(nodos);
-				
-				a.profundidad(a.getHijos(),1,0);*/
 				nuevaPob.get(i).setArbol(a);
 			}
 		}

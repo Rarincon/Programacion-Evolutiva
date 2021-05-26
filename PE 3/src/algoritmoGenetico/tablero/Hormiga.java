@@ -45,8 +45,7 @@ public class Hormiga {
 		else return pos%tamX;
 		
 	}
-	
-	
+		
 	public Direccion getDir(){
 		return direccion;
 	}

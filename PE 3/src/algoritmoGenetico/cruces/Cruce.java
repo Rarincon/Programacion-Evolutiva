@@ -9,15 +9,13 @@ import algoritmoGenetico.individuos.Individuo;
 public abstract class Cruce {
 	protected double probCruce;
 	protected List<Integer> sel_cruce;
-	//protected int Altura;
 	
 	public Cruce(double p) {
 		probCruce=p;
 	}
 	
 	public List<Individuo> selecCruzados(List<Individuo> pob){
-		sel_cruce= new ArrayList<Integer>();
-		//TamC=pob.get(0).getTamCromosoma();		
+		sel_cruce= new ArrayList<Integer>();		
 		double p;		
 		for(int i=0; i<pob.size(); i++) {
 			p=Math.random();

@@ -11,22 +11,13 @@ import utils.Pair;
 
 public class Individuo implements Comparable<Individuo> {
 	
-	//public static Terminal terminales;
-	//public static Funcion funciones;
-	
-	public static String terminales[];
 	public static final String terminales6[] = { "AVANZA", "GIRA_DERECHA", "GIRA_IZQUIERDA"};
 	public static final String funciones[] = { "SIC", "PROGN2", "PROGN3" };
 	
 	private Arbol arbol; // estrategia de rastreo
 	private double aptitud;// función de evaluación
-	private double puntuacion;//puntuacion relativa:adaptación/sumadaptacion
+	private double puntuacion;//puntuacion relativa
 	private double punt_acu; // puntuacion acumulada
-	
-	//private boolean elite; // elitismo
-	
-	//private double fitness_bruto; //Aptitud antes de transformarla
-	//private String fenotipo;
 	
 	private int pasos,bocados;
 	private Tablero tab;
@@ -40,15 +31,12 @@ public class Individuo implements Comparable<Individuo> {
 	
 	public void inicializa(int profundidad, int tipoCreacion) {
 		arbol = new Arbol(profundidad);
-		//List<String> a;
 		switch(tipoCreacion){
 			case 0:
 				arbol.inicializacionCompleta(0,0);
-				//a=arbol.toArray();
 				break;
 			case 1:
 				arbol.inicializacionCreciente(0,0);
-				//a=arbol.toArray();
 				break;
 			case 2:
 				int ini = new Random().nextInt(2);
@@ -69,17 +57,8 @@ public class Individuo implements Comparable<Individuo> {
 		while(pasos < maxPasos && bocados<tab.getNumComida()) {
 			recorreArbol(arbol,maxPasos);
 		}
-		setFitness(bocados);
-		
-		
+		setFitness(bocados);		
 		Profundidad= arbol.getAltura(arbol.getHijos(), 1);
-		
-		/*int anchoProfundidad = 120-2;
-		int prof=arbol.getNumNodos(); //max=300, nosotros 120, min=2, ancho es la diferencia, k=0.2
-		double bocadosEscalados=(100/tab.getNumComida())*bocados;
-		double profundidadEscalada=(100/anchoProfundidad)*(prof-2);
-		double aptitud=bocadosEscalados*(1-0.2)+(100-profundidadEscalada)*0.2;
-		setFitness(aptitud);*/
 	}
 
 	private void recorreArbol(Arbol arb, int maxPasos) { //
@@ -97,7 +76,7 @@ public class Individuo implements Comparable<Individuo> {
 				recorreArbol(arb.getHijoAt(1),maxPasos);
 			} else if (arb.getValor().equals("SIC")) {
 				Pair<Integer,Integer> sigPos = hormiga.getSigPos();
-				if (tab.getCasilla(sigPos.getFirst(), sigPos.getSecond())) {//hay comida
+				if (tab.getCasilla(sigPos.getFirst(), sigPos.getSecond())) {//HAY COMIDA
 					recorreArbol(arb.getHijoAt(0),maxPasos);
 				} else {
 					recorreArbol(arb.getHijoAt(1),maxPasos);
@@ -117,11 +96,6 @@ public class Individuo implements Comparable<Individuo> {
 			}
 		}
 	}
-	
-	
-	/*public double evaluar() {
-		return aptitud;
-	}*/
 	
 	public Individuo copia() {
 		Individuo n= new Individuo();

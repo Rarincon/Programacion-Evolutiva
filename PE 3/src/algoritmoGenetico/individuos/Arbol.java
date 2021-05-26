@@ -22,14 +22,10 @@ public class Arbol {
 	}
 
 	public Arbol(int max_prof2) {
-		//profundidad=0;
 		max_prof=max_prof2;
 		hijos=new ArrayList<Arbol>();
-		//useIF=useIF2;
 	}
 
-	
-	
 	public ArrayList<String> toArray(){
 		ArrayList<String> array = new ArrayList<String>();
 		toArrayAux(array, this);
@@ -49,7 +45,7 @@ public class Arbol {
 		for(int i = 0; i < a.hijos.size(); i++){
 			toStringAux(a.hijos.get(i));
 		}
-		if(Individuo.esFuncion(a.valor)) arrayArbol+=")";
+		if(Individuo.esFuncion(a.valor)) arrayArbol+="),";
 	}
 	
 	// Insertar un valor en el arbol (nodo simple)
@@ -72,20 +68,6 @@ public class Arbol {
 		}
 		else
 			hijos.set(index, a);
-	}
-	
-	public Arbol at(int index){
-		return at(this, 0, index);
-	}
-	
-	private Arbol at(Arbol a, int pos, int index){
-		Arbol s = null;
-		if(pos >= index) s = a;
-		else if(a.getNumHijos() > 0){
-			for(int i = 0; i < a.getNumHijos(); i++)
-				if(s == null) s = at(a.getHijos().get(i), pos+i+1, index);
-		}
-		return s;
 	}
 	
 	private void toArrayAux(ArrayList<String> array, Arbol a){
@@ -120,7 +102,6 @@ public class Arbol {
 			else if(valor.equals("PROGN3")) nHijos = 3;
 			for(int i = 0; i < nHijos; i++){
 				Arbol hijo = new Arbol(max_prof);
-				//hijo.setPadre(this);
 				esRaiz = true;
 				n++;
 				n = hijo.inicializacionCompleta(p+1, n);
@@ -166,10 +147,8 @@ public class Arbol {
 			if(valor.equals("SIC"))nHijos = 2;
 			else if(valor.equals("PROGN2")) nHijos = 2;
 			else if(valor.equals("PROGN3")) nHijos = 3;
-			//else nHijos = 0;
 			for(int i = 0; i < nHijos; i++){
 				Arbol hijo = new Arbol(max_prof);
-				//hijo.setPadre(this);
 				esRaiz = true;
 				n++;
 				if(valor.equals("SIC") && i== 0) {
@@ -201,16 +180,10 @@ public class Arbol {
 		return n;
 	}
 	
+	/**
+	 * Comprobacion de que el primer hijo de SIC si es un terminal sea AVANZA o un funcion distina de SIC
+	 */
 	public void checkSIC(int p) {
-		/*if(valor.equals("SIC") && (p+1== max_prof)) {
-			hijos.get(0).setValor("AVANZA");
-			if(hijos.get(1).getValor().equals("AVANZA")) {
-				int aux = new Random().nextInt(2);
-				if(aux==0)
-					hijos.get(1).setValor("GIRA_DERECHA");
-				else hijos.get(1).setValor("GIRA_IZQUIERDA");
-			}
-		}*/
 		if(valor.equals("SIC") && hijos.get(1).getValor().equals("SIC") ) {
 			hijos.get(1).setValor("PROGN2");
 		}
@@ -231,6 +204,9 @@ public class Arbol {
 		
 	}
 	
+	/**
+	 * ELiminacion de lo nodos que tiene hijos que son intrones
+	 */
 	public void itrones() {
 		if(valor.equals("PROGN2")) {
 			if((hijos.get(0).getValor().equals("GIRA_DERECHA") && hijos.get(0).getValor().equals("GIRA_IZQUIERDA"))
@@ -242,22 +218,6 @@ public class Arbol {
 			}
 		}
 	}
-
-	/*private int creaHijos(int p, int nodos) { //ADAPTAR
-		int n = nodos;
-		int nHijos = 2;
-		if(valor.equals("IF")) nHijos = 3;
-		if(valor.equals("NOT")) nHijos = 1;
-		for(int i = 0; i < nHijos; i++){
-			Arbol hijo = new Arbol(max_prof);
-			//hijo.setPadre(this);
-			n++;
-			//n = hijo.inicializacionCrecienteAux(p+1, n);
-			hijos.add(hijo);
-			numHijos++;
-		}
-		return n;
-	}*/
 
 	/**
 	* Devuelve los nodos hoja del árbol
@@ -278,7 +238,6 @@ public class Arbol {
 		int p = pos;
 		for(int i = 0; i < list_hijos.size() && p != -1; i++){
 			if(list_hijos.get(i).isEsHoja() && (p == index)){
-				//terminal.padre = list_hijos.get(i).padre;
 				list_hijos.set(i, terminal.copia());
 				p = -1;
 			}else if(list_hijos.get(i).esHoja && (p != index)){
@@ -294,7 +253,6 @@ public class Arbol {
 		int p = pos;
 		for(int i = 0; i < list_hijos.size() && p != -1; i++){
 			if(list_hijos.get(i).esRaiz && (p == index)){
-				//terminal.padre = list_hijos.get(i).padre;
 				list_hijos.set(i, terminal.copia());
 				p = -1;
 			}else if(list_hijos.get(i).esRaiz && (p != index)){
@@ -309,7 +267,6 @@ public class Arbol {
 		int p = pos;
 		for(int i = 0; i < list_hijos.size() && p != -1; i++){
 			if(p == index){
-				//terminal.padre = list_hijos.get(i).padre;
 				list_hijos.set(i, terminal.copia());
 				p = -1;
 			}else if(p != index){
@@ -357,7 +314,10 @@ public class Arbol {
 		return array;
 	}
 	
-	public int obtieneNodos(Arbol nodo, int n){ //REPASAR PARA ADAPTAR LA FUNCION A NUESTROS TERMINALES
+	/**
+	 * Obtiene el numero de nodos de un arbol
+	 */
+	public int obtieneNodos(Arbol nodo, int n){
 		if(nodo.esHoja)
 			return n;
 		

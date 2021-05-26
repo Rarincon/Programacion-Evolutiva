@@ -14,7 +14,7 @@ public class TerminalSimple extends Mutacion{
 	}
 
 	@Override
-	public List<Individuo> mutarInd(List<Individuo> pob) { //Mirar si lo hace bn
+	public List<Individuo> mutarInd(List<Individuo> pob) { 
 		List<Individuo> nuevaPob= new ArrayList<Individuo>();
 		double prob;
 		for(int i=0; i<pob.size(); i++) {
@@ -29,10 +29,9 @@ public class TerminalSimple extends Mutacion{
 				int func = rnd.nextInt(Individuo.terminales6.length);
 				
 				int s = (int) (Math.random()*nodos.size());			
-				//nodos.get(s).setValor(Individuo.terminales6[func]);
 				
 				Arbol b = nodos.get(s).copia();
-				b.setValor(Individuo.terminales6[func]);//= new Arbol(Individuo.terminales6[func]);
+				b.setValor(Individuo.terminales6[func]);
 				a.insertTerminal(a.getHijos(), b, s, 0);
 				
 				a.profundidad(a.getHijos(),1,0);
