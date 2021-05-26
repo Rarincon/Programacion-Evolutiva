@@ -35,8 +35,8 @@ public class AlgoritmoGenetico {
 	static private final double defaultEliteRate = 0.03;
 	static private final int defaultTamTorn = 5;
 	static private final int maxreinicio = 10;	
-	static private final int maxaltura = 4;
-	static private final int defaultprof = 3; //la altura es siempre una mas, ya que empieza en 0	
+	static private final int maxaltura = 5;
+	static private final int defaultprof = 2; //la altura es siempre una mas, ya que empieza en 0	
 	static private final int defaultpasos = 300;
 	static private final double very_low_fitness = 0.01;
 	
